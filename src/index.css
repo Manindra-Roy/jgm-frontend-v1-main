@@ -1,0 +1,121 @@
+/* --- PREMIUM FONT IMPORTS --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Montserrat:wght@400;600;700;800&display=swap');
+
+:root {
+  /* === MODERNIZED PREMIUM PALETTE === */
+  --primary-red: #701214;
+  --button-red: #b8342e;
+  --primary-green: #0d5e45;
+  --bg-yellow: #f8f3e3;
+  --text-dark: #1a1a2e;
+
+  /* Premium Accent Colors */
+  --accent-gold: #c9a84c;
+  --accent-gold-light: #e8d48b;
+  --deep-green: #083d2e;
+  --cream: #faf8f0;
+  --glass-white: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* Primary Decorative Font */
+  --font-brand: 'Cinzel Decorative', 'Papyrus', serif; 
+  /* Secondary Clean Font */
+  --font-secondary: 'Montserrat', 'Arial', sans-serif; 
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-image: url('./assets/BG.webp'); 
+  background-repeat: repeat;
+  background-color: var(--bg-yellow);
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 1. Apply Decorative Font to H1 and Navbar */
+h1, .nav-links a {
+  font-family: var(--font-brand);
+}
+
+/* 2. Apply Clean Montserrat Font to Secondary Headings */
+h2, h3, .brand-circle, .section-title {
+  font-family: var(--font-secondary);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Sticky footer: pushes footer to bottom on short-content pages */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* === PAGE TRANSITION === */
+.main-content {
+  animation: pageFadeIn 0.5s ease-out forwards;
+}
+
+/* Slide-up animation for sections below the hero */
+.main-content > section:not(.hero-section),
+.main-content > div:not(.hero-section),
+.main-content > footer {
+  animation: pageSlideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pageSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === PREMIUM TOUCH TARGETS === */
+@media (max-width: 768px) {
+  button, a, input, select, textarea {
+    min-height: 44px;
+  }
+}
+
+/* === PREMIUM INPUT FOCUS STATES === */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.2), 0 0 20px rgba(201, 168, 76, 0.08);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* === PREMIUM UTILITY CLASSES === */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold), #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === INVISIBLE SCROLLBAR === */
+html {
+  scrollbar-width: none; 
+}
+
+::-webkit-scrollbar {
+  display: none; 
+}
+
+body {
+  -ms-overflow-style: none;
+}

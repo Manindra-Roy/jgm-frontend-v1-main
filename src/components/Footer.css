@@ -1,0 +1,284 @@
+/* =========================================================
+   GLOBAL PREMIUM FOOTER
+========================================================= */
+.site-footer {
+    color: white;
+    padding: 80px 40px 30px;
+    margin-top: 0;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--deep-green);
+    position: relative;
+    /* Extends footer color below to fill any viewport gap */
+    box-shadow: 0 50vh 0 50vh var(--deep-green);
+}
+
+.site-footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8, 61, 46, 0.7), rgba(8, 61, 46, 0.9));
+    z-index: 0;
+}
+
+.site-footer > * {
+    position: relative;
+    z-index: 1;
+}
+
+.site-footer .footer-top {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.site-footer .footer-logo-wrapper {
+    width: 130px;
+    height: 130px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 25px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2), 0 0 30px rgba(201, 168, 76, 0.1);
+    border: 3px solid rgba(201, 168, 76, 0.2);
+}
+
+.site-footer .footer-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.site-footer .footer-top h2 {
+    font-size: 1.2rem;
+    margin: 8px 0;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: var(--font-secondary);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.site-footer .footer-divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    margin: 22px auto;
+}
+
+.site-footer .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.site-footer .footer-row-top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.site-footer .footer-row-bottom {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    flex-wrap: wrap;
+}
+
+.site-footer .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    width: 320px;
+    max-width: 100%;
+}
+
+.site-footer .contact-icon-wrapper {
+    border: 2px solid rgba(201, 168, 76, 0.4);
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    background: rgba(201, 168, 76, 0.05);
+    transition: all 0.3s ease;
+}
+
+.site-footer .contact-item:hover .contact-icon-wrapper {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 20px rgba(201, 168, 76, 0.2);
+    background: rgba(201, 168, 76, 0.1);
+}
+
+.site-footer .contact-icon {
+    font-size: 1.4rem;
+    color: var(--accent-gold-light);
+}
+
+.site-footer .contact-text {
+    text-align: left;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.site-footer .contact-text h4 {
+    margin: 0 0 4px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent-gold-light);
+    font-family: var(--font-secondary);
+}
+
+.site-footer .contact-text p,
+.site-footer .contact-text a {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    line-height: 1.4;
+}
+
+.site-footer .contact-text a:hover {
+    color: var(--accent-gold);
+}
+
+/* Copyright bar */
+.footer-copyright {
+    text-align: center;
+    margin-top: 45px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-copyright p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.45);
+    font-family: var(--font-secondary);
+    letter-spacing: 1px;
+}
+
+.dev-credit {
+    margin-top: 6px !important;
+    font-size: 0.75rem !important;
+    color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dev-credit a {
+    color: rgba(201, 168, 76, 0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.dev-credit a:hover {
+    color: var(--accent-gold);
+}
+
+/* Floating animation for logo */
+@keyframes softFloat {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+.floating-graphic {
+    animation: softFloat 4s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLETS (≤ 900px)
+========================================================= */
+@media (max-width: 900px) {
+    .site-footer {
+        padding: 60px 20px 25px;
+        margin-top: 50px;
+    }
+
+    .site-footer .footer-row-top,
+    .site-footer .footer-row-bottom {
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .site-footer .footer-row-bottom {
+        gap: 25px;
+    }
+
+    .site-footer .footer-top h2 {
+        font-size: 1rem;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL PHONES (≤ 480px)
+========================================================= */
+@media (max-width: 480px) {
+    .site-footer {
+        padding: 40px 15px 20px;
+        margin-top: 30px;
+    }
+
+    .site-footer .footer-top {
+        margin-bottom: 30px;
+    }
+
+    .site-footer .footer-logo-wrapper {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 18px;
+    }
+
+    .site-footer .footer-logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .site-footer .footer-top h2 {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+
+    .site-footer .contact-item {
+        width: 100%;
+        gap: 12px;
+    }
+
+    .site-footer .contact-icon-wrapper {
+        width: 44px;
+        height: 44px;
+    }
+
+    .site-footer .contact-icon {
+        font-size: 1.1rem;
+    }
+
+    .site-footer .contact-text h4 {
+        font-size: 0.85rem;
+    }
+
+    .site-footer .contact-text p,
+    .site-footer .contact-text a {
+        font-size: 0.82rem;
+    }
+
+    .footer-copyright {
+        margin-top: 30px;
+        padding-top: 15px;
+    }
+
+    .footer-copyright p {
+        font-size: 0.72rem;
+    }
+}
