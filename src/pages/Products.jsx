@@ -35,7 +35,7 @@ export default function Products() {
                 // Dynamically adjust the API endpoint based on the presence of a category filter
                 const endpoint = categoryId ? `/products?categories=${categoryId}` : '/products';
                 const { data } = await api.get(endpoint);
-                setProducts(data);
+                setProducts(data.products || data);
             } catch (err) {
                 console.error("Failed to load products");
             } finally {

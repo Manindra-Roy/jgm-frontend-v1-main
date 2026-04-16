@@ -294,3 +294,17 @@
     .order-footer { padding: 12px; }
     .order-total span { font-size: 1.2rem; }
 }
+
+/* =========================================================
+   VISUAL GAP FIX
+========================================================= */
+.profile-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* Starts exactly where the wrapper ends */
+    left: 0;
+    width: 100%;
+    height: 50vh; /* Massive block that fills the gap down to the footer */
+    background-color: var(--deep-green); /* Perfectly matches the bottom of your gradient */
+    z-index: 0; /* Ensures it stays behind your footer */
+}

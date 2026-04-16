@@ -115,9 +115,32 @@ export default function Profile() {
                                             <span className="order-id">Order #{order.id.slice(-6).toUpperCase()}</span>
                                             <span className="order-date">{new Date(order.dateOrdered).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                                         </div>
-                                        <span className={`order-status status-${order.status.toLowerCase().replace(/ /g, '-')}`}>
-                                            {order.status}
-                                        </span>
+                                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                            {/* Payment Status Badge */}
+                                            <span style={{
+                                                padding: '4px 10px',
+                                                borderRadius: '20px',
+                                                fontSize: '0.75rem',
+                                                fontWeight: 'bold',
+                                                backgroundColor: order.paymentStatus === 'Paid' ? '#e8f5e9' 
+                                                    : order.paymentStatus === 'Failed' ? '#fce4ec' 
+                                                    : '#fff8e1',
+                                                color: order.paymentStatus === 'Paid' ? '#2e7d32' 
+                                                    : order.paymentStatus === 'Failed' ? '#c62828' 
+                                                    : '#f57f17',
+                                                border: `1px solid ${order.paymentStatus === 'Paid' ? '#a5d6a7' 
+                                                    : order.paymentStatus === 'Failed' ? '#ef9a9a' 
+                                                    : '#ffe082'}`
+                                            }}>
+                                                {order.paymentStatus === 'Paid' ? '💳 Paid' 
+                                                    : order.paymentStatus === 'Failed' ? '❌ Payment Failed' 
+                                                    : '⏳ Payment Pending'}
+                                            </span>
+                                            {/* Shipping Status Badge */}
+                                            <span className={`order-status status-${order.status.toLowerCase().replace(/ /g, '-')}`}>
+                                                {order.status}
+                                            </span>
+                                        </div>
                                     </div>
                                     
                                     <div className="order-items">
@@ -137,11 +160,21 @@ export default function Profile() {
 
                                     <div className="order-footer">
                                         <div className="logistics">
-                                            {order.courierName && <p><strong>Courier:</strong> {order.courierName}</p>}
-                                            {order.trackingNumber && <p><strong>Tracking:</strong> {order.trackingNumber}</p>}
-                                            {!order.courierName && <p style={{ fontStyle: 'italic', color: '#888' }}>
-                                                {getLogisticsMessage(order.status)}
-                                            </p>}
+                                            {order.paymentStatus === 'Failed' ? (
+                                                <p style={{ fontStyle: 'italic', color: '#c62828' }}>
+                                                    Payment was not completed. Please place a new order to try again.
+                                                </p>
+                                            ) : (
+                                                <>
+                                                    {order.courierName && <p><strong>Courier:</strong> {order.courierName}</p>}
+                                                    {order.trackingNumber && <p><strong>Tracking:</strong> {order.trackingNumber}</p>}
+                                                    {!order.courierName && <p style={{ fontStyle: 'italic', color: '#888' }}>
+                                                        {order.paymentStatus === 'Pending' 
+                                                            ? 'Waiting for payment confirmation...' 
+                                                            : getLogisticsMessage(order.status)}
+                                                    </p>}
+                                                </>
+                                            )}
                                         </div>
                                         <div className="order-total">
                                             Total: <span>₹{order.totalPrice.toLocaleString('en-IN')}/-</span>

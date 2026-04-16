@@ -49,6 +49,18 @@
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* Namaste welcome image - positioned below the card */
+.namaste-img {
+    display: block;
+    margin: 50px auto 0;
+    width: 260px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.35));
+    position: relative;
+    z-index: 1;
+}
+
 /* Premium frosted glass card */
 .login-card {
     background: rgba(244, 253, 240, 0.92);
@@ -167,6 +179,7 @@
     .login-header h1 { font-size: 1.8rem; }
     .login-logo-circle { width: 110px; height: 110px; }
     .login-logo { height: 72px; }
+    .namaste-img { width: 220px; }
     .login-card { padding: 30px 22px; }
     .login-card h2 { font-size: 1.8rem; margin-bottom: 28px; }
     .input-group { flex-direction: column; align-items: flex-start; margin-bottom: 18px; }
@@ -181,10 +194,25 @@
     .login-header h1 { font-size: 1.4rem; }
     .login-logo-circle { width: 85px; height: 85px; }
     .login-logo { height: 55px; }
+    .namaste-img { width: 180px; margin-top: 15px; }
     .login-card { width: 100%; padding: 22px 16px; border-radius: 20px; }
     .login-card h2 { font-size: 1.5rem; margin-bottom: 22px; }
     .input-group label { font-size: 1rem; }
     .input-group input { font-size: 0.95rem; padding: 11px 12px; }
     .login-submit-btn { padding: 13px; font-size: 0.95rem; }
     .toggle-text { font-size: 0.85rem; }
+}
+
+/* =========================================================
+   VISUAL GAP FIX
+========================================================= */
+.login-page-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* Starts exactly where the wrapper ends */
+    left: 0;
+    width: 100%;
+    height: 50vh; /* Massive block that fills the gap down to the footer */
+    background-color: #4a0a0c; /* Perfectly matches the bottom of your gradient */
+    z-index: 0; /* Ensures it stays behind your footer */
 }

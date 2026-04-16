@@ -216,3 +216,17 @@
     .order-massive-btn { padding: 14px; font-size: 1rem; }
     .secure-checkout-text { font-size: 0.78rem; }
 }
+
+/* =========================================================
+   VISUAL GAP FIX
+========================================================= */
+.product-detail-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* Starts exactly where the wrapper ends */
+    left: 0;
+    width: 100%;
+    height: 50vh; /* Massive block that fills the gap down to the footer */
+    background-color: var(--deep-green); /* Perfectly matches the bottom of your gradient */
+    z-index: 0; /* Ensures it stays behind your footer */
+}

@@ -99,7 +99,7 @@ export default function Home() {
                             <div className="stat-divider"></div>
                             <div className="stat-box">
                                 <h3>100%</h3>
-                                <p>Organic<br/>Purity</p>
+                                <p>Herbal<br/>Pure</p>
                             </div>
                         </div>
                     </div>

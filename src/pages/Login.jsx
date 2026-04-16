@@ -9,6 +9,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import api from '../services/api';
 import brandLogo from '../assets/brand-logo.png';
+import namasteImg from '../assets/namaste.webp';
 import './Login.css';
 
 /**
@@ -193,6 +194,8 @@ export default function Login() {
                     </p>
                 )}
             </div>
+
+            <img src={namasteImg} alt="Namaste" className="namaste-img" />
         </div>
     );
 }
