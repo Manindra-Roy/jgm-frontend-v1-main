@@ -119,11 +119,11 @@ export default function Login() {
                     <form onSubmit={handleLogin} className="login-form">
                         <div className="input-group">
                             <label>E-mail</label>
-                            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                            <input type="email" name="email" value={formData.email} onChange={handleChange} required maxLength="100" />
                         </div>
                         <div className="input-group">
                             <label>Pass</label>
-                            <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+                            <input type="password" name="password" value={formData.password} onChange={handleChange} required maxLength="255" />
                         </div>
 
                         <div className="form-actions">
@@ -144,7 +144,7 @@ export default function Login() {
                         </p>
                         <div className="input-group">
                             <label>E-mail</label>
-                            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                            <input type="email" name="email" value={formData.email} onChange={handleChange} required maxLength="100" />
                         </div>
                         
                         <button type="submit" className="login-submit-btn" disabled={loading}>
@@ -168,7 +168,7 @@ export default function Login() {
                                 type="text" 
                                 name="otp" 
                                 value={formData.otp} 
-                                onChange={handleChange} 
+                                onChange={(e) => setFormData({ ...formData, otp: e.target.value.replace(/\D/g, '') })} 
                                 required 
                                 maxLength="6"
                                 style={{ letterSpacing: '3px', textAlign: 'center', fontWeight: 'bold' }}
@@ -176,7 +176,7 @@ export default function Login() {
                         </div>
                         <div className="input-group">
                             <label style={{ fontSize: '1.2rem' }}>New Pass</label>
-                            <input type="password" name="newPassword" value={formData.newPassword} onChange={handleChange} required minLength="6" />
+                            <input type="password" name="newPassword" value={formData.newPassword} onChange={handleChange} required minLength="6" maxLength="255" />
                         </div>
                         
                         <button type="submit" className="login-submit-btn" disabled={loading}>

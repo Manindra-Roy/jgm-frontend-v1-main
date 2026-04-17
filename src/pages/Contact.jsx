@@ -77,15 +77,15 @@ export default function Contact() {
                     <div className="contact-form-container delay-2 animate-fade-up">
                         <form onSubmit={handleSubmit} className="contact-form">
                             <div className="input-group">
-                                <input type="text" placeholder="Your Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required />
+                                <input type="text" placeholder="Your Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required maxLength="50" />
                             </div>
                             <div className="input-group">
-                                <input type="email" placeholder="Your Email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required />
+                                <input type="email" placeholder="Your Email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required maxLength="100" />
                             </div>
                             <div className="input-group">
-                                <input type="text" placeholder="Subject" value={formData.subject} onChange={e => setFormData({...formData, subject: e.target.value})} required />
+                                <input type="text" placeholder="Subject" value={formData.subject} onChange={e => setFormData({...formData, subject: e.target.value})} required maxLength="100" />
                             </div>
-                            <textarea rows="5" placeholder="Your Message..." value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required></textarea>
+                            <textarea rows="5" placeholder="Your Message..." value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required maxLength="1000"></textarea>
                             
                             <button type="submit" className="hero-cta-btn" style={{ width: '100%', background: 'var(--primary-green)', borderColor: 'var(--primary-green)' }} disabled={loading}>
                                 {loading ? 'SENDING...' : 'SEND MESSAGE'}

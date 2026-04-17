@@ -58,6 +58,96 @@
     font-size: 0.95rem;
 }
 
+/* Premium Address Section */
+.profile-address-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    text-align: left;
+}
+
+.address-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.address-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--primary-green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-secondary);
+}
+
+.edit-icon-btn {
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+    transition: 0.2s ease;
+}
+
+.edit-icon-btn:hover {
+    color: var(--primary-red);
+    transform: scale(1.1);
+}
+
+.address-display p {
+    margin: 4px 0;
+    color: #555;
+    font-family: var(--font-secondary);
+    font-size: 0.9rem;
+}
+
+.no-address {
+    font-style: italic;
+    color: #999;
+}
+
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.address-form input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: var(--font-secondary);
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.address-form input:focus {
+    border-color: var(--primary-green);
+}
+
+.save-btn, .cancel-btn {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.save-btn {
+    background: var(--primary-green);
+    color: white;
+}
+
+.cancel-btn {
+    background: #f0f0f0;
+    color: #555;
+}
+
 /* Premium logout button */
 .logout-btn {
     margin-top: 30px;

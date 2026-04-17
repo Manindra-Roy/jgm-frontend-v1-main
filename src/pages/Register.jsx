@@ -95,20 +95,19 @@ export default function Register() {
                     <form onSubmit={handleRegister} className="login-form">
                         <div className="input-group">
                             <label>Name</label>
-                            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                            <input type="text" name="name" value={formData.name} onChange={handleChange} required maxLength="50" />
                         </div>
                         <div className="input-group">
                             <label>E-mail</label>
-                            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                            <input type="email" name="email" value={formData.email} onChange={handleChange} required maxLength="100" />
                         </div>
                         <div className="input-group">
                             <label>Phone</label>
-                            {/* Must be 10-15 digits as per backend Joi validation */}
-                            <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder="+91..." />
+                            <input type="tel" name="phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '') })} minLength="10" maxLength="10" required placeholder="10-digit number" />
                         </div>
                         <div className="input-group">
                             <label>Pass</label>
-                            <input type="password" name="password" value={formData.password} onChange={handleChange} required minLength="6" />
+                            <input type="password" name="password" value={formData.password} onChange={handleChange} required minLength="6" maxLength="255" />
                         </div>
                         <button type="submit" className="login-submit-btn" disabled={loading}>
                             {loading ? 'CREATING ACCOUNT...' : 'REGISTER & SEND OTP'}
@@ -127,7 +126,7 @@ export default function Register() {
                             <input 
                                 type="text" 
                                 value={otp} 
-                                onChange={(e) => setOtp(e.target.value)} 
+                                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))} 
                                 required 
                                 maxLength="6"
                                 style={{ letterSpacing: '5px', textAlign: 'center', fontWeight: 'bold' }}

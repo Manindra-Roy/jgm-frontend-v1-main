@@ -22,10 +22,14 @@ export default function DirectCheckout() {
     const [userId, setUserId] = useState(null); 
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(false);
+    
+    // Address Selection State
+    const [savedProfileAddress, setSavedProfileAddress] = useState(null);
+    const [useSavedAddress, setUseSavedAddress] = useState(false);
 
     // Initial state for the shipping details form
     const [formData, setFormData] = useState({
-        shippingAddress1: '', shippingAddress2: '', city: '', zip: '', country: 'India', phone: ''
+        shippingAddress1: '', shippingAddress2: '', city: '', state: '', zip: '', country: 'India', phone: ''
     });
 
     /**
@@ -43,6 +47,24 @@ export default function DirectCheckout() {
                 
                 setProduct(productRes.data);
                 setUserId(userRes.data.id); 
+
+                // Check if user has a configured address profile
+                if (userRes.data.street) {
+                    setSavedProfileAddress(userRes.data);
+                    setUseSavedAddress(true);
+                    setFormData({
+                        shippingAddress1: userRes.data.street,
+                        shippingAddress2: userRes.data.apartment || '',
+                        city: userRes.data.city,
+                        state: userRes.data.state || '',
+                        zip: userRes.data.zip,
+                        country: userRes.data.country || 'India',
+                        phone: userRes.data.phone
+                    });
+                } else {
+                    // Even without a full address, pre-fill their phone number
+                    setFormData(prev => ({...prev, phone: userRes.data.phone || ''}));
+                } 
                 
             } catch (err) {
                 toast.error("Session expired or product not found. Please log in again.");
@@ -51,6 +73,28 @@ export default function DirectCheckout() {
         };
         fetchInitData();
     }, [productId, navigate]);
+
+    /**
+     * Toggles between the saved address and a blank custom address form.
+     */
+    const handleAddressToggle = (useSaved) => {
+        setUseSavedAddress(useSaved);
+        if (useSaved && savedProfileAddress) {
+            setFormData({
+                shippingAddress1: savedProfileAddress.street,
+                shippingAddress2: savedProfileAddress.apartment || '',
+                city: savedProfileAddress.city,
+                state: savedProfileAddress.state || '',
+                zip: savedProfileAddress.zip,
+                country: savedProfileAddress.country || 'India',
+                phone: savedProfileAddress.phone
+            });
+        } else {
+            setFormData({
+                shippingAddress1: '', shippingAddress2: '', city: '', state: '', zip: '', country: 'India', phone: savedProfileAddress?.phone || ''
+            });
+        }
+    };
 
     /**
      * Handles the form submission, creates the order, and initiates the PhonePe session.
@@ -129,13 +173,30 @@ export default function DirectCheckout() {
                     {/* Shipping Form Column */}
                     <form onSubmit={handleCheckout} className="shipping-form">
                         <h3>Shipping Details</h3>
-                        <input type="text" placeholder="Address Line 1" required onChange={e => setFormData({...formData, shippingAddress1: e.target.value})} />
-                        <input type="text" placeholder="Landmark / Line 2 (Optional)" onChange={e => setFormData({...formData, shippingAddress2: e.target.value})} />
-                        <input type="text" placeholder="City" required onChange={e => setFormData({...formData, city: e.target.value})} />
-                        <input type="text" placeholder="PIN Code" required onChange={e => setFormData({...formData, zip: e.target.value})} />
-                        <input type="tel" placeholder="Phone Number" required onChange={e => setFormData({...formData, phone: e.target.value})} />
+
+                        {savedProfileAddress && (
+                            <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: 'rgba(52, 152, 219, 0.05)', borderRadius: '10px', border: '1px solid rgba(52, 152, 219, 0.2)' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', marginBottom: '12px', fontSize: '0.95rem', fontWeight: 'bold' }}>
+                                    <input type="radio" name="addressSource" checked={useSavedAddress} onChange={() => handleAddressToggle(true)} style={{ width: '18px', height: '18px', accentColor: '#3498db' }} />
+                                    Use Saved Profile Address
+                                </label>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '0.95rem', fontWeight: 'bold' }}>
+                                    <input type="radio" name="addressSource" checked={!useSavedAddress} onChange={() => handleAddressToggle(false)} style={{ width: '18px', height: '18px', accentColor: '#3498db' }} />
+                                    Ship to a Different Address
+                                </label>
+                            </div>
+                        )}
+
+                        <input type="text" placeholder="Address Line 1" required={!useSavedAddress} disabled={useSavedAddress} value={formData.shippingAddress1} onChange={e => setFormData({...formData, shippingAddress1: e.target.value})} maxLength="200" style={{ opacity: useSavedAddress ? 0.7 : 1 }} />
+                        <input type="text" placeholder="Landmark / Line 2 (Optional)" disabled={useSavedAddress} value={formData.shippingAddress2} onChange={e => setFormData({...formData, shippingAddress2: e.target.value})} maxLength="200" style={{ opacity: useSavedAddress ? 0.7 : 1 }} />
+                        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                            <input type="text" placeholder="City" required={!useSavedAddress} disabled={useSavedAddress} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} maxLength="50" style={{ flex: '1 1 calc(50% - 5px)', opacity: useSavedAddress ? 0.7 : 1 }} />
+                            <input type="text" placeholder="State" required={!useSavedAddress} disabled={useSavedAddress} value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} maxLength="50" style={{ flex: '1 1 calc(50% - 5px)', opacity: useSavedAddress ? 0.7 : 1 }} />
+                            <input type="text" placeholder="PIN Code" required={!useSavedAddress} disabled={useSavedAddress} value={formData.zip} onChange={e => setFormData({...formData, zip: e.target.value.replace(/\D/g, '')})} style={{ flex: '1 1 100%', opacity: useSavedAddress ? 0.7 : 1 }} />
+                        </div>
+                        <input type="tel" placeholder="Phone Number (10 digits)" minLength="10" maxLength="10" required disabled={useSavedAddress} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})} style={{ opacity: useSavedAddress ? 0.7 : 1 }} />
                         
-                        <button type="submit" disabled={loading} className="pay-btn">
+                        <button type="submit" disabled={loading} className="pay-btn" style={{ marginTop: '10px' }}>
                             {loading ? "Processing Securely..." : `Pay ₹${product.price * quantity} Securely`}
                         </button>
                     </form>

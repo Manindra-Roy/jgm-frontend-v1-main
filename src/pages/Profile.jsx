@@ -6,7 +6,8 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUserCircle, FaBoxOpen, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserCircle, FaBoxOpen, FaSignOutAlt, FaMapMarkerAlt, FaEdit } from 'react-icons/fa';
+import { toast } from 'react-hot-toast';
 import api from '../services/api';
 import './Profile.css';
 
@@ -19,6 +20,13 @@ export default function Profile() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
+    // Address Management State
+    const [isEditingAddress, setIsEditingAddress] = useState(false);
+    const [savingAddress, setSavingAddress] = useState(false);
+    const [addressForm, setAddressForm] = useState({
+        street: '', apartment: '', city: '', state: '', zip: '', country: 'India', phone: ''
+    });
 
     /**
      * Translates administrative backend order statuses into customer-friendly tracking messages.
@@ -46,6 +54,15 @@ export default function Profile() {
                 // 1. Identify the currently authenticated user
                 const userRes = await api.get('/users/me/profile');
                 setUser(userRes.data);
+                setAddressForm({
+                    street: userRes.data.street || '',
+                    apartment: userRes.data.apartment || '',
+                    city: userRes.data.city || '',
+                    state: userRes.data.state || '',
+                    zip: userRes.data.zip || '',
+                    country: userRes.data.country || 'India',
+                    phone: userRes.data.phone || ''
+                });
 
                 // 2. Fetch the specific order history for this user ID
                 const ordersRes = await api.get(`/orders/get/userorders/${userRes.data.id}`);
@@ -60,6 +77,24 @@ export default function Profile() {
 
         fetchProfileData();
     }, []);
+
+    /**
+     * Submits updated address to secure backend endpoint
+     */
+    const handleAddressSave = async (e) => {
+        e.preventDefault();
+        setSavingAddress(true);
+        try {
+            const res = await api.put('/users/me/address', addressForm);
+            setUser(res.data.user); // Update local profile state
+            setIsEditingAddress(false);
+            toast.success("Address saved successfully!");
+        } catch (err) {
+            toast.error(err.response?.data?.message || err.response?.data || "Failed to save address");
+        } finally {
+            setSavingAddress(false);
+        }
+    };
 
     /**
      * Destroys the user session on the backend, clears local storage, and redirects to home.
@@ -83,10 +118,55 @@ export default function Profile() {
                 
                 {/* --- Left Sidebar: User Details --- */}
                 <div className="profile-sidebar">
-                    <div className="profile-avatar"><FaUserCircle /></div>
-                    <h2 className="profile-name">{user.name}</h2>
-                    <p className="profile-email">{user.email}</p>
-                    <p className="profile-phone">{user.phone}</p>
+                    <div className="profile-details-section">
+                        <div className="profile-avatar"><FaUserCircle /></div>
+                        <h2 className="profile-name">{user.name}</h2>
+                        <p className="profile-email">{user.email}</p>
+                        <p className="profile-phone">{user.phone}</p>
+                    </div>
+
+                    {/* --- Address Book Section --- */}
+                    <div className="profile-address-section">
+                        <div className="address-header">
+                            <h3><FaMapMarkerAlt /> Saved Address</h3>
+                            {!isEditingAddress && (
+                                <button className="edit-icon-btn" onClick={() => setIsEditingAddress(true)} title="Edit Address">
+                                    <FaEdit />
+                                </button>
+                            )}
+                        </div>
+                        
+                        {isEditingAddress ? (
+                            <form className="address-form" onSubmit={handleAddressSave}>
+                                <input type="tel" placeholder="Phone Number (10 digits)" minLength="10" maxLength="10" value={addressForm.phone} onChange={e => setAddressForm({...addressForm, phone: e.target.value.replace(/\D/g, '')})} required />
+                                <input type="text" placeholder="Street Address" value={addressForm.street} onChange={e => setAddressForm({...addressForm, street: e.target.value})} required maxLength="200" />
+                                <input type="text" placeholder="Apartment/Suite (Optional)" value={addressForm.apartment} onChange={e => setAddressForm({...addressForm, apartment: e.target.value})} maxLength="200" />
+                                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                    <input type="text" placeholder="City" style={{ flex: '1 1 calc(50% - 5px)' }} value={addressForm.city} onChange={e => setAddressForm({...addressForm, city: e.target.value})} required maxLength="50" />
+                                    <input type="text" placeholder="State" style={{ flex: '1 1 calc(50% - 5px)' }} value={addressForm.state} onChange={e => setAddressForm({...addressForm, state: e.target.value})} required maxLength="50" />
+                                    <input type="text" placeholder="PIN Code" style={{ flex: '1 1 100%' }} value={addressForm.zip} onChange={e => setAddressForm({...addressForm, zip: e.target.value.replace(/\D/g, '')})} required />
+                                </div>
+                                <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                                    <button type="button" className="cancel-btn" onClick={() => setIsEditingAddress(false)} disabled={savingAddress}>Cancel</button>
+                                    <button type="submit" className="save-btn" disabled={savingAddress}>
+                                        {savingAddress ? 'Saving...' : 'Save'}
+                                    </button>
+                                </div>
+                            </form>
+                        ) : (
+                            <div className="address-display">
+                                {user.street ? (
+                                    <>
+                                        <p>{user.street}{user.apartment ? `, ${user.apartment}` : ''}</p>
+                                        <p>{user.city}, {user.state ? `${user.state} - ` : ''}{user.zip}</p>
+                                        <p>{user.country}</p>
+                                    </>
+                                ) : (
+                                    <p className="no-address">No address saved yet.</p>
+                                )}
+                            </div>
+                        )}
+                    </div>
                     
                     <button className="logout-btn" onClick={handleLogout}>
                         <FaSignOutAlt /> SECURE LOGOUT
