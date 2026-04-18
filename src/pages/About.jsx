@@ -5,12 +5,18 @@
 
 import { useEffect } from 'react';
 import './Editorial.css';
+import SEO from '../components/SEO';
 
 export default function About() {
     useEffect(() => window.scrollTo(0, 0), []);
 
     return (
         <div className="editorial-wrapper">
+            <SEO 
+                title="About Us | JGM Industries" 
+                description="Rooted in ancient wisdom, crafted for modern wellness. Learn about our authentic healing power of nature."
+                url="https://jgm-industries.com/about"
+            />
             <div className="editorial-container animate-fade-up">
                 <div className="editorial-header">
                     <h1>Our Heritage</h1>

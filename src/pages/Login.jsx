@@ -11,6 +11,7 @@ import api from '../services/api';
 import brandLogo from '../assets/brand-logo.png';
 import namasteImg from '../assets/namaste.webp';
 import './Login.css';
+import SEO from '../components/SEO';
 
 /**
  * Login Component
@@ -100,6 +101,11 @@ export default function Login() {
 
     return (
         <div className="login-page-wrapper">
+            <SEO 
+                title="Login | JGM Industries" 
+                description="Login to your JGM Industries account to access premium herbal products."
+                url="https://jgm-industries.com/login"
+            />
             <div className="login-header">
                 <div className="login-logo-circle">
                     <img src={brandLogo} alt="JGM Logo" className="login-logo" />

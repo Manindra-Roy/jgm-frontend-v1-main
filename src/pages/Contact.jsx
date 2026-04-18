@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast';
 import api from '../services/api';
 import './Editorial.css';
 import './Login.css'; // Reusing input-group styles
+import SEO from '../components/SEO';
 
 /**
  * Contact Component
@@ -41,6 +42,11 @@ export default function Contact() {
 
     return (
         <div className="editorial-wrapper">
+            <SEO 
+                title="Contact Us | JGM Industries" 
+                description="Get in touch with JGM Industries. Reach out with any questions or inquiries about our herbal concepts."
+                url="https://jgm-industries.com/contact"
+            />
             <div className="editorial-container animate-fade-up">
                 <div className="editorial-header">
                     <h1>Get In Touch</h1>

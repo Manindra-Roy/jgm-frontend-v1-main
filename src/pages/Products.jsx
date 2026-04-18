@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../services/api';
 import './Products.css';
+import SEO from '../components/SEO';
 
 /**
  * Products Component
@@ -56,6 +57,11 @@ export default function Products() {
 
     return (
         <div className="products-page-wrapper">
+            <SEO 
+                title="Products | JGM Industries" 
+                description="Browse our collection of pure herbal products from JGM Industries." 
+                url="https://jgm-industries.com/products"
+            />
             <div className="products-header animate-fade-up">
                 <h1 className="section-title"><span>OUR PRODUCTS</span></h1>
             </div>

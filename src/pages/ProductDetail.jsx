@@ -9,6 +9,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import api from '../services/api';
 import './ProductDetail.css';
+import SEO from '../components/SEO';
 
 /**
  * ProductDetail Component
@@ -48,6 +49,12 @@ export default function ProductDetail() {
 
     return (
         <div className="product-detail-wrapper">
+            <SEO 
+                title={`${product.name} | JGM Industries`} 
+                description={product.description || "Crafted from pure, powerful herbs."}
+                url={`https://jgm-industries.com/product/${product.id}`}
+                image={product.image || undefined}
+            />
             <div className="detail-container">
                 
                 <button className="back-btn animate-fade-up" onClick={() => navigate(-1)}>

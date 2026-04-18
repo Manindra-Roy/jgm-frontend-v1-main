@@ -30,7 +30,7 @@ html {
 body {
   margin: 0;
   font-family: 'Georgia', serif;
-  /* background-image: url('./assets/BG.webp');  */
+  background-image: url('./assets/BG.webp'); 
   background-repeat: repeat;
   background-color: var(--bg-yellow);
   overflow-x: hidden;

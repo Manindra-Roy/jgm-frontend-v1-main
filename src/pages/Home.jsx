@@ -11,6 +11,7 @@ import api from '../services/api';
 import homeBg from '../assets/home-bg.jpg';
 import brandLogo from '../assets/brand-logo.png';
 import './Home.css';
+import SEO from '../components/SEO';
 
 /**
  * Home Component
@@ -62,6 +63,11 @@ export default function Home() {
 
     return (
         <div className="home-container">
+            <SEO 
+                title="Home | JGM Industries" 
+                description="Crafted from pure, powerful herbs. Made to care for you the natural way." 
+                url="https://jgm-industries.com/"
+            />
             {/* --- HERO SECTION --- */}
             <section className="hero-section" style={{ backgroundImage: `url(${homeBg})` }}>
                 <div className="hero-content">

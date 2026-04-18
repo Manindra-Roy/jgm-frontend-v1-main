@@ -11,6 +11,7 @@ import api from '../services/api';
 import brandLogo from '../assets/brand-logo.png';
 import namasteImg from '../assets/namaste.webp';
 import './Login.css';
+import SEO from '../components/SEO';
 
 /**
  * Register Component
@@ -80,6 +81,11 @@ export default function Register() {
 
     return (
         <div className="login-page-wrapper">
+            <SEO 
+                title="Register | JGM Industries" 
+                description="Create an account with JGM Industries to start your journey with pure herbal care."
+                url="https://jgm-industries.com/register"
+            />
             <div className="login-header">
                 <div className="login-logo-circle">
                     <img src={brandLogo} alt="JGM Logo" className="login-logo" />
