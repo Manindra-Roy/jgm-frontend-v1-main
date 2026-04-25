@@ -336,6 +336,7 @@
     
     .jgm-navbar.scrolled {
         height: 60px;
+        background: rgba(255, 255, 255, 0.95); /* Decreased transparency */
     }
     
     .nav-logo-container {
@@ -375,4 +376,4 @@
     .jgm-navbar.scrolled .nav-logo {
         height: 30px;
     }
-}
+}
