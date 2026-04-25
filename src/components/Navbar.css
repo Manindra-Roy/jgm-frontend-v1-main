@@ -168,13 +168,69 @@
 /* =========================================================
    MOBILE STYLES
 ========================================================= */
-.hamburger-icon {
+/* Premium Hamburger Animation */
+.hamburger-premium {
     display: none;
-    font-size: 1.8rem;
-    color: var(--accent-gold);
-    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    position: relative;
     z-index: 1001;
-    margin-left: auto; /* Push to the right */
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scrolled .hamburger-premium {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: var(--text-dark);
+}
+
+.on-home:not(.scrolled) .hamburger-premium {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.burger-line {
+    position: absolute;
+    left: 14px;
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.on-home:not(.scrolled) .burger-line {
+    background: white;
+}
+
+.line-1 { top: 18px; }
+.line-2 { top: 23px; width: 14px; }
+.line-3 { top: 28px; }
+
+.hamburger-premium.open .line-1 {
+    top: 23px;
+    transform: rotate(45deg);
+    background: var(--text-dark);
+}
+
+.hamburger-premium.open .line-2 {
+    opacity: 0;
+}
+
+.hamburger-premium.open .line-3 {
+    top: 23px;
+    transform: rotate(-45deg);
+    background: var(--text-dark);
+}
+
+.hamburger-premium:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .mobile-overlay {
@@ -246,24 +302,29 @@
         font-size: 1rem;
     }
 
-    .hamburger-icon {
+    .hamburger-premium {
         display: block;
     }
     
     .nav-right {
-        margin-top: 40px;
+        margin-top: 60px;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         width: 100%;
+        text-align: center;
+        padding-top: 40px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-    .join-us-btn {
-        width: 100%;
-    }
-    
     .nav-phone {
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         color: var(--text-muted);
+        justify-content: center;
+    }
+
+    .nav-right .btn-premium {
+        width: 100%;
+        max-width: 280px;
     }
 }
 
@@ -314,7 +375,4 @@
     .jgm-navbar.scrolled .nav-logo {
         height: 30px;
     }
-    .hamburger-icon {
-        font-size: 1.5rem;
-    }
-}
+}

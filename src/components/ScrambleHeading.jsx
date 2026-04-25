@@ -1,20 +1,18 @@
 import { useRef, useEffect, useState } from 'react';
-import useScrambleText from '../hooks/useScrambleText';
 
 export default function ScrambleHeading({ text, className }) {
-    const [isRevealed, setIsRevealed] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const ref = useRef(null);
-    const scrambledText = useScrambleText(text, isRevealed);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setIsRevealed(true);
+                    setIsVisible(true);
                     observer.disconnect();
                 }
             },
-            { threshold: 0.5 }
+            { threshold: 0.1 }
         );
 
         if (ref.current) {
@@ -25,8 +23,12 @@ export default function ScrambleHeading({ text, className }) {
     }, []);
 
     return (
-        <h3 className={className} ref={ref}>
-            {scrambledText}
-        </h3>
+        <h2 
+            className={`${className} reveal ${isVisible ? 'active' : ''}`} 
+            ref={ref}
+            style={{ transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1)' }}
+        >
+            {text}
+        </h2>
     );
 }

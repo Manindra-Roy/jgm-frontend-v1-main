@@ -226,3 +226,53 @@
     .contact-grid, .cert-grid { grid-template-columns: 1fr; }
     .contact-grid { gap: 40px; }
 }
+
+@media (max-width: 480px) {
+    .editorial-wrapper {
+        padding: 100px 15px 60px;
+    }
+
+    .editorial-header {
+        margin-bottom: 40px;
+    }
+
+    .section-title {
+        font-size: clamp(2rem, 10vw, 2.8rem);
+    }
+
+    .contact-info-card, 
+    .contact-form-container,
+    .cert-card {
+        padding: 30px 20px;
+        border-radius: 30px;
+    }
+
+    .contact-info-item {
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .contact-info-icon {
+        font-size: 1.5rem;
+    }
+
+    .contact-info-text h3 {
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+    }
+
+    .contact-info-text p {
+        font-size: 0.95rem;
+        word-break: break-all;
+    }
+
+    .contact-form {
+        gap: 15px;
+    }
+
+    .contact-form input, 
+    .contact-form textarea {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+}

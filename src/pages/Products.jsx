@@ -122,7 +122,7 @@ export default function Products() {
                                 <p style={{ color: 'var(--text-muted)' }}>We are currently updating this category with fresh batches.</p>
                                 <Magnetic>
                                     <PremiumButton 
-                                        variant="outline" 
+                                        variant="outline-dark" 
                                         onClick={() => navigate('/products')}
                                         style={{ marginTop: '30px' }}
                                     >

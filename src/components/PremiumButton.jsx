@@ -15,7 +15,8 @@ export default function PremiumButton({ children, onClick, className = '', varia
     };
 
     const variantClass = variant === 'gold' ? 'btn-premium-gold' : 
-                         variant === 'outline' ? 'btn-outline-premium' : '';
+                         variant === 'outline' ? 'btn-outline-premium' : 
+                         variant === 'outline-dark' ? 'btn-outline-dark' : '';
     
     const sizeClass = className.includes('btn-sm') ? 'btn-sm' : '';
 

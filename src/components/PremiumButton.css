@@ -27,6 +27,10 @@
     position: relative;
     z-index: 2;
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Standard gap for icons */
 }
 
 .btn-glow {
@@ -83,6 +87,26 @@
 .btn-outline-premium:hover {
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.6);
+}
+
+.btn-outline-dark {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-dark);
+    box-shadow: none;
+}
+
+.btn-outline-dark:hover {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: var(--text-dark);
+}
+
+.btn-outline-dark .btn-glow {
+    background: radial-gradient(
+        circle,
+        rgba(0, 0, 0, 0.05) 0%,
+        transparent 70%
+    );
 }
 
 /* Small Variant for Navbar */

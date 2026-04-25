@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowRight, FaLeaf } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import api from '../services/api';
 import homeBg from '../assets/home-bg.jpg';
@@ -18,23 +18,10 @@ import PremiumButton from '../components/PremiumButton';
 
 export default function Home() {
     const [categories, setCategories] = useState([]);
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const navigate = useNavigate();
     
     // Trigger global scroll reveal when categories are loaded
     useReveal([categories]);
-
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            const { clientX, clientY } = e;
-            const x = (clientX / window.innerWidth - 0.5) * 20;
-            const y = (clientY / window.innerHeight - 0.5) * 20;
-            setMousePos({ x, y });
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -59,16 +46,10 @@ export default function Home() {
             <section 
                 className="hero-section" 
                 style={{ 
-                    backgroundImage: `url(${homeBg})`,
-                    backgroundPosition: `calc(50% + ${mousePos.x * 0.5}px) calc(50% + ${mousePos.y * 0.5}px)`
+                    backgroundImage: `url(${homeBg})`
                 }}
             >
-                <div 
-                    className="hero-content"
-                    style={{ 
-                        transform: `translate(${mousePos.x}px, ${mousePos.y}px)`
-                    }}
-                >
+                <div className="hero-content">
                     <div className="hero-text-block">
                         <h2 className="reveal text-reveal">Awakening Pure Wellness</h2>
                         <h1 className="reveal delay-1 text-reveal">JGM INDUSTRIES</h1>

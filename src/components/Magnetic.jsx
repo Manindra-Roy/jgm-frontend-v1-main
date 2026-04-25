@@ -3,8 +3,10 @@ import { useRef, useState } from 'react';
 export default function Magnetic({ children }) {
     const ref = useRef(null);
     const [position, setPosition] = useState({ x: 0, y: 0, active: false });
+    const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
 
     const handleMouseMove = (e) => {
+        if (isTouchDevice) return;
         const { clientX, clientY } = e;
         const { width, height, left, top } = ref.current.getBoundingClientRect();
         
@@ -24,8 +26,8 @@ export default function Magnetic({ children }) {
     return (
         <div
             ref={ref}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            onMouseMove={!isTouchDevice ? handleMouseMove : undefined}
+            onMouseLeave={!isTouchDevice ? handleMouseLeave : undefined}
             style={{ position: 'relative' }}
         >
             <div

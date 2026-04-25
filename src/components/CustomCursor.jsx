@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from 'react';
 import './CustomCursor.css';
 
 export default function CustomCursor() {
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    const [position, setPosition] = useState({ x: 0, y: 0, active: false });
     const [ringPosition, setRingPosition] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
     const [isClicking, setIsClicking] = useState(false);
@@ -19,8 +20,10 @@ export default function CustomCursor() {
     };
 
     useEffect(() => {
+        if (isTouchDevice) return;
+
         const handleMouseMove = (e) => {
-            setPosition({ x: e.clientX, y: e.clientY });
+            setPosition({ x: e.clientX, y: e.clientY, active: true });
         };
 
         const handleMouseOver = (e) => {
@@ -50,6 +53,8 @@ export default function CustomCursor() {
             cancelAnimationFrame(requestRef.current);
         };
     }, [position]);
+
+    if (isTouchDevice) return null;
 
     return (
         <div className={`custom-cursor-container ${isHovering ? 'hover' : ''} ${isClicking ? 'clicking' : ''}`}>

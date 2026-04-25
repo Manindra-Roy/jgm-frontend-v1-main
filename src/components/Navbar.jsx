@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FaPhoneAlt, FaUserCircle, FaBars, FaTimes } from 'react-icons/fa';
+import { FaPhoneAlt, FaUserCircle } from 'react-icons/fa';
 import brandLogo from '../assets/brand-logo.png';
 import Magnetic from './Magnetic';
 import PremiumButton from './PremiumButton';
@@ -17,7 +17,6 @@ export default function Navbar() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [scrollProgress, setScrollProgress] = useState(0);
 
     const isHome = location.pathname === '/';
     const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
@@ -27,11 +26,6 @@ export default function Navbar() {
         
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
-            
-            // Calculate scroll progress
-            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (window.scrollY / totalHeight) * 100;
-            setScrollProgress(progress);
         };
         window.addEventListener('scroll', handleScroll);
         
@@ -89,20 +83,15 @@ export default function Navbar() {
                 </Link>
             </div>
 
-            <div className="scroll-progress-container">
-                <div 
-                    className="scroll-progress-bar" 
-                    style={{ width: `${scrollProgress}%` }}
-                ></div>
-            </div>
-
             <button 
-                className="hamburger-icon" 
+                className={`hamburger-premium ${isMobileMenuOpen ? 'open' : ''}`} 
                 onClick={toggleMenu}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMobileMenuOpen}
             >
-                {isMobileMenuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
+                <div className="burger-line line-1"></div>
+                <div className="burger-line line-2"></div>
+                <div className="burger-line line-3"></div>
             </button>
             
             {isMobileMenuOpen && <div className="mobile-overlay" onClick={closeMenu} aria-hidden="true"></div>}
@@ -122,11 +111,11 @@ export default function Navbar() {
                     {isAuthenticated ? (
                         <PremiumButton 
                             className="btn-sm" 
-                            variant="dark"
+                            variant="gold"
                             onClick={() => { navigate('/profile'); closeMenu(); }}
                             aria-label="View Profile"
                         >
-                            <FaUserCircle size={18} style={{ marginRight: '8px' }} /> MY PROFILE
+                            <FaUserCircle size={18} /> MY PROFILE
                         </PremiumButton>
                     ) : (
                         <PremiumButton 
