@@ -70,8 +70,8 @@ export default function Profile() {
 
                 const ordersRes = await api.get(`/orders/get/userorders/${userRes.data.id || userRes.data._id}`);
                 setOrders(ordersRes.data);
-            } catch (err) {
-                console.error("Failed to load profile", err);
+            } catch {
+                toast.error("Profile retrieval failed.");
             } finally {
                 setLoading(false);
             }

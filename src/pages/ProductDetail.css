@@ -1,250 +1,106 @@
 /* =========================================================
-   PREMIUM PRODUCT DETAIL PAGE
+   SILENT AUTHORITY PRODUCT DETAIL 3.0
 ========================================================= */
-.product-detail-wrapper {
-    background: var(--light-green);
+
+.product-detail-page {
+    background: var(--bg-base);
     min-height: 100vh;
-    padding: 120px 5% 100px;
+    padding-top: 150px;
+    padding-bottom: 100px;
 }
 
-.detail-container {
-    max-width: 1300px;
-    margin: 0 auto;
-}
-
-.back-btn {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    color: var(--text-dark);
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    margin-bottom: 40px;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-.back-btn:hover {
-    transform: translateX(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.detail-card {
-    background: white;
-    border-radius: 40px;
+.detail-editorial-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 700px;
-    box-shadow: var(--shadow-premium);
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 100px;
+    align-items: start;
 }
 
-.detail-image-side {
-    background: #fdfdfd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 60px;
-    position: relative;
-}
-
-.image-box {
-    width: 100%;
-    height: 100%;
+.detail-visual-column {
+    position: sticky;
+    top: 150px;
+    background: white;
+    border: 1px solid var(--border-light);
+    height: 700px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Essential for zoom */
-    border-radius: 20px;
-    background: #fdfdfd;
-    cursor: crosshair; /* God level exploration hint */
 }
 
-.image-box img {
-    max-width: 100%;
-    max-height: 100%;
+.detail-visual-column img {
+    height: 80%;
+    width: auto;
     object-fit: contain;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform-origin 0.1s linear;
 }
 
-.image-box:hover img {
-    transform: scale(2.2); /* God level texture detail */
+.detail-info-column {
+    padding-top: 40px;
 }
 
-.detail-info-side {
-    padding: 80px;
-    display: flex;
-    flex-direction: column;
-}
-
-.detail-brand {
-    color: var(--accent-gold-dark);
-    font-weight: 700;
-    letter-spacing: 4px;
-    text-transform: uppercase;
+.detail-brand-tag {
+    font-family: var(--font-ui);
     font-size: 0.8rem;
-    margin-bottom: 15px;
+    letter-spacing: 0.3em;
+    color: var(--accent-gold);
+    display: block;
+    margin-bottom: 20px;
+    font-weight: 700;
 }
 
 .detail-title {
-    font-size: var(--fs-h1);
-    color: var(--text-dark);
-    margin-bottom: 20px;
+    font-size: 4rem;
+    margin-bottom: 30px;
+    color: var(--primary-emerald);
 }
 
 .detail-price {
-    font-size: 2.5rem;
-    font-weight: 500;
-    color: var(--primary-green);
-    margin-bottom: 30px;
-}
-
-.stock-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    padding: 10px 20px;
-    border-radius: 50px;
+    font-size: 2rem;
+    font-family: var(--font-heading);
+    color: var(--text-main);
+    display: block;
     margin-bottom: 40px;
-    width: fit-content;
 }
 
-.in-stock { background: rgba(var(--primary-h), 76%, 95%); color: var(--primary-green); }
-.out-of-stock { background: #fef2f2; color: #dc2626; }
-
-.wellness-specs {
-    display: flex;
-    gap: 30px;
+.detail-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-muted);
     margin-bottom: 50px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid #f0f0f0;
+}
+
+.spec-list {
+    border-top: 1px solid var(--border-light);
+    margin-bottom: 50px;
 }
 
 .spec-item {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-light);
 }
 
-.spec-icon {
-    color: var(--primary-green);
-    font-size: 1.1rem;
-}
-
-.spec-item span {
-    font-size: 0.85rem;
+.spec-label {
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-dark);
+    color: var(--text-main);
 }
 
-.detail-tabs-container {
-    margin-bottom: 50px;
-}
-
-.detail-description h3 {
-    font-size: var(--fs-tag);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--ls-wide);
-    margin-bottom: 15px;
-    color: var(--text-dark);
-}
-
-.detail-description p {
+.spec-value {
     color: var(--text-muted);
-    line-height: 1.8;
-    font-size: var(--fs-body-md);
-}
-
-@media (max-width: 600px) {
-    .wellness-specs {
-        flex-direction: column;
-        gap: 15px;
-    }
-}
-
-.order-massive-btn {
-    background: var(--primary-green);
-    color: white;
-    border: none;
-    padding: 22px 40px;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 15px 40px rgba(13, 94, 69, 0.2);
-    width: 100%;
-}
-
-.order-massive-btn:hover:not(:disabled) {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 60px rgba(13, 94, 69, 0.3);
-    background: var(--deep-green);
-}
-
-.order-massive-btn:disabled {
-    background: #e2e8f0;
-    color: #94a3b8;
-    cursor: not-allowed;
-    box-shadow: none;
 }
 
 .detail-actions {
-    margin-top: auto;
-}
-
-.secure-checkout-text {
     display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-    margin-top: 15px;
+    gap: 20px;
 }
 
 @media (max-width: 1024px) {
-    .detail-card { grid-template-columns: 1fr; }
-    .detail-info-side { padding: 40px; }
-    .detail-title { font-size: 2.5rem; }
-}
-
-@media (max-width: 480px) {
-    .product-detail-wrapper {
-        padding: 100px 5% 60px;
+    .detail-editorial-grid {
+        grid-template-columns: 1fr;
     }
-    
-    .detail-image-side {
-        padding: 30px;
-    }
-    
-    .detail-info-side {
-        padding: 25px;
-    }
-    
-    .detail-title {
-        font-size: 2rem;
-        margin-bottom: 15px;
-    }
-    
-    .detail-price {
-        font-size: 2rem;
-    }
-    
-    .order-massive-btn {
-        padding: 18px 20px;
-        font-size: 1rem;
+    .detail-visual-column {
+        position: relative;
+        top: 0;
+        height: 500px;
     }
 }

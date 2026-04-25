@@ -108,17 +108,16 @@ function App() {
      */
     useEffect(() => {
         const handleLoad = () => {
-            // Give a tiny buffer for CSS animations to settle
-            setTimeout(() => setIsAppLoading(false), 500);
+            // Snappy transition for Silent Authority 3.0
+            setTimeout(() => setIsAppLoading(false), 200);
         };
 
         if (document.readyState === 'complete') {
             handleLoad();
         } else {
             window.addEventListener('load', handleLoad);
-            // Fallback timeout: on extremely slow connections, hide preloader after 8s 
-            // so the user isn't stuck forever, but give assets a real chance to load.
-            const fallback = setTimeout(handleLoad, 8000);
+            // Faster fallback for better UX
+            const fallback = setTimeout(handleLoad, 3000);
             return () => {
                 window.removeEventListener('load', handleLoad);
                 clearTimeout(fallback);
@@ -133,11 +132,6 @@ function App() {
 
     return (
         <Router>
-            <div className="blob-container">
-                <div className="blob blob-1"></div>
-                <div className="blob blob-2"></div>
-                <div className="blob blob-3"></div>
-            </div>
             <CustomCursor />
             <ScrollToTop />
             <Toaster position="top-center" />

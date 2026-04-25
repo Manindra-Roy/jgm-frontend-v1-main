@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import api from '../services/api';
-import brandLogo from '../assets/brand-logo.png';
 import namasteImg from '../assets/namaste.webp';
 import './Login.css';
 import SEO from '../components/SEO';
@@ -34,8 +33,8 @@ export default function Register() {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await api.post('/users/register', formData);
-            toast.success(res.data.message || `Verification code sent to ${formData.email}`);
+            await api.post('/users/register', formData);
+            toast.success(`Verification code sent to ${formData.email}`);
             setStep(2);
         } catch (err) {
             toast.error(err.response?.data?.message || 'Registration failed.');
@@ -83,9 +82,6 @@ export default function Register() {
 
             <div className="login-form-side">
                 <div className="login-header-mini reveal">
-                    <div className="login-logo-circle" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-                        <img src={brandLogo} alt="JGM Logo" className="login-logo" />
-                    </div>
                     <h1>REGISTRATION</h1>
                 </div>
 

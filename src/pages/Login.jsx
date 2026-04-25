@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import api from '../services/api';
-import brandLogo from '../assets/brand-logo.png';
 import namasteImg from '../assets/namaste.webp';
 import './Login.css';
 import SEO from '../components/SEO';
@@ -102,9 +101,6 @@ export default function Login() {
 
             <div className="login-form-side">
                 <div className="login-header-mini reveal">
-                    <div className="login-logo-circle" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-                        <img src={brandLogo} alt="JGM Logo" className="login-logo" />
-                    </div>
                     <h1>AUTHENTICATION</h1>
                 </div>
 

@@ -1,43 +1,30 @@
 /**
- * @fileoverview Single Product Detail Component.
+ * @fileoverview Rebuilt Product Detail Page (Silent Authority 3.0)
  */
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaArrowLeft, FaCheckCircle, FaTimesCircle, FaLock, FaShoppingCart } from 'react-icons/fa';
-import { toast } from 'react-hot-toast';
 import api from '../services/api';
 import './ProductDetail.css';
 import SEO from '../components/SEO';
 import useReveal from '../hooks/useReveal';
-import Magnetic from '../components/Magnetic';
-import ScrambleHeading from '../components/ScrambleHeading';
-import Skeleton from '../components/Skeleton';
+import PremiumButton from '../components/PremiumButton';
 
 export default function ProductDetail() {
     const { productId } = useParams();
     const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
 
     useReveal([product]);
 
-    const handleMouseMove = (e) => {
-        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-        const x = ((e.clientX - left) / width) * 100;
-        const y = ((e.clientY - top) / height) * 100;
-        setZoomPos({ x, y });
-    };
-
     useEffect(() => {
-        window.scrollTo(0, 0); 
         const fetchProduct = async () => {
             try {
                 const { data } = await api.get(`/products/${productId}`);
                 setProduct(data);
-            } catch (err) {
-                console.error("Failed to fetch product details");
+            } catch {
+                console.error("Failed to load product");
             } finally {
                 setLoading(false);
             }
@@ -45,118 +32,50 @@ export default function ProductDetail() {
         fetchProduct();
     }, [productId]);
 
-    if (loading) return (
-        <div className="product-detail-wrapper">
-            <div className="detail-container">
-                <div className="detail-card">
-                    <div className="detail-image-side">
-                        <Skeleton height="500px" borderRadius="30px" />
-                    </div>
-                    <div className="detail-info-side" style={{ padding: '60px' }}>
-                        <Skeleton width="40%" height="20px" />
-                        <Skeleton width="80%" height="60px" style={{ margin: '20px 0' }} />
-                        <Skeleton width="30%" height="40px" />
-                        <Skeleton height="150px" style={{ margin: '40px 0' }} />
-                        <Skeleton height="60px" borderRadius="50px" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-    
-    if (!product) return <div className="loading-screen">Product not found.</div>;
-
-    const inStock = product.countInStock > 0;
+    if (loading) return <div className="loading-screen">Retrieving Formulation...</div>;
+    if (!product) return <div>Product not found</div>;
 
     return (
-        <div className="product-detail-wrapper">
-            <SEO 
-                title={`${product.name} | JGM Industries`} 
-                description={product.description || "Crafted from pure, powerful herbs."}
-                url={`https://jgm-industries.com/product/${product.id || product._id}`}
-                image={product.image || undefined}
-            />
-            <div className="detail-container">
-                <Magnetic>
-                    <button className="back-btn reveal" onClick={() => navigate(-1)}>
-                        <FaArrowLeft /> BACK TO CATALOG
-                    </button>
-                </Magnetic>
-
-                <div className="detail-card reveal">
-                    <div className="detail-image-side">
-                        <div 
-                            className="image-box" 
-                            onMouseMove={handleMouseMove}
-                            onMouseLeave={() => setZoomPos({ x: 50, y: 50 })}
-                        >
-                            {product.image ? (
-                                <img 
-                                    src={product.image} 
-                                    alt={product.name} 
-                                    style={{ 
-                                        transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`
-                                    }}
-                                />
-                            ) : (
-                                <div className="placeholder">🌿</div>
-                            )}
-                        </div>
+        <div className="product-detail-page">
+            <SEO title={`${product.name} | JGM Industries`} />
+            
+            <div className="container-editorial">
+                <div className="detail-editorial-grid">
+                    <div className="detail-visual-column reveal">
+                        <img src={product.image} alt={product.name} />
                     </div>
 
-                    <div className="detail-info-side">
-                        {product.brand && <span className="detail-brand">{product.brand}</span>}
-                        <ScrambleHeading text={product.name} className="detail-title" />
-                        <p className="detail-price">₹{product.price}</p>
+                    <div className="detail-info-column reveal delay-1">
+                        <span className="detail-brand-tag">Registry No. {product._id?.substring(0,8).toUpperCase()}</span>
+                        <h1 className="detail-title">{product.name}</h1>
+                        <span className="detail-price">₹{product.price}</span>
+                        
+                        <p className="detail-description">
+                            {product.description || "A masterfully crafted formulation utilizing pure botanical extracts to restore balance and promote organic wellness."}
+                        </p>
 
-                        <div className={`stock-status ${inStock ? 'in-stock' : 'out-of-stock'}`}>
-                            {inStock ? <FaCheckCircle /> : <FaTimesCircle />}
-                            <span>{inStock ? 'Available for Immediate Shipment' : 'Out of Stock'}</span>
-                        </div>
-
-                        <div className="wellness-specs reveal delay-1">
+                        <div className="spec-list">
                             <div className="spec-item">
-                                <FaCheckCircle className="spec-icon" />
-                                <span>100% Organic</span>
+                                <span className="spec-label">Availability</span>
+                                <span className="spec-value">{product.countInStock > 0 ? 'Fresh Batch Available' : 'Waitlisted'}</span>
                             </div>
                             <div className="spec-item">
-                                <FaCheckCircle className="spec-icon" />
-                                <span>Lab Verified</span>
+                                <span className="spec-label">Category</span>
+                                <span className="spec-value">{product.category?.name || 'Organic Wellness'}</span>
                             </div>
                             <div className="spec-item">
-                                <FaCheckCircle className="spec-icon" />
-                                <span>Ethical Sourcing</span>
-                            </div>
-                        </div>
-
-                        <div className="detail-tabs-container reveal delay-2">
-                            <div className="detail-description">
-                                <h3>Product Essence</h3>
-                                <p>{product.description || "A masterfully crafted herbal solution for your natural wellness journey."}</p>
-                                {product.richDescription && (
-                                    <div className="rich-content" dangerouslySetInnerHTML={{ __html: product.richDescription }}></div>
-                                )}
+                                <span className="spec-label">Extraction</span>
+                                <span className="spec-value">Cold-Pressed Essence</span>
                             </div>
                         </div>
 
                         <div className="detail-actions">
-                            <Magnetic>
-                                <button 
-                                    className="order-massive-btn" 
-                                    disabled={!inStock}
-                                    onClick={() => {
-                                        const id = product._id || product.id;
-                                        if (id) navigate(`/checkout/${id}`);
-                                        else toast.error("Product configuration error.");
-                                    }}
-                                >
-                                    ORDER SECURELY <FaShoppingCart style={{ marginLeft: '12px' }} />
-                                </button>
-                            </Magnetic>
-                            <p className="secure-checkout-text">
-                                <FaLock style={{ marginRight: '8px' }} /> 
-                                Premium Secure Checkout | Encrypted Processing
-                            </p>
+                            <PremiumButton variant="gold" onClick={() => navigate(`/checkout/${product.id || product._id}`)}>
+                                SECURE ACQUISITION
+                            </PremiumButton>
+                            <PremiumButton variant="outline" onClick={() => navigate('/products')}>
+                                RETURN TO COLLECTION
+                            </PremiumButton>
                         </div>
                     </div>
                 </div>

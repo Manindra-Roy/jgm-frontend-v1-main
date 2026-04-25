@@ -63,7 +63,7 @@ export default function About() {
                             When you choose JGM Industries, you are choosing a legacy of absolute care for your well-being.
                         </p>
                         <Magnetic>
-                            <PremiumButton variant="gold" onClick={() => navigate('/products')} style={{ marginTop: '40px' }}>
+                            <PremiumButton variant="outline-white" onClick={() => navigate('/products')} style={{ marginTop: '40px' }}>
                                 VIEW OUR COLLECTION
                             </PremiumButton>
                         </Magnetic>

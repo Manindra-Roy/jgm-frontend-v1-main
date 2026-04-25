@@ -14,7 +14,7 @@ export default function Magnetic({ children }) {
         const middleY = clientY - (top + height / 2);
         
         // Intensity of the magnetic pull
-        setPosition({ x: middleX * 0.3, y: middleY * 0.3, active: true });
+        setPosition({ x: middleX * 0.25, y: middleY * 0.25, active: true });
     };
 
     const handleMouseLeave = () => {

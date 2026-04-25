@@ -1,117 +1,157 @@
 /* =========================================================
-   PREMIUM BUTTON SYSTEM
+   GOD-LEVEL PREMIUM BUTTONS 4.0
 ========================================================= */
 
 .btn-premium {
     position: relative;
+    padding: 22px 45px;
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--primary-emerald);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 18px 40px;
-    background: var(--text-dark);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    border-radius: 0; /* Strict editorial square */
 }
 
+/* 1. VARIANT: GOLD (PRIMARY) */
+.btn-premium-gold {
+    background: var(--primary-emerald);
+    color: white;
+}
+
+.btn-premium-gold::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.8s ease;
+}
+
+.btn-premium-gold:hover::before {
+    transform: translateX(100%);
+}
+
+.btn-premium-gold:hover {
+    background: var(--accent-gold);
+    color: var(--primary-emerald);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(184, 158, 95, 0.2);
+}
+
+/* 2. VARIANT: OUTLINE (EDITORIAL) */
+.btn-outline-premium {
+    border: 1px solid var(--border-light);
+    color: var(--primary-emerald);
+}
+
+.btn-outline-premium::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent-gold);
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-outline-premium:hover::after {
+    width: 100%;
+}
+
+.btn-outline-premium:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    transform: translateY(-3px);
+}
+
+/* 3. VARIANT: OUTLINE WHITE (FOR DARK BG) */
+.btn-outline-white {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.btn-outline-white::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent-gold);
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-outline-white:hover::after {
+    width: 100%;
+}
+
+.btn-outline-white:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    transform: translateY(-3px);
+}
+
+/* 4. BUTTON TEXT ANIMATION */
 .btn-text {
     position: relative;
     z-index: 2;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px; /* Standard gap for icons */
+    transition: letter-spacing 0.4s ease;
 }
 
+.btn-premium:hover .btn-text {
+    letter-spacing: 6px;
+}
+
+/* 4. GLOW ELEMENT */
 .btn-glow {
     position: absolute;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(
-        circle,
-        rgba(255, 255, 255, 0.15) 0%,
-        transparent 70%
-    );
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(184, 158, 95, 0.2), transparent 70%);
     border-radius: 50%;
-    transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: 1;
+    transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.btn-premium:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.4s ease;
+    z-index: 1;
 }
 
 .btn-premium:hover .btn-glow {
     opacity: 1;
 }
 
-.btn-premium-gold {
-    background: var(--accent-gold);
-    color: var(--deep-green);
-    box-shadow: 0 10px 20px rgba(201, 168, 76, 0.3);
+/* 5. LIQUID BORDER TRACE (Advanced) */
+.btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--accent-gold);
+    opacity: 0;
+    transition: all 0.6s ease;
 }
 
-.btn-premium-gold:hover {
-    background: hsl(45, 52%, 60%);
-    box-shadow: 0 15px 40px rgba(201, 168, 76, 0.5);
+.btn-premium:hover::before {
+    opacity: 1;
+    transform: scale(1.05, 1.15);
 }
 
-.btn-premium-gold .btn-glow {
-    background: radial-gradient(
-        circle,
-        rgba(255, 255, 255, 0.4) 0%,
-        transparent 70%
-    );
-}
-
-.btn-outline-premium {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-.btn-outline-premium:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.6);
-}
-
-.btn-outline-dark {
-    background: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    color: var(--text-dark);
-    box-shadow: none;
-}
-
-.btn-outline-dark:hover {
-    background: rgba(0, 0, 0, 0.02);
-    border-color: var(--text-dark);
-}
-
-.btn-outline-dark .btn-glow {
-    background: radial-gradient(
-        circle,
-        rgba(0, 0, 0, 0.05) 0%,
-        transparent 70%
-    );
-}
-
-/* Small Variant for Navbar */
+/* SMALL VARIANT */
 .btn-sm {
-    padding: 10px 24px;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
+    padding: 12px 25px;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
 }

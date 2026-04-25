@@ -1,133 +1,77 @@
 /**
- * @fileoverview Global Navigation Bar Component.
+ * @fileoverview Rebuilt Editorial Navbar (Silent Authority 4.0)
+ * Synchronized with 'Invisible Quality' CSS.
  */
 
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FaPhoneAlt, FaUserCircle } from 'react-icons/fa';
-import brandLogo from '../assets/brand-logo.png';
-import Magnetic from './Magnetic';
-import PremiumButton from './PremiumButton';
 import './Navbar.css';
 
 export default function Navbar() {
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
 
-    const isHome = location.pathname === '/';
-    const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+    const isAuthenticated = localStorage.getItem('is_customer_authenticated') === 'true';
 
     useEffect(() => {
-        setIsAuthenticated(localStorage.getItem('is_customer_authenticated') === 'true');
-        
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
+        const handleScroll = () => setIsScrolled(window.scrollY > 50);
         window.addEventListener('scroll', handleScroll);
-        
-        // --- A11y: Focus Trap & Scroll Lock ---
-        const handleKeyDown = (e) => {
-            if (!isMobileMenuOpen || e.key !== 'Tab') return;
-            
-            const focusableElements = document.querySelectorAll('.nav-menu-wrapper.active a, .nav-menu-wrapper.active button');
-            const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];
-
-            if (e.shiftKey) { // Shift + Tab
-                if (document.activeElement === firstElement) {
-                    lastElement.focus();
-                    e.preventDefault();
-                }
-            } else { // Tab
-                if (document.activeElement === lastElement) {
-                    firstElement.focus();
-                    e.preventDefault();
-                }
-            }
-        };
-
-        if (isMobileMenuOpen) {
-            document.documentElement.style.overflow = 'hidden';
-            window.addEventListener('keydown', handleKeyDown);
-            // Auto-focus first link when menu opens
-            setTimeout(() => {
-                const firstLink = document.querySelector('.nav-links a');
-                if (firstLink) firstLink.focus();
-            }, 100);
-        } else {
-            document.documentElement.style.overflow = 'auto';
-            document.body.style.overflow = 'visible';
-            window.removeEventListener('keydown', handleKeyDown);
-        }
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('keydown', handleKeyDown);
-            document.documentElement.style.overflow = 'auto';
-            document.body.style.overflow = 'visible';
-        };
-    }, [location, isMobileMenuOpen]);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
     const closeMenu = () => setIsMobileMenuOpen(false);
 
     return (
-        <nav className={`jgm-navbar ${isScrolled ? 'scrolled' : ''} ${isHome ? 'on-home' : ''} ${isAuthPage ? 'on-auth' : ''}`}>
-            <div className="nav-logo-container">
-                <Link to="/" onClick={closeMenu} aria-label="Go to Home Page">
-                    <img src={brandLogo} alt="JGM Industries" className="nav-logo" />
-                </Link>
-            </div>
-
-            <button 
-                className={`hamburger-premium ${isMobileMenuOpen ? 'open' : ''}`} 
-                onClick={toggleMenu}
-                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={isMobileMenuOpen}
-            >
-                <div className="burger-line line-1"></div>
-                <div className="burger-line line-2"></div>
-                <div className="burger-line line-3"></div>
-            </button>
-            
-            {isMobileMenuOpen && <div className="mobile-overlay" onClick={closeMenu} aria-hidden="true"></div>}
-
-            <div className={`nav-menu-wrapper ${isMobileMenuOpen ? 'active' : ''}`}>
-                <div className="nav-links">
-                    <Magnetic><Link to="/" onClick={closeMenu}>HOME</Link></Magnetic>
-                    <Magnetic><Link to="/about" onClick={closeMenu}>ABOUT Us</Link></Magnetic>
-                    <Magnetic><Link to="/products" onClick={closeMenu}>OUR PRODUCTS</Link></Magnetic>
-                    <Magnetic><Link to="/contact" onClick={closeMenu}>CONTACT Us</Link></Magnetic>
-                    <Magnetic><Link to="/certification" onClick={closeMenu}>CERTIFICATION</Link></Magnetic>
+        <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
+            <div className="nav-container">
+                {/* 1. LINKS LEFT */}
+                <div className="nav-links-left">
+                    <Link to="/" className="nav-item" onClick={closeMenu}>HOME</Link>
+                    <Link to="/about" className="nav-item" onClick={closeMenu}>ABOUT</Link>
+                    <Link to="/products" className="nav-item" onClick={closeMenu}>PRODUCTS</Link>
+                    <Link to="/contact" className="nav-item" onClick={closeMenu}>CONTACT</Link>
                 </div>
 
-                <div className="nav-right">
-                    <span className="nav-phone"><FaPhoneAlt aria-hidden="true" /> 76796-00984</span>
-                    
+
+
+                {/* 3. LINKS RIGHT & AUTH */}
+                <div className="nav-links-right">
                     {isAuthenticated ? (
-                        <PremiumButton 
-                            className="btn-sm" 
-                            variant="gold"
+                        <button 
+                            className="nav-auth-btn" 
                             onClick={() => { navigate('/profile'); closeMenu(); }}
-                            aria-label="View Profile"
                         >
-                            <FaUserCircle size={18} /> MY PROFILE
-                        </PremiumButton>
+                            PROFILE
+                        </button>
                     ) : (
-                        <PremiumButton 
-                            className="btn-sm" 
-                            variant="gold"
+                        <button 
+                            className="nav-auth-btn" 
                             onClick={() => { navigate('/login'); closeMenu(); }}
-                            aria-label="Login or Join Us"
                         >
-                            JOIN Us
-                        </PremiumButton>
+                            LOGIN
+                        </button>
                     )}
                 </div>
+
+                {/* 4. MOBILE TOGGLE */}
+                <div className="mobile-toggle" onClick={toggleMenu}>
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect y="8" width="30" height="1.5" fill="var(--primary-emerald)"/>
+                        <rect y="20" width="30" height="1.5" fill="var(--primary-emerald)"/>
+                    </svg>
+                </div>
+            </div>
+
+            {/* MOBILE OVERLAY */}
+            <div className={`mobile-nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}>
+                <Link to="/" className="mobile-nav-item" onClick={closeMenu}>HOME</Link>
+                <Link to="/about" className="mobile-nav-item" onClick={closeMenu}>ABOUT</Link>
+                <Link to="/products" className="mobile-nav-item" onClick={closeMenu}>PRODUCTS</Link>
+                <Link to="/contact" className="mobile-nav-item" onClick={closeMenu}>CONTACT</Link>
+                <Link to="/login" className="mobile-nav-item" onClick={closeMenu}>LOGIN</Link>
             </div>
         </nav>
     );

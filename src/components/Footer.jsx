@@ -1,60 +1,77 @@
 /**
- * @fileoverview Reusable Footer Component.
+ * @fileoverview Rebuilt God-Level Footer (Silent Authority 4.0)
  */
 
-import { FaBuilding, FaPhoneAlt, FaEnvelope, FaHeadset } from 'react-icons/fa';
-import brandLogo from '../assets/brand-logo.png';
+import { Link } from 'react-router-dom';
+import { FaBuilding, FaPhoneAlt, FaEnvelope, FaHeadset, FaInstagram, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 import './Footer.css';
 
 function Footer() {
     return (
         <footer className="site-footer">
-            <div className="footer-top reveal">
-                <div className="footer-logo-wrapper">
-                    <img src={brandLogo} alt="JGM Industries - Awakening Pure Wellness Logo" className="footer-logo" />
+            <div className="footer-grid reveal">
+                {/* 1. BRAND & MISSION */}
+                <div className="footer-column brand-column">
+                    <h2 className="footer-brand">JGM<span>.</span></h2>
+                    <p className="footer-mission">
+                        Awakening pure wellness through the ancient power of powerful, pure herbs. 
+                        We architect health for the modern era.
+                    </p>
+                    <div className="footer-socials">
+                        <a href="#" aria-label="Instagram"><FaInstagram /></a>
+                        <a href="#" aria-label="Twitter"><FaTwitter /></a>
+                        <a href="#" aria-label="LinkedIn"><FaLinkedinIn /></a>
+                    </div>
                 </div>
-                <h2>CRAFTED FROM PURE, POWERFUL HERBS</h2>
-                <h2>AWAKENING PURE WELLNESS</h2>
-                <div className="footer-divider"></div>
+
+                {/* 2. QUICK NAVIGATION */}
+                <div className="footer-column">
+                    <h4 className="column-title">NAVIGATION</h4>
+                    <ul className="footer-links">
+                        <li><Link to="/">HOME</Link></li>
+                        <li><Link to="/about">ABOUT</Link></li>
+                        <li><Link to="/products">PRODUCTS</Link></li>
+                        <li><Link to="/contact">CONTACT</Link></li>
+                    </ul>
+                </div>
+
+                {/* 3. SUPPORT & SERVICES */}
+                <div className="footer-column">
+                    <h4 className="column-title">SUPPORT</h4>
+                    <ul className="footer-links">
+                        <li><Link to="/shipping">SHIPPING POLICY</Link></li>
+                        <li><Link to="/returns">RETURNS & REFUNDS</Link></li>
+                        <li><Link to="/terms">TERMS OF SERVICE</Link></li>
+                        <li><Link to="/privacy">PRIVACY POLICY</Link></li>
+                    </ul>
+                </div>
+
+                {/* 4. CONTACT DIRECTORY */}
+                <div className="footer-column contact-column">
+                    <h4 className="column-title">CONNECT</h4>
+                    <div className="contact-details">
+                        <div className="detail-item">
+                            <FaBuilding className="detail-icon" />
+                            <p>SILIGURI, DARJEELING - 734434 (W.B)</p>
+                        </div>
+                        <div className="detail-item">
+                            <FaPhoneAlt className="detail-icon" />
+                            <p>+91 76796 00984</p>
+                        </div>
+                        <div className="detail-item">
+                            <FaEnvelope className="detail-icon" />
+                            <p>official@jgmindustries.in</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className="footer-bottom reveal">
-                <div className="contact-item">
-                    <div className="contact-icon-wrapper"><FaBuilding className="contact-icon" aria-hidden="true" /></div>
-                    <div className="contact-text">
-                        <h4>LOCATION</h4>
-                        <p>SILIGURI, DARJEELING - 734434 (W.B)</p>
-                    </div>
+                <div className="footer-divider"></div>
+                <div className="footer-legal">
+                    <p>&copy; {new Date().getFullYear()} JGM Industries. All rights reserved.</p>
+                    <p className="dev-credit">Architected by <a href="https://manindra.in" target="_blank" rel="noopener noreferrer">manindra.in</a></p>
                 </div>
-                
-                <div className="contact-item">
-                    <div className="contact-icon-wrapper"><FaPhoneAlt className="contact-icon" aria-hidden="true" /></div>
-                    <div className="contact-text">
-                        <h4>CONNECT</h4>
-                        <p>76796-00984</p>
-                    </div>
-                </div>
-
-                <div className="contact-item">
-                    <div className="contact-icon-wrapper"><FaEnvelope className="contact-icon" aria-hidden="true" /></div>
-                    <div className="contact-text">
-                        <h4>ENQUIRE</h4>
-                        <p>jgmindustriesofficial@gmail.com</p>
-                    </div>
-                </div>
-
-                <div className="contact-item">
-                    <div className="contact-icon-wrapper"><FaHeadset className="contact-icon" aria-hidden="true" /></div>
-                    <div className="contact-text">
-                        <h4>SUPPORT</h4>
-                        <p>62962-63480</p>
-                    </div>
-                </div>
-            </div>
-
-            <div className="footer-copyright reveal">
-                <p>&copy; {new Date().getFullYear()} JGM Industries. All rights reserved.</p>
-                <p className="dev-credit">Architected by <a href="https://manindra.in" target="_blank" rel="noopener noreferrer">manindra.in</a></p>
             </div>
         </footer>
     );

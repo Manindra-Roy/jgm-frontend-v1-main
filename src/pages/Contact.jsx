@@ -26,8 +26,8 @@ export default function Contact() {
             await api.post('/users/contact', formData);
             toast.success("Thank you! Your message has been sent.");
             setFormData({ name: '', email: '', subject: '', message: '' });
-        } catch (err) {
-            toast.error("Failed to send message. Please try again.");
+        } catch {
+            toast.error("Failed to submit inquiry.");
         } finally {
             setLoading(false);
         }
