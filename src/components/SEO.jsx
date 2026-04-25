@@ -1,19 +1,22 @@
-import React from 'react';
-
 const SEO = ({ 
   title, 
   description, 
   keywords, 
   url, 
-  image = "/src/assets/brand-logo.png",
-  type = "website"
+  image = "https://jgm-industries.com/brand-logo.png",
+  type = "website",
+  themeColor = "#0d5e45" // Default brand primary green
 }) => {
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
+      <meta name="theme-color" content={themeColor} />
       
+      {/* Canonical URL */}
+      {url && <link rel="canonical" href={url} />}
+
       {/* Open Graph */}
       <meta property="og:type" content={type} />
       {url && <meta property="og:url" content={url} />}

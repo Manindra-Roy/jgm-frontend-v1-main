@@ -2,231 +2,249 @@
    PREMIUM PRODUCT DETAIL PAGE
 ========================================================= */
 .product-detail-wrapper {
-    background: linear-gradient(180deg, var(--primary-green) 0%, var(--deep-green) 100%);
-    min-height: calc(100vh - 80px);
-    padding: 40px 20px 100px;
+    background: var(--light-green);
+    min-height: 100vh;
+    padding: 120px 5% 100px;
 }
 
 .detail-container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
 }
 
-.loading-screen {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1.4rem;
-    padding: 100px 0;
-    font-family: var(--font-secondary);
-    letter-spacing: 1px;
-}
-
 .back-btn {
-    background: transparent;
-    border: none;
-    color: var(--accent-gold-light);
-    font-size: 0.95rem;
-    font-family: var(--font-secondary);
-    font-weight: 700;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: var(--text-dark);
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-    letter-spacing: 1px;
+    margin-bottom: 40px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .back-btn:hover {
     transform: translateX(-5px);
-    color: var(--accent-gold);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
-/* Premium glass card */
 .detail-card {
     background: white;
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    display: flex;
+    border-radius: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 700px;
+    box-shadow: var(--shadow-premium);
     overflow: hidden;
-    border: 1px solid rgba(201, 168, 76, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .detail-image-side {
-    flex: 1;
-    background: linear-gradient(135deg, #f8faf6, #f0f6ec);
+    background: #fdfdfd;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px;
-    border-right: 2px solid rgba(201, 168, 76, 0.15);
+    padding: 60px;
+    position: relative;
 }
 
 .image-box {
     width: 100%;
-    max-width: 400px;
-    aspect-ratio: 1;
+    height: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Essential for zoom */
+    border-radius: 20px;
+    background: #fdfdfd;
+    cursor: crosshair; /* God level exploration hint */
 }
 
 .image-box img {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.1));
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform-origin 0.1s linear;
+}
+
+.image-box:hover img {
+    transform: scale(2.2); /* God level texture detail */
 }
 
 .detail-info-side {
-    flex: 1.2;
-    padding: 50px;
+    padding: 80px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 .detail-brand {
-    color: var(--primary-green);
-    font-family: var(--font-secondary);
-    font-weight: 800;
-    letter-spacing: 3px;
+    color: var(--accent-gold-dark);
+    font-weight: 700;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    font-size: 0.85rem;
-    margin-bottom: 10px;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
 }
 
 .detail-title {
-    font-family: var(--font-brand);
-    color: var(--primary-red);
-    font-size: 2.8rem;
-    margin: 0 0 10px 0;
-    line-height: 1.1;
+    font-size: var(--fs-h1);
+    color: var(--text-dark);
+    margin-bottom: 20px;
 }
 
 .detail-price {
     font-size: 2.5rem;
-    font-weight: 900;
-    color: var(--text-dark);
-    margin: 0 0 20px 0;
-    font-family: var(--font-secondary);
+    font-weight: 500;
+    color: var(--primary-green);
+    margin-bottom: 30px;
 }
 
 .stock-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin-bottom: 40px;
+    width: fit-content;
+}
+
+.in-stock { background: rgba(var(--primary-h), 76%, 95%); color: var(--primary-green); }
+.out-of-stock { background: #fef2f2; color: #dc2626; }
+
+.wellness-specs {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 50px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.spec-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: bold;
-    font-family: var(--font-secondary);
-    font-size: 1rem;
-    margin-bottom: 25px;
-    padding: 10px 16px;
-    border-radius: 8px;
+    gap: 10px;
 }
 
-.in-stock { color: #27ae60; background: rgba(39, 174, 96, 0.08); }
-.out-of-stock { color: #e74c3c; background: rgba(231, 76, 60, 0.08); }
-
-.detail-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
-    margin: 0 0 25px 0;
-}
-
-.detail-description h3 {
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+.spec-icon {
+    color: var(--primary-green);
     font-size: 1.1rem;
 }
 
+.spec-item span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dark);
+}
+
+.detail-tabs-container {
+    margin-bottom: 50px;
+}
+
+.detail-description h3 {
+    font-size: var(--fs-tag);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-wide);
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+
 .detail-description p {
-    color: #555;
-    line-height: 1.7;
-    font-size: 1.05rem;
-    margin-bottom: 30px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-size: var(--fs-body-md);
+}
+
+@media (max-width: 600px) {
+    .wellness-specs {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+.order-massive-btn {
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 22px 40px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 15px 40px rgba(13, 94, 69, 0.2);
+    width: 100%;
+}
+
+.order-massive-btn:hover:not(:disabled) {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 60px rgba(13, 94, 69, 0.3);
+    background: var(--deep-green);
+}
+
+.order-massive-btn:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 .detail-actions {
     margin-top: auto;
 }
 
-/* Premium order button with glow */
-.order-massive-btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--button-red), var(--primary-red));
-    border: none;
-    padding: 18px;
-    font-size: 1.2rem;
-    border-radius: 50px;
-    box-shadow: 0 6px 20px rgba(184, 52, 46, 0.3);
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    transition: all 0.4s ease;
-}
-
-.order-massive-btn:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(184, 52, 46, 0.4), 0 0 40px rgba(184, 52, 46, 0.15);
-    background: linear-gradient(135deg, #e74c3c, var(--button-red));
-    color: white;
-}
-
-.order-massive-btn:disabled {
-    background: #95a5a6;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
 .secure-checkout-text {
-    text-align: center;
-    color: #999;
-    font-size: 0.85rem;
-    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
     font-weight: 600;
-    font-family: var(--font-secondary);
-    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-top: 15px;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-    .detail-card { flex-direction: column; border-radius: 20px; }
-    .detail-image-side { border-right: none; border-bottom: 2px solid rgba(201, 168, 76, 0.15); padding: 25px; }
-    .detail-info-side { padding: 30px 25px; }
-    .detail-title { font-size: 2.2rem; }
-    .detail-price { font-size: 2rem; }
+@media (max-width: 1024px) {
+    .detail-card { grid-template-columns: 1fr; }
+    .detail-info-side { padding: 40px; }
+    .detail-title { font-size: 2.5rem; }
 }
 
 @media (max-width: 480px) {
-    .product-detail-wrapper { padding: 20px 12px 60px; min-height: calc(100vh - 70px); }
-    .loading-screen { font-size: 1.1rem; padding: 60px 15px; }
-    .back-btn { font-size: 0.85rem; }
-    .detail-card { border-radius: 16px; }
-    .detail-image-side { padding: 15px; }
-    .image-box { max-width: 280px; }
-    .detail-info-side { padding: 20px 15px; }
-    .detail-brand { font-size: 0.75rem; }
-    .detail-title { font-size: 1.6rem; }
-    .detail-price { font-size: 1.8rem; margin-bottom: 15px; }
-    .stock-status { font-size: 0.9rem; padding: 8px 12px; }
-    .detail-description h3 { font-size: 0.95rem; }
-    .detail-description p { font-size: 0.95rem; }
-    .order-massive-btn { padding: 14px; font-size: 1rem; }
-    .secure-checkout-text { font-size: 0.78rem; }
-}
-
-/* =========================================================
-   VISUAL GAP FIX
-========================================================= */
-.product-detail-wrapper::after {
-    content: '';
-    position: absolute;
-    top: 100%; /* Starts exactly where the wrapper ends */
-    left: 0;
-    width: 100%;
-    height: 50vh; /* Massive block that fills the gap down to the footer */
-    background-color: var(--deep-green); /* Perfectly matches the bottom of your gradient */
-    z-index: 0; /* Ensures it stays behind your footer */
+    .product-detail-wrapper {
+        padding: 100px 5% 60px;
+    }
+    
+    .detail-image-side {
+        padding: 30px;
+    }
+    
+    .detail-info-side {
+        padding: 25px;
+    }
+    
+    .detail-title {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    
+    .detail-price {
+        font-size: 2rem;
+    }
+    
+    .order-massive-btn {
+        padding: 18px 20px;
+        font-size: 1rem;
+    }
 }

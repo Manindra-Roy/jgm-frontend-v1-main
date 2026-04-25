@@ -1,19 +1,17 @@
 /**
  * @fileoverview Direct Checkout & Payment Initiation Component.
- * Collects shipping data, constructs the order payload, creates the order in the database,
- * and redirects the user to the secure PhonePe gateway.
  */
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { FaLock, FaShieldAlt, FaAward, FaShoppingCart } from 'react-icons/fa';
 import api from '../services/api';
 import './DirectCheckout.css';
+import SEO from '../components/SEO';
+import useReveal from '../hooks/useReveal';
+import Magnetic from '../components/Magnetic';
 
-/**
- * DirectCheckout Component
- * @returns {JSX.Element} The rendered checkout and shipping form interface.
- */
 export default function DirectCheckout() {
     const { productId } = useParams();
     const navigate = useNavigate();
@@ -22,33 +20,28 @@ export default function DirectCheckout() {
     const [userId, setUserId] = useState(null); 
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     
-    // Address Selection State
+    useReveal([product]);
+    
     const [savedProfileAddress, setSavedProfileAddress] = useState(null);
     const [useSavedAddress, setUseSavedAddress] = useState(false);
 
-    // Initial state for the shipping details form
     const [formData, setFormData] = useState({
         shippingAddress1: '', shippingAddress2: '', city: '', state: '', zip: '', country: 'India', phone: ''
     });
 
-    /**
-     * Effect: Fetches the required checkout data concurrently.
-     * Requires BOTH the product data and the authenticated user's ID to proceed.
-     */
     useEffect(() => {
         const fetchInitData = async () => {
             try {
-                // Execute both API calls simultaneously for faster loading
                 const [productRes, userRes] = await Promise.all([
                     api.get(`/products/${productId}`),
                     api.get('/users/me/profile')
                 ]);
                 
                 setProduct(productRes.data);
-                setUserId(userRes.data.id); 
+                setUserId(userRes.data.id || userRes.data._id); 
 
-                // Check if user has a configured address profile
                 if (userRes.data.street) {
                     setSavedProfileAddress(userRes.data);
                     setUseSavedAddress(true);
@@ -62,21 +55,19 @@ export default function DirectCheckout() {
                         phone: userRes.data.phone
                     });
                 } else {
-                    // Even without a full address, pre-fill their phone number
                     setFormData(prev => ({...prev, phone: userRes.data.phone || ''}));
                 } 
                 
             } catch (err) {
-                toast.error("Session expired or product not found. Please log in again.");
-                navigate('/products');
+                console.error("Checkout init error:", err);
+                setError(err.response?.data?.message || "Failed to initialize secure checkout session.");
+                toast.error("Session expired or product not found.");
+                setTimeout(() => navigate('/products'), 2000);
             }
         };
         fetchInitData();
     }, [productId, navigate]);
 
-    /**
-     * Toggles between the saved address and a blank custom address form.
-     */
     const handleAddressToggle = (useSaved) => {
         setUseSavedAddress(useSaved);
         if (useSaved && savedProfileAddress) {
@@ -96,21 +87,17 @@ export default function DirectCheckout() {
         }
     };
 
-    /**
-     * Handles the form submission, creates the order, and initiates the PhonePe session.
-     */
     const handleCheckout = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         if (!userId) {
-            toast.error("User session missing. Please refresh the page.");
+            toast.error("User session missing.");
             setLoading(false);
             return;
         }
 
         try {
-            // 1. Construct the complete order payload required by the backend Joi schema
             const orderPayload = {
                 ...formData,
                 orderItems: [{ product: productId, quantity: quantity }],
@@ -118,46 +105,43 @@ export default function DirectCheckout() {
                 user: userId 
             };
 
-            // 2. Create the order in the database (this also deducts the stock)
+            // Support both id and _id from backend response
             const orderRes = await api.post('/orders', orderPayload);
-            const orderId = orderRes.data.id;
+            const orderId = orderRes.data.id || orderRes.data._id;
 
-            // 3. Request a secure PhonePe payment URL for this specific order
+            if (!orderId) {
+                throw new Error("Unable to identify created order.");
+            }
+
             const paymentRes = await api.post(`/payments/checkout/${orderId}`);
             
-            // 4. Redirect the user's browser to the external PhonePe gateway
             if (paymentRes.data.success && paymentRes.data.paymentUrl) {
                 window.location.href = paymentRes.data.paymentUrl;
             }
-        // } catch (err) {
-        //     toast.error(err.response?.data || "Checkout failed. Please try again.");
-        //     setLoading(false);
-        // }
         } catch (err) {
-            // Safely extract the string message, or fallback to a default string
             const errorMessage = err.response?.data?.message 
-                || (typeof err.response?.data === 'string' ? err.response.data : "Checkout failed. Please try again.");
-                
+                || (typeof err.response?.data === 'string' ? err.response.data : "Checkout failed.");
             toast.error(errorMessage);
+        } finally {
             setLoading(false);
         }
     };
 
-    if (!product) return <div style={{padding: '50px', textAlign: 'center'}}>Loading Secure Checkout...</div>;
+    if (!product) return <div className="loading-screen">Securing Checkout Portal...</div>;
 
     return (
         <div className="checkout-wrapper">
+            <SEO title="Secure Checkout | JGM Industries" />
             <div className="checkout-card">
-                <h2 className="checkout-title">Instant Checkout</h2>
+                <h2 className="checkout-title reveal">PREMIUM CHECKOUT</h2>
                 
                 <div className="checkout-split">
-                    {/* Order Summary Column */}
-                    <div className="product-summary">
+                    <div className="product-summary reveal delay-1">
                         <img src={product.image} alt={product.name} />
                         <h3>{product.name}</h3>
                         <p className="price">₹{product.price}</p>
                         <div className="qty-control">
-                            <label>Quantity:</label>
+                            <label>Units</label>
                             <input 
                                 type="number" 
                                 min="1" 
@@ -166,40 +150,68 @@ export default function DirectCheckout() {
                                 onChange={(e) => setQuantity(Number(e.target.value))} 
                             />
                         </div>
-                        <h4 className="total">Total to Pay: ₹{product.price * quantity}</h4>
-                        <p className="stock-info">({product.countInStock} available in stock)</p>
+                        <div className="detail-divider"></div>
+                        <h4 className="total">Total Commitment: ₹{product.price * quantity}</h4>
+                        <p className="secure-checkout-text">
+                            <FaShieldAlt style={{ marginRight: '8px' }} /> Fresh batch available
+                        </p>
                     </div>
 
-                    {/* Shipping Form Column */}
-                    <form onSubmit={handleCheckout} className="shipping-form">
-                        <h3>Shipping Details</h3>
+                    <form onSubmit={handleCheckout} className="shipping-form reveal delay-2">
+                        <h3>Shipping Protocol</h3>
 
                         {savedProfileAddress && (
-                            <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: 'rgba(52, 152, 219, 0.05)', borderRadius: '10px', border: '1px solid rgba(52, 152, 219, 0.2)' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', marginBottom: '12px', fontSize: '0.95rem', fontWeight: 'bold' }}>
-                                    <input type="radio" name="addressSource" checked={useSavedAddress} onChange={() => handleAddressToggle(true)} style={{ width: '18px', height: '18px', accentColor: '#3498db' }} />
-                                    Use Saved Profile Address
+                            <div className="address-toggle-box">
+                                <label className="address-option">
+                                    <input type="radio" name="addressSource" checked={useSavedAddress} onChange={() => handleAddressToggle(true)} />
+                                    Utilize Primary Profile Address
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '0.95rem', fontWeight: 'bold' }}>
-                                    <input type="radio" name="addressSource" checked={!useSavedAddress} onChange={() => handleAddressToggle(false)} style={{ width: '18px', height: '18px', accentColor: '#3498db' }} />
-                                    Ship to a Different Address
+                                <label className="address-option">
+                                    <input type="radio" name="addressSource" checked={!useSavedAddress} onChange={() => handleAddressToggle(false)} />
+                                    Designate Alternative Location
                                 </label>
                             </div>
                         )}
 
-                        <input type="text" placeholder="Address Line 1" required={!useSavedAddress} disabled={useSavedAddress} value={formData.shippingAddress1} onChange={e => setFormData({...formData, shippingAddress1: e.target.value})} maxLength="200" style={{ opacity: useSavedAddress ? 0.7 : 1 }} />
-                        <input type="text" placeholder="Landmark / Line 2 (Optional)" disabled={useSavedAddress} value={formData.shippingAddress2} onChange={e => setFormData({...formData, shippingAddress2: e.target.value})} maxLength="200" style={{ opacity: useSavedAddress ? 0.7 : 1 }} />
-                        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                            <input type="text" placeholder="City" required={!useSavedAddress} disabled={useSavedAddress} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} maxLength="50" style={{ flex: '1 1 calc(50% - 5px)', opacity: useSavedAddress ? 0.7 : 1 }} />
-                            <input type="text" placeholder="State" required={!useSavedAddress} disabled={useSavedAddress} value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} maxLength="50" style={{ flex: '1 1 calc(50% - 5px)', opacity: useSavedAddress ? 0.7 : 1 }} />
-                            <input type="text" placeholder="PIN Code" required={!useSavedAddress} disabled={useSavedAddress} value={formData.zip} onChange={e => setFormData({...formData, zip: e.target.value.replace(/\D/g, '')})} style={{ flex: '1 1 100%', opacity: useSavedAddress ? 0.7 : 1 }} />
+                        <input type="text" placeholder="Address Line 1" required={!useSavedAddress} disabled={useSavedAddress} value={formData.shippingAddress1} onChange={e => setFormData({...formData, shippingAddress1: e.target.value})} />
+                        <input type="text" placeholder="Landmark / Suite (Optional)" disabled={useSavedAddress} value={formData.shippingAddress2} onChange={e => setFormData({...formData, shippingAddress2: e.target.value})} />
+                        <div className="input-row">
+                            <input type="text" placeholder="City" required={!useSavedAddress} disabled={useSavedAddress} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} style={{ flex: 1 }} />
+                            <input type="text" placeholder="State" required={!useSavedAddress} disabled={useSavedAddress} value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} style={{ flex: 1 }} />
                         </div>
-                        <input type="tel" placeholder="Phone Number (10 digits)" minLength="10" maxLength="10" required disabled={useSavedAddress} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})} style={{ opacity: useSavedAddress ? 0.7 : 1 }} />
+                        <input type="text" placeholder="PIN Code" required={!useSavedAddress} disabled={useSavedAddress} value={formData.zip} onChange={e => setFormData({...formData, zip: e.target.value.replace(/\D/g, '')})} />
+                        <input type="tel" placeholder="Mobile Correspondence (10 digits)" minLength="10" maxLength="10" required disabled={useSavedAddress} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})} />
                         
-                        <button type="submit" disabled={loading} className="pay-btn" style={{ marginTop: '10px' }}>
-                            {loading ? "Processing Securely..." : `Pay ₹${product.price * quantity} Securely`}
+                        <button type="submit" disabled={loading} className="pay-btn">
+                            {loading ? "ENCRYPTING TRANSACTION..." : (
+                                <><FaLock style={{ marginRight: '12px' }} /> FINALIZE & PAY ₹{product.price * quantity}</>
+                            )}
                         </button>
                     </form>
+                </div>
+
+                <div className="wellness-guarantee reveal delay-3">
+                    <div className="guarantee-item">
+                        <FaAward className="guarantee-icon" />
+                        <div className="guarantee-text">
+                            <h4>Direct from Source</h4>
+                            <p>Straight from our Darjeeling manufacturing hub to your doorstep.</p>
+                        </div>
+                    </div>
+                    <div className="guarantee-item">
+                        <FaShieldAlt className="guarantee-icon" />
+                        <div className="guarantee-text">
+                            <h4>Secure Acquisition</h4>
+                            <p>End-to-end encrypted transactions for your absolute peace of mind.</p>
+                        </div>
+                    </div>
+                    <div className="guarantee-item">
+                        <FaLock className="guarantee-icon" />
+                        <div className="guarantee-text">
+                            <h4>Pure Formulation</h4>
+                            <p>100% chemical-free herbal extracts, verified for peak potency.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

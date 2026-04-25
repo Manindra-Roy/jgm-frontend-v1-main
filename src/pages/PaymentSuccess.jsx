@@ -1,30 +1,48 @@
 /**
  * @fileoverview Payment Result Component.
- * After PhonePe redirects the user back, this page fetches the actual
- * order payment status from the backend and displays the correct outcome
- * (Paid, Failed, or Pending) instead of blindly showing "Success".
  */
 
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { FaCheckCircle, FaTimesCircle, FaHourglassHalf } from 'react-icons/fa';
+import { useParams, Link, useLocation } from 'react-router-dom';
+import { FaCheckCircle, FaTimesCircle, FaHourglassHalf, FaArrowRight } from 'react-icons/fa';
 import api from '../services/api';
 import './DirectCheckout.css'; 
+import useReveal from '../hooks/useReveal';
+
+/**
+ * Reusable wrapper for result cards.
+ * Moved outside the main component to prevent unnecessary unmounting during state changes.
+ */
+const CardWrapper = ({ children }) => (
+    <div className="checkout-wrapper">
+        <div className="checkout-card reveal" style={{ maxWidth: '700px', textAlign: 'center', margin: '0 auto' }}>
+            {children}
+        </div>
+    </div>
+);
 
 export default function PaymentSuccess() {
-    const { orderId } = useParams();
-    const [paymentStatus, setPaymentStatus] = useState('loading'); // loading | Paid | Failed | Pending
-    const [order, setOrder] = useState(null);
+    const params = useParams();
+    const location = useLocation();
+    const [paymentStatus, setPaymentStatus] = useState('loading'); 
+    
+    // Extract Order ID from either URL parameter or Query string (?id=... or ?orderId=...)
+    const queryParams = new URLSearchParams(location.search);
+    const orderId = params.orderId || queryParams.get('id') || queryParams.get('orderId');
 
-    /**
-     * Effect: Fetches the order from the backend to check the real payment status.
-     * Polls every 3 seconds for up to 30 seconds in case the webhook hasn't arrived yet.
-     */
+    // Watch paymentStatus to ensure the reveal animation triggers after the state resolves
+    useReveal([paymentStatus]);
+    
     useEffect(() => {
         window.scrollTo(0, 0);
 
+        if (!orderId) {
+            setPaymentStatus('Failed');
+            return;
+        }
+
         let attempts = 0;
-        const maxAttempts = 10; // 10 attempts × 3 seconds = 30 seconds max
+        const maxAttempts = 10; 
 
         const checkPaymentStatus = async () => {
             try {
@@ -32,12 +50,11 @@ export default function PaymentSuccess() {
 
                 if (data.paymentStatus === 'Paid') {
                     setPaymentStatus('Paid');
-                    return true; // Stop polling
+                    return true; 
                 } else if (data.paymentStatus === 'Failed') {
                     setPaymentStatus('Failed');
-                    return true; // Stop polling
+                    return true; 
                 } else {
-                    // Still Pending — keep polling
                     setPaymentStatus('Pending');
                     return false;
                 }
@@ -59,114 +76,74 @@ export default function PaymentSuccess() {
         poll();
     }, [orderId]);
 
-    // --- LOADING STATE ---
     if (paymentStatus === 'loading') {
         return (
-            <div className="checkout-wrapper">
-                <div className="checkout-card" style={{ textAlign: 'center', padding: '60px 40px', maxWidth: '600px' }}>
-                    <FaHourglassHalf style={{ fontSize: '4rem', color: '#f1c40f', marginBottom: '20px' }} className="animate-fade-up" />
-                    <h1 style={{ fontFamily: 'var(--font-brand)', color: '#555', marginBottom: '10px' }} className="animate-fade-up delay-1">
-                        Verifying Payment...
-                    </h1>
-                    <p style={{ fontSize: '1.1rem', color: '#777' }} className="animate-fade-up delay-2">
-                        Please wait while we confirm your transaction with PhonePe.
-                    </p>
-                </div>
-            </div>
+            <CardWrapper>
+                <FaHourglassHalf className="spinning" style={{ fontSize: '4rem', color: 'var(--accent-gold)', marginBottom: '30px' }} />
+                <h1 className="checkout-title" style={{ marginBottom: '20px' }}>VERIFYING TRANSACTION</h1>
+                <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
+                    Please hold for a moment as we synchronize with the secure payment gateway.
+                </p>
+            </CardWrapper>
         );
     }
 
-    // --- PAYMENT PAID ---
     if (paymentStatus === 'Paid') {
         return (
-            <div className="checkout-wrapper">
-                <div className="checkout-card" style={{ textAlign: 'center', padding: '60px 40px', maxWidth: '600px' }}>
-                    <FaCheckCircle style={{ fontSize: '5rem', color: '#2ecc71', marginBottom: '20px' }} className="animate-fade-up" />
-                    <h1 style={{ fontFamily: 'var(--font-brand)', color: 'var(--primary-green)', marginBottom: '10px' }} className="animate-fade-up delay-1">
-                        Order Successful!
-                    </h1>
-                    <p style={{ fontSize: '1.2rem', color: '#555', marginBottom: '30px' }} className="animate-fade-up delay-2">
-                        Thank you for choosing JGM Industries. Your payment has been received and your order is now being processed.
+            <CardWrapper>
+                <FaCheckCircle style={{ fontSize: '5rem', color: 'var(--primary-green)', marginBottom: '30px' }} />
+                <h1 className="checkout-title" style={{ color: 'var(--primary-green)', marginBottom: '10px' }}>ORDER MANIFESTED</h1>
+                <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', marginBottom: '40px' }}>
+                    Gratitude for choosing JGM Industries. Your pure herbal solution is now being prepared for shipment.
+                </p>
+                <div style={{ background: 'var(--light-green)', padding: '30px', borderRadius: '20px', marginBottom: '40px' }}>
+                    <p style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--primary-green)', marginBottom: '10px' }}>Reference ID</p>
+                    <p style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '4px', color: 'var(--text-dark)', margin: 0 }}>
+                        {orderId ? orderId.slice(-10).toUpperCase() : 'N/A'}
                     </p>
-                    <div style={{ backgroundColor: '#f4fdf0', padding: '20px', borderRadius: '12px', border: '1px solid #c8e6c9', marginBottom: '40px', display: 'inline-block', textAlign: 'left' }} className="animate-fade-up delay-3">
-                        <p style={{ margin: '0 0 5px 0', color: '#666' }}>Order Reference ID:</p>
-                        <p style={{ margin: 0, fontSize: '1.3rem', fontWeight: 'bold', fontFamily: 'monospace', color: '#111' }}>
-                            {orderId}
-                        </p>
-                    </div>
-                    <div className="animate-fade-up delay-3">
-                        <Link to="/products">
-                            <button className="hero-cta-btn" style={{ backgroundColor: 'var(--primary-green)', color: 'white', borderColor: 'var(--primary-green)' }}>
-                                CONTINUE SHOPPING
-                            </button>
-                        </Link>
-                    </div>
                 </div>
-            </div>
+                <Link to="/products">
+                    <button className="pay-btn">
+                        CONTINUE JOURNEY <FaArrowRight style={{ marginLeft: '12px' }} />
+                    </button>
+                </Link>
+            </CardWrapper>
         );
     }
 
-    // --- PAYMENT FAILED ---
     if (paymentStatus === 'Failed') {
         return (
-            <div className="checkout-wrapper">
-                <div className="checkout-card" style={{ textAlign: 'center', padding: '60px 40px', maxWidth: '600px' }}>
-                    <FaTimesCircle style={{ fontSize: '5rem', color: '#e74c3c', marginBottom: '20px' }} className="animate-fade-up" />
-                    <h1 style={{ fontFamily: 'var(--font-brand)', color: '#e74c3c', marginBottom: '10px' }} className="animate-fade-up delay-1">
-                        Payment Failed
-                    </h1>
-                    <p style={{ fontSize: '1.2rem', color: '#555', marginBottom: '30px' }} className="animate-fade-up delay-2">
-                        Unfortunately, your payment could not be processed. No money has been deducted from your account. Please try again.
-                    </p>
-                    <div style={{ backgroundColor: '#fdf4f0', padding: '20px', borderRadius: '12px', border: '1px solid #f5c6cb', marginBottom: '40px', display: 'inline-block', textAlign: 'left' }} className="animate-fade-up delay-3">
-                        <p style={{ margin: '0 0 5px 0', color: '#666' }}>Order Reference ID:</p>
-                        <p style={{ margin: 0, fontSize: '1.3rem', fontWeight: 'bold', fontFamily: 'monospace', color: '#111' }}>
-                            {orderId}
-                        </p>
-                    </div>
-                    <div className="animate-fade-up delay-3">
-                        <Link to="/products">
-                            <button className="hero-cta-btn" style={{ backgroundColor: '#e74c3c', color: 'white', borderColor: '#e74c3c' }}>
-                                TRY AGAIN
-                            </button>
-                        </Link>
-                    </div>
-                </div>
-            </div>
+            <CardWrapper>
+                <FaTimesCircle style={{ fontSize: '5rem', color: '#dc2626', marginBottom: '30px' }} />
+                <h1 className="checkout-title" style={{ color: '#dc2626', marginBottom: '10px' }}>TRANSACTION ABORTED</h1>
+                <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', marginBottom: '40px' }}>
+                    Regrettably, your payment could not be finalized. No consideration has been deducted.
+                </p>
+                <Link to="/products">
+                    <button className="pay-btn" style={{ background: '#dc2626' }}>
+                        RETRY ACQUISITION
+                    </button>
+                </Link>
+            </CardWrapper>
         );
     }
 
-    // --- PAYMENT PENDING (webhook hasn't arrived yet after 30s polling) ---
     return (
-        <div className="checkout-wrapper">
-            <div className="checkout-card" style={{ textAlign: 'center', padding: '60px 40px', maxWidth: '600px' }}>
-                <FaHourglassHalf style={{ fontSize: '5rem', color: '#f39c12', marginBottom: '20px' }} className="animate-fade-up" />
-                <h1 style={{ fontFamily: 'var(--font-brand)', color: '#f39c12', marginBottom: '10px' }} className="animate-fade-up delay-1">
-                    Payment Pending
-                </h1>
-                <p style={{ fontSize: '1.2rem', color: '#555', marginBottom: '30px' }} className="animate-fade-up delay-2">
-                    Your order has been placed but we're still waiting for payment confirmation from PhonePe. 
-                    You can check your order status from your profile.
-                </p>
-                <div style={{ backgroundColor: '#fef9e7', padding: '20px', borderRadius: '12px', border: '1px solid #f9e79f', marginBottom: '40px', display: 'inline-block', textAlign: 'left' }} className="animate-fade-up delay-3">
-                    <p style={{ margin: '0 0 5px 0', color: '#666' }}>Order Reference ID:</p>
-                    <p style={{ margin: 0, fontSize: '1.3rem', fontWeight: 'bold', fontFamily: 'monospace', color: '#111' }}>
-                        {orderId}
-                    </p>
-                </div>
-                <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }} className="animate-fade-up delay-3">
-                    <Link to="/profile">
-                        <button className="hero-cta-btn" style={{ backgroundColor: '#f39c12', color: 'white', borderColor: '#f39c12' }}>
-                            CHECK ORDER STATUS
-                        </button>
-                    </Link>
-                    <Link to="/products">
-                        <button className="hero-cta-btn" style={{ borderColor: 'var(--primary-green)', color: 'var(--primary-green)' }}>
-                            CONTINUE SHOPPING
-                        </button>
-                    </Link>
-                </div>
+        <CardWrapper>
+            <FaHourglassHalf style={{ fontSize: '5rem', color: 'var(--accent-gold-dark)', marginBottom: '30px' }} />
+            <h1 className="checkout-title" style={{ color: 'var(--accent-gold-dark)', marginBottom: '10px' }}>PAYMENT PENDING</h1>
+            <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', marginBottom: '40px' }}>
+                Your order is registered, but we are awaiting final clearance from PhonePe. 
+                You may monitor the status from your profile repository.
+            </p>
+            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+                <Link to="/profile" style={{ flex: 1 }}>
+                    <button className="pay-btn" style={{ background: 'var(--text-dark)', width: '100%' }}>GO TO PROFILE</button>
+                </Link>
+                <Link to="/products" style={{ flex: 1 }}>
+                    <button className="pay-btn" style={{ background: 'transparent', color: 'var(--text-dark)', border: '1px solid var(--text-dark)', width: '100%' }}>CONTINUE SHOPPING</button>
+                </Link>
             </div>
-        </div>
+        </CardWrapper>
     );
 }

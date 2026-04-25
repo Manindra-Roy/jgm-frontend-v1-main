@@ -1,121 +1,319 @@
-/* --- PREMIUM FONT IMPORTS --- */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Montserrat:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Montserrat:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import './components/PremiumButton.css';
 
+/* =========================================================
+   1. DESIGN TOKENS (HSL SYSTEM)
+========================================================= */
 :root {
-  /* === MODERNIZED PREMIUM PALETTE === */
-  --primary-red: #701214;
-  --button-red: #b8342e;
-  --primary-green: #0d5e45;
-  --bg-yellow: #f8f3e3;
-  --text-dark: #1a1a2e;
+    /* Primary Colors - Refined HSL */
+    --primary-h: 158;
+    --primary-green: hsl(var(--primary-h), 76%, 21%);    /* #0d5e45 */
+    --deep-green: hsl(var(--primary-h), 85%, 12%);       /* #032b20 */
+    --light-green: hsl(var(--primary-h), 35%, 97%);      /* #f8faf6 */
+    
+    /* Brand Accents */
+    --accent-gold: hsl(45, 52%, 54%);                    /* #c9a84c */
+    --accent-gold-light: hsl(45, 52%, 75%);
+    --accent-gold-dark: hsl(45, 52%, 35%);
+    
+    /* Semantic Colors */
+    --success: #2ecc71;
+    --error: #e74c3c;
+    --warning: #f1c40f;
+    --info: #3498db;
 
-  /* Premium Accent Colors */
-  --accent-gold: #c9a84c;
-  --accent-gold-light: #e8d48b;
-  --deep-green: #083d2e;
-  --cream: #faf8f0;
-  --glass-white: rgba(255, 255, 255, 0.06);
-  --glass-border: rgba(255, 255, 255, 0.1);
+    /* Functional Colors */
+    --text-dark: #1a1a1a;
+    --text-muted: #666666;
+    --bg-yellow: #fdfaf0;
+    
+    /* Typography */
+    --font-brand: 'Cinzel Decorative', cursive;
+    --font-primary: 'Outfit', sans-serif;
+    --font-secondary: 'Montserrat', sans-serif;
 
-  /* Primary Decorative Font */
-  --font-brand: 'Cinzel Decorative', 'Papyrus', serif; 
-  /* Secondary Clean Font */
-  --font-secondary: 'Montserrat', 'Arial', sans-serif; 
+    /* Typographic Scale - Editorial Balance */
+    --fs-hero: clamp(2.5rem, 8vw, 5.5rem);
+    --fs-h1: clamp(2rem, 6vw, 3.8rem);
+    --fs-h2: clamp(1.8rem, 5vw, 3.2rem);
+    --fs-h3: clamp(1.25rem, 3vw, 1.6rem);
+    --fs-body-lg: 1.25rem;
+    --fs-body-md: 1.1rem;
+    --fs-body-sm: 0.95rem;
+    --fs-tag: 0.85rem;
+
+    /* Spacing & Line Heights */
+    --lh-tight: 1.1;
+    --lh-base: 1.7; /* Increased for better readability */
+    --ls-tight: -0.03em;
+    --ls-wide: 0.18em;
+
+    /* Shadows & Effects - Premium Depth */
+    --shadow-sm: 0 5px 15px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.08);
+    --shadow-premium: 0 30px 60px rgba(0, 0, 0, 0.12);
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-shimmer: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 100%
+    );
+
+    /* Award Winning Mesh Gradient & Texture */
+    --mesh-bg: radial-gradient(at 0% 0%, hsla(158, 76%, 21%, 0.08) 0, transparent 50%),
+               radial-gradient(at 50% 0%, hsla(45, 52%, 54%, 0.08) 0, transparent 50%),
+               radial-gradient(at 100% 0%, hsla(158, 76%, 21%, 0.08) 0, transparent 50%);
+    --grain-url: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-html {
-  scroll-behavior: smooth;
+/* =========================================================
+   WORLD CLASS BACKGROUND BLOBS
+========================================================= */
+.blob-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    filter: blur(100px);
+    pointer-events: none;
+    opacity: 0.4;
 }
 
-body {
-  margin: 0;
-  font-family: 'Georgia', serif;
-  /* background-image: url('./assets/BG.webp');  */
-  background-repeat: repeat;
-  background-color: var(--bg-yellow);
-  overflow-x: hidden;
-  -webkit-text-size-adjust: 100%;
+.blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: var(--primary-green);
+    border-radius: 50%;
+    animation: blobFloat 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
 }
 
-/* 1. Apply Decorative Font to H1 and Navbar */
-h1, .nav-links a {
-  font-family: var(--font-brand);
+.blob-1 { top: -10%; left: -10%; background: var(--primary-green); animation-duration: 25s; }
+.blob-2 { bottom: -10%; right: -10%; background: var(--accent-gold); animation-duration: 30s; animation-delay: -5s; }
+.blob-3 { top: 40%; left: 60%; background: var(--deep-green); animation-duration: 20s; animation-delay: -10s; }
+
+@keyframes blobFloat {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    33% { transform: translate(80px, 50px) scale(1.1) rotate(10deg); }
+    66% { transform: translate(-40px, 120px) scale(0.9) rotate(-10deg); }
+    100% { transform: translate(0, 0) scale(1) rotate(0deg); }
 }
 
-/* 2. Apply Clean Montserrat Font to Secondary Headings */
-h2, h3, .brand-circle, .section-title {
-  font-family: var(--font-secondary);
-}
-
+/* =========================================================
+   2. RESET & BASE
+========================================================= */
 * {
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Sticky footer: pushes footer to bottom on short-content pages */
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-}
-
-/* === PAGE TRANSITION === */
-.main-content {
-  animation: pageFadeIn 0.5s ease-out forwards;
-}
-
-/* Slide-up animation for sections below the hero */
-.main-content > section:not(.hero-section),
-.main-content > div:not(.hero-section),
-.main-content > footer {
-  animation: pageSlideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-@keyframes pageFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes pageSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* === PREMIUM TOUCH TARGETS === */
-@media (max-width: 768px) {
-  button, a, input, select, textarea {
-    min-height: 44px;
-  }
-}
-
-/* === PREMIUM INPUT FOCUS STATES === */
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--accent-gold) !important;
-  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.2), 0 0 20px rgba(201, 168, 76, 0.08);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* === PREMIUM UTILITY CLASSES === */
-.gradient-text {
-  background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold), #fff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* === INVISIBLE SCROLLBAR === */
 html {
-  scrollbar-width: none; 
-}
-
-::-webkit-scrollbar {
-  display: none; 
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 body {
-  -ms-overflow-style: none;
+    font-family: var(--font-primary);
+    background-color: var(--light-green);
+    background-image: var(--mesh-bg);
+    color: var(--text-dark);
+    line-height: var(--lh-base);
+    -webkit-font-smoothing: antialiased;
+    word-wrap: break-word;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--grain-url);
+    opacity: 0.02;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-secondary);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-tight);
+    font-weight: 800;
+    text-wrap: balance; /* Modern editorial heading distribution */
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+/* =========================================================
+   3. UTILITIES
+========================================================= */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+}
+
+.section-tag {
+    color: var(--accent-gold-dark);
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.section-title {
+    font-size: var(--fs-h1);
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    letter-spacing: var(--ls-tight);
+}
+
+.section-description {
+    font-size: var(--fs-body-md);
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Custom Scrollbar - Sleek & Minimal */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-green);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--accent-gold), var(--primary-green));
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--deep-green);
+}
+
+/* Global Selection Style */
+::selection {
+    background: var(--accent-gold);
+    color: white;
+}
+
+/* =========================================================
+   4. ANIMATIONS (REVEAL ON SCROLL)
+========================================================= */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.45s; }
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spinning {
+    animation: spin 2s linear infinite;
+    display: inline-block;
+}
+
+.loading-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--light-green);
+    color: var(--primary-green);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fdfdfd;
+    font-size: 3rem;
+    color: var(--primary-green);
+    border-radius: 20px;
+}
+
+/* =========================================================
+   5. RESPONSIVE HELPERS
+========================================================= */
+@media (max-width: 768px) {
+    .reveal {
+        transform: translateY(20px);
+    }
+}
+
+/* God Level Form Focus States */
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15), inset 0 0 10px rgba(201, 168, 76, 0.05);
+    background: white;
+    transform: translateY(-1px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 480px) {
+    /* Ensure minimum touch targets on mobile */
+    button, input, select, textarea {
+        min-height: 48px;
+    }
+    
+    .section-tag {
+        font-size: 0.75rem;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 380px) {
+    /* Refine touch targets slightly for 360px devices to prevent overflow */
+    button, input, select, textarea {
+        min-height: 44px;
+        font-size: 0.85rem;
+    }
+
+    .section-tag {
+        font-size: 0.7rem;
+        margin-bottom: 10px;
+    }
+    
+    h1, h2, h3, h4 {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-height: 1.1;
+        letter-spacing: -0.5px;
+    }
 }

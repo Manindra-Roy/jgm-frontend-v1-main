@@ -12,9 +12,9 @@ import './Preloader.css';
  * Rendered globally by App.jsx during the initial 2-second loading phase.
  * @returns {JSX.Element} The rendered loading screen.
  */
-export default function Preloader() {
+export default function Preloader({ isAppLoading }) {
     return (
-        <div className="preloader-wrapper">
+        <div className={`preloader-wrapper ${!isAppLoading ? 'closing' : ''}`}>
             <div className="preloader-content">
                 {/* Pulsing Brand Logo */}
                 <div className="logo-container">

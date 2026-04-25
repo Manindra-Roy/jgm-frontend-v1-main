@@ -1,0 +1,32 @@
+.skeleton-base {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.1) 37%,
+        rgba(255, 255, 255, 0.05) 63%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.4s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Light theme fallback if needed */
+body:not(.dark) .skeleton-base {
+    background: linear-gradient(
+        90deg,
+        #f0f2f0 25%,
+        #e0e2e0 37%,
+        #f0f2f0 63%
+    );
+    background-size: 400% 100%;
+}

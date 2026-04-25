@@ -1,7 +1,5 @@
 /**
  * @fileoverview User Login & Password Recovery Component.
- * Handles standard authentication, OTP generation for forgotten passwords,
- * and secure password resetting within a unified, multi-step interface.
  */
 
 import { useState } from 'react';
@@ -12,196 +10,195 @@ import brandLogo from '../assets/brand-logo.png';
 import namasteImg from '../assets/namaste.webp';
 import './Login.css';
 import SEO from '../components/SEO';
+import useReveal from '../hooks/useReveal';
+import Magnetic from '../components/Magnetic';
 
-/**
- * Login Component
- * @returns {JSX.Element} The rendered login and password recovery interface.
- */
 export default function Login() {
+    useReveal();
     const navigate = useNavigate();
     const location = useLocation();
     const [loading, setLoading] = useState(false);
     
-    // UI State Manager: 
-    // 0 = Normal Login | 1 = Forgot Password (Email) | 2 = Reset (OTP + New Pass)
+    // UI State Manager: 0 = Login | 1 = Forgot Password | 2 = Reset
     const [step, setStep] = useState(0);
     
-    // Unified form state for all 3 steps
     const [formData, setFormData] = useState({
         email: '', password: '', otp: '', newPassword: ''
     });
 
-    // Determines where to redirect the user after a successful login
     const from = location.state?.from?.pathname || "/";
 
-    /**
-     * Updates local component state on input change.
-     */
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    /**
-     * STEP 0: Authenticates the user and stores the auth flag.
-     * The actual secure JWT is handled automatically via HTTP-only cookies by the API interceptor.
-     */
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
             await api.post('/users/login', { email: formData.email, password: formData.password });
             localStorage.setItem('is_customer_authenticated', 'true');
-            toast.success('Logged in successfully!');
+            toast.success('Access Granted. Welcome back.');
             navigate(from, { replace: true });
         } catch (err) {
-            toast.error(err.response?.data?.message || err.response?.data || 'Authentication failed');
+            toast.error(err.response?.data?.message || 'Authentication failed');
         } finally {
             setLoading(false);
         }
     };
 
-    /**
-     * STEP 1: Requests a 6-digit OTP to the user's registered email address.
-     */
     const handleForgotPassword = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await api.post('/users/forgot-password', { email: formData.email });
-            toast.success(res.data.message || 'OTP sent to your email.');
-            setStep(2); // Progress to OTP entry view
+            await api.post('/users/forgot-password', { email: formData.email });
+            toast.success('Verification code dispatched to your email.');
+            setStep(2);
         } catch (err) {
-            toast.error(err.response?.data?.message || err.response?.data || 'Failed to send OTP.');
+            toast.error(err.response?.data?.message || 'Failed to send OTP.');
         } finally {
             setLoading(false);
         }
     };
 
-    /**
-     * STEP 2: Submits the emailed OTP alongside a new password to finalize the reset.
-     */
     const handleResetPassword = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await api.post('/users/reset-password', { 
+            await api.post('/users/reset-password', { 
                 email: formData.email, 
                 otp: formData.otp, 
                 newPassword: formData.newPassword 
             });
-            toast.success(res.data.message || 'Password reset successfully!');
-            setStep(0); // Return to standard login view
+            toast.success('Credentials updated successfully.');
+            setStep(0);
             setFormData({ ...formData, password: '', otp: '', newPassword: '' });
         } catch (err) {
-            toast.error(err.response?.data?.message || err.response?.data || 'Failed to reset password.');
+            toast.error(err.response?.data?.message || 'Failed to reset password.');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="login-page-wrapper">
+        <div className="login-portal">
             <SEO 
-                title="Login | JGM Industries" 
-                description="Login to your JGM Industries account to access premium herbal products."
+                title="Secure Login | JGM Industries" 
+                description="Securely access your JGM Industries portal for premium herbal solutions."
                 url="https://jgm-industries.com/login"
             />
-            <div className="login-header">
-                <div className="login-logo-circle">
-                    <img src={brandLogo} alt="JGM Logo" className="login-logo" />
+            
+            <div className="login-visual-side">
+                <div className="visual-overlay"></div>
+                <div className="visual-content reveal">
+                    <div className="brand-badge">SINCE INCEPTION</div>
+                    <img src={namasteImg} alt="Namaste" className="visual-namaste" />
+                    <div className="visual-text">
+                        <span className="brand-cursive">Rooted in Tradition</span>
+                        <h2>PURE WELLNESS</h2>
+                    </div>
                 </div>
-                <h1>JGM INDUSTRIES</h1>
             </div>
 
-            <div className="login-card">
-                <h2>
-                    {step === 0 && '....Login....'}
-                    {step === 1 && 'Reset Password'}
-                    {step === 2 && 'Enter OTP'}
-                </h2>
+            <div className="login-form-side">
+                <div className="login-header-mini reveal">
+                    <div className="login-logo-circle" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                        <img src={brandLogo} alt="JGM Logo" className="login-logo" />
+                    </div>
+                    <h1>AUTHENTICATION</h1>
+                </div>
 
-                {/* --- NORMAL LOGIN FORM --- */}
-                {step === 0 && (
-                    <form onSubmit={handleLogin} className="login-form">
-                        <div className="input-group">
-                            <label>E-mail</label>
-                            <input type="email" name="email" value={formData.email} onChange={handleChange} required maxLength="100" />
-                        </div>
-                        <div className="input-group">
-                            <label>Pass</label>
-                            <input type="password" name="password" value={formData.password} onChange={handleChange} required maxLength="255" />
-                        </div>
+                <div className="login-card reveal delay-1">
+                    <h2>
+                        {step === 0 && 'Welcome Back'}
+                        {step === 1 && 'Recover Access'}
+                        {step === 2 && 'Verify Identity'}
+                    </h2>
 
-                        <div className="form-actions">
-                            <span className="forgot-pass" onClick={() => setStep(1)}>FORGOT PASS</span>
-                        </div>
-                        
-                        <button type="submit" className="login-submit-btn" disabled={loading}>
-                            {loading ? 'LOGGING IN...' : 'LOGIN'}
-                        </button>
-                    </form>
-                )}
+                    {step === 0 && (
+                        <form onSubmit={handleLogin} className="login-form">
+                            <div className="input-group">
+                                <label>Email Address</label>
+                                <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                            </div>
+                            <div className="input-group">
+                                <label>Password</label>
+                                <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+                            </div>
 
-                {/* --- REQUEST OTP FORM --- */}
-                {step === 1 && (
-                    <form onSubmit={handleForgotPassword} className="login-form animate-fade-up">
-                        <p style={{ textAlign: 'center', marginBottom: '20px', color: '#555' }}>
-                            Enter your registered email address to receive a password reset code.
+                            <div className="form-actions">
+                                <span className="forgot-pass" onClick={() => setStep(1)}>Forgotten Password?</span>
+                            </div>
+                            
+                            <Magnetic>
+                                <button type="submit" className="login-submit-btn" disabled={loading}>
+                                    {loading ? 'AUTHORIZING...' : 'LOG IN'}
+                                </button>
+                            </Magnetic>
+                        </form>
+                    )}
+
+                    {step === 1 && (
+                        <form onSubmit={handleForgotPassword} className="login-form">
+                            <p style={{ textAlign: 'center', marginBottom: '20px', color: 'var(--text-muted)' }}>
+                                We will send a verification code to your registered email.
+                            </p>
+                            <div className="input-group">
+                                <label>Email Address</label>
+                                <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                            </div>
+                            
+                            <Magnetic>
+                                <button type="submit" className="login-submit-btn" disabled={loading}>
+                                    {loading ? 'SENDING...' : 'DISPATCH CODE'}
+                                </button>
+                            </Magnetic>
+                            <p className="toggle-text" onClick={() => setStep(0)}>
+                                Return to Secure Login
+                            </p>
+                        </form>
+                    )}
+
+                    {step === 2 && (
+                        <form onSubmit={handleResetPassword} className="login-form">
+                            <p style={{ textAlign: 'center', marginBottom: '20px', color: 'var(--text-muted)' }}>
+                                Enter the 6-digit verification code and your new password.
+                            </p>
+                            <div className="input-group">
+                                <label>Verification Code</label>
+                                <input 
+                                    type="text" 
+                                    name="otp" 
+                                    value={formData.otp} 
+                                    onChange={(e) => setFormData({ ...formData, otp: e.target.value.replace(/\D/g, '') })} 
+                                    required 
+                                    maxLength="6"
+                                    style={{ letterSpacing: '8px', textAlign: 'center', fontSize: '1.5rem' }}
+                                />
+                            </div>
+                            <div className="input-group">
+                                <label>New Secure Password</label>
+                                <input type="password" name="newPassword" value={formData.newPassword} onChange={handleChange} required minLength="6" />
+                            </div>
+                            
+                            <Magnetic>
+                                <button type="submit" className="login-submit-btn" disabled={loading}>
+                                    {loading ? 'UPDATING...' : 'UPDATE CREDENTIALS'}
+                                </button>
+                            </Magnetic>
+                            <p className="toggle-text" onClick={() => setStep(1)}>
+                                Incorrect Email? Change it here.
+                            </p>
+                        </form>
+                    )}
+
+                    {step === 0 && (
+                        <p className="toggle-text" onClick={() => navigate('/register')}>
+                            New to JGM Industries? Create an Account
                         </p>
-                        <div className="input-group">
-                            <label>E-mail</label>
-                            <input type="email" name="email" value={formData.email} onChange={handleChange} required maxLength="100" />
-                        </div>
-                        
-                        <button type="submit" className="login-submit-btn" disabled={loading}>
-                            {loading ? 'SENDING...' : 'SEND OTP'}
-                        </button>
-                        <p className="toggle-text" onClick={() => setStep(0)}>
-                            ← Back to Login
-                        </p>
-                    </form>
-                )}
-
-                {/* --- RESET PASSWORD FORM --- */}
-                {step === 2 && (
-                    <form onSubmit={handleResetPassword} className="login-form animate-fade-up">
-                        <p style={{ textAlign: 'center', marginBottom: '20px', color: '#555' }}>
-                            Enter the 6-digit code sent to your email and create a new password.
-                        </p>
-                        <div className="input-group">
-                            <label style={{ fontSize: '1.2rem' }}>OTP</label>
-                            <input 
-                                type="text" 
-                                name="otp" 
-                                value={formData.otp} 
-                                onChange={(e) => setFormData({ ...formData, otp: e.target.value.replace(/\D/g, '') })} 
-                                required 
-                                maxLength="6"
-                                style={{ letterSpacing: '3px', textAlign: 'center', fontWeight: 'bold' }}
-                            />
-                        </div>
-                        <div className="input-group">
-                            <label style={{ fontSize: '1.2rem' }}>New Pass</label>
-                            <input type="password" name="newPassword" value={formData.newPassword} onChange={handleChange} required minLength="6" maxLength="255" />
-                        </div>
-                        
-                        <button type="submit" className="login-submit-btn" disabled={loading}>
-                            {loading ? 'RESETTING...' : 'RESET PASSWORD'}
-                        </button>
-                        <p className="toggle-text" onClick={() => setStep(1)}>
-                            ← Change Email Address
-                        </p>
-                    </form>
-                )}
-
-                {step === 0 && (
-                    <p className="toggle-text" onClick={() => navigate('/register')}>
-                        Don't have an account? Register.
-                    </p>
-                )}
+                    )}
+                </div>
             </div>
-
-            <img src={namasteImg} alt="Namaste" className="namaste-img" />
         </div>
     );
 }

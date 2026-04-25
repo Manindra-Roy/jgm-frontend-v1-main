@@ -1,85 +1,142 @@
 /**
  * @fileoverview Global Navigation Bar Component.
- * Provides responsive navigation, mobile side-drawer functionality,
- * and dynamic rendering based on the user's authentication status.
  */
 
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaPhoneAlt, FaUserCircle, FaBars, FaTimes } from 'react-icons/fa';
 import brandLogo from '../assets/brand-logo.png';
+import Magnetic from './Magnetic';
+import PremiumButton from './PremiumButton';
 import './Navbar.css';
 
-/**
- * Navbar Component
- * @returns {JSX.Element} The rendered navigation bar.
- */
 export default function Navbar() {
     const navigate = useNavigate();
+    const location = useLocation();
     
-    // Determine auth state to toggle "Join Us" vs "My Profile" buttons
-    const isAuthenticated = localStorage.getItem('is_customer_authenticated') === 'true';
-    
-    // State to manage the mobile slide-out menu
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [scrollProgress, setScrollProgress] = useState(0);
 
-    /**
-     * Toggles the visibility of the mobile menu side-drawer.
-     */
+    const isHome = location.pathname === '/';
+    const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
+    useEffect(() => {
+        setIsAuthenticated(localStorage.getItem('is_customer_authenticated') === 'true');
+        
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+            
+            // Calculate scroll progress
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (window.scrollY / totalHeight) * 100;
+            setScrollProgress(progress);
+        };
+        window.addEventListener('scroll', handleScroll);
+        
+        // --- A11y: Focus Trap & Scroll Lock ---
+        const handleKeyDown = (e) => {
+            if (!isMobileMenuOpen || e.key !== 'Tab') return;
+            
+            const focusableElements = document.querySelectorAll('.nav-menu-wrapper.active a, .nav-menu-wrapper.active button');
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (e.shiftKey) { // Shift + Tab
+                if (document.activeElement === firstElement) {
+                    lastElement.focus();
+                    e.preventDefault();
+                }
+            } else { // Tab
+                if (document.activeElement === lastElement) {
+                    firstElement.focus();
+                    e.preventDefault();
+                }
+            }
+        };
+
+        if (isMobileMenuOpen) {
+            document.documentElement.style.overflow = 'hidden';
+            window.addEventListener('keydown', handleKeyDown);
+            // Auto-focus first link when menu opens
+            setTimeout(() => {
+                const firstLink = document.querySelector('.nav-links a');
+                if (firstLink) firstLink.focus();
+            }, 100);
+        } else {
+            document.documentElement.style.overflow = 'auto';
+            document.body.style.overflow = 'visible';
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('keydown', handleKeyDown);
+            document.documentElement.style.overflow = 'auto';
+            document.body.style.overflow = 'visible';
+        };
+    }, [location, isMobileMenuOpen]);
+
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-
-    /**
-     * Closes the mobile menu. Passed to all navigation links to ensure 
-     * the drawer closes automatically after a user makes a selection.
-     */
     const closeMenu = () => setIsMobileMenuOpen(false);
 
     return (
-        <nav className="jgm-navbar">
-            {/* LOGO - Always visible */}
+        <nav className={`jgm-navbar ${isScrolled ? 'scrolled' : ''} ${isHome ? 'on-home' : ''} ${isAuthPage ? 'on-auth' : ''}`}>
             <div className="nav-logo-container">
-                <Link to="/" onClick={closeMenu}>
+                <Link to="/" onClick={closeMenu} aria-label="Go to Home Page">
                     <img src={brandLogo} alt="JGM Industries" className="nav-logo" />
                 </Link>
             </div>
 
-            {/* HAMBURGER ICON - Only visible on mobile screens via CSS */}
-            <div className="hamburger-icon" onClick={toggleMenu}>
-                {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+            <div className="scroll-progress-container">
+                <div 
+                    className="scroll-progress-bar" 
+                    style={{ width: `${scrollProgress}%` }}
+                ></div>
             </div>
-            
-            {/* DARK OVERLAY - Captures clicks outside the menu to close it */}
-            {isMobileMenuOpen && <div className="mobile-overlay" onClick={closeMenu}></div>}
 
-            {/* MENU WRAPPER - Slides in on mobile, renders inline horizontally on desktop */}
+            <button 
+                className="hamburger-icon" 
+                onClick={toggleMenu}
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMobileMenuOpen}
+            >
+                {isMobileMenuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
+            </button>
+            
+            {isMobileMenuOpen && <div className="mobile-overlay" onClick={closeMenu} aria-hidden="true"></div>}
+
             <div className={`nav-menu-wrapper ${isMobileMenuOpen ? 'active' : ''}`}>
                 <div className="nav-links">
-                    <Link to="/" onClick={closeMenu}>HOME</Link>
-                    <Link to="/about" onClick={closeMenu}>ABOUT Us</Link>
-                    <Link to="/products" onClick={closeMenu}>OUR PRODUCTS</Link>
-                    <Link to="/contact" onClick={closeMenu}>CONTACT Us</Link>
-                    <Link to="/certification" onClick={closeMenu}>CERTIFICATION</Link>
+                    <Magnetic><Link to="/" onClick={closeMenu}>HOME</Link></Magnetic>
+                    <Magnetic><Link to="/about" onClick={closeMenu}>ABOUT Us</Link></Magnetic>
+                    <Magnetic><Link to="/products" onClick={closeMenu}>OUR PRODUCTS</Link></Magnetic>
+                    <Magnetic><Link to="/contact" onClick={closeMenu}>CONTACT Us</Link></Magnetic>
+                    <Magnetic><Link to="/certification" onClick={closeMenu}>CERTIFICATION</Link></Magnetic>
                 </div>
 
                 <div className="nav-right">
-                    <span className="nav-phone"><FaPhoneAlt /> 76796-00984</span>
+                    <span className="nav-phone"><FaPhoneAlt aria-hidden="true" /> 76796-00984</span>
                     
-                    {/* Dynamic Button Rendering based on Authentication State */}
                     {isAuthenticated ? (
-                        <button 
-                            className="join-us-btn" 
-                            style={{ display: 'flex', alignItems: 'center', gap: '8px' }} 
+                        <PremiumButton 
+                            className="btn-sm" 
+                            variant="dark"
                             onClick={() => { navigate('/profile'); closeMenu(); }}
+                            aria-label="View Profile"
                         >
-                            <FaUserCircle size={18} /> MY PROFILE
-                        </button>
+                            <FaUserCircle size={18} style={{ marginRight: '8px' }} /> MY PROFILE
+                        </PremiumButton>
                     ) : (
-                        <button 
-                            className="join-us-btn" 
+                        <PremiumButton 
+                            className="btn-sm" 
+                            variant="gold"
                             onClick={() => { navigate('/login'); closeMenu(); }}
+                            aria-label="Login or Join Us"
                         >
                             JOIN Us
-                        </button>
+                        </PremiumButton>
                     )}
                 </div>
             </div>

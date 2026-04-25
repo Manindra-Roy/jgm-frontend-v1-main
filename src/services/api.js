@@ -10,8 +10,14 @@ import axios from 'axios';
  * Centralized Axios instance.
  * Automatically attaches the `jgm_token` cookie to every request via `withCredentials: true`.
  */
+const RAW_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+// Ensure /api/v1 is present for REST but absent for Socket
+export const SOCKET_URL = RAW_BASE_URL.replace('/api/v1', '');
+export const API_URL = RAW_BASE_URL.endsWith('/api/v1') ? RAW_BASE_URL : `${RAW_BASE_URL}/api/v1`;
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1',
+    baseURL: API_URL,
     withCredentials: true, 
     headers: {
         'Content-Type': 'application/json'
