@@ -17,24 +17,36 @@
     overflow: hidden;
 }
 
-.hero-cinematic-bg {
+.hero-slideshow {
     position: absolute;
     inset: 0;
     z-index: 0;
 }
 
-.hero-cinematic-bg img {
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1); /* Silk smooth crossfade */
+}
+
+.hero-slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.hero-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.85) blur(4px); /* Direct blur for production consistency */
-    transform: scale(1.05); /* Slight scale to hide blurred edges */
-    animation: slowZoom 30s ease-in-out infinite alternate;
+    filter: brightness(0.85) blur(4px);
+    transform: scale(1.05);
+    animation: majesticZoom 20s linear infinite alternate;
 }
 
-@keyframes slowZoom {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
+@keyframes majesticZoom {
+    0% { transform: scale(1.05); }
+    100% { transform: scale(1.15); }
 }
 
 .hero-overlay {
@@ -46,9 +58,9 @@
         rgba(252, 251, 247, 0.85) 25%, 
         rgba(252, 251, 247, 0.4) 60%,
         rgba(252, 251, 247, 0.1) 100%);
-    backdrop-filter: blur(4px); /* Reduced backdrop-filter since image is already blurred */
+    backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    z-index: 1;
+    z-index: 2; /* Ensure overlay is above the slides */
 }
 
 .hero-content-wrapper {
@@ -290,7 +302,7 @@
         padding: 150px 5% 100px;
     }
     
-    .hero-cinematic-bg {
+    .hero-slideshow {
         opacity: 0.5; /* Increased opacity for better blur visibility on mobile */
     }
     

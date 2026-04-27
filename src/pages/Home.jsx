@@ -5,7 +5,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import heroCinematic from '../assets/hero-cinematic-v3.png';
+
+// Cinematic Hero Assets
+import hero1 from '../assets/hero-cinematic-v1.png';
+import hero2 from '../assets/hero-cinematic-v2.png';
+import hero3 from '../assets/hero-cinematic-v3.png';
+import hero4 from '../assets/hero-cinematic-v4.png';
+import hero5 from '../assets/hero-cinematic-v5.png';
+import hero6 from '../assets/hero-cinematic-v6.png';
+
+const heroSlides = [hero1, hero2, hero3, hero4, hero5, hero6];
+
 import './Home.css';
 import SEO from '../components/SEO';
 import useReveal from '../hooks/useReveal';
@@ -13,9 +23,30 @@ import PremiumButton from '../components/PremiumButton';
 
 export default function Home() {
     const [categories, setCategories] = useState([]);
+    const [currentSlide, setCurrentSlide] = useState(Math.floor(Math.random() * heroSlides.length));
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
     const navigate = useNavigate();
     
+
+    
     useReveal([categories]);
+
+    // Slideshow Logic
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        window.addEventListener('resize', handleResize);
+
+        if (isMobile) return () => window.removeEventListener('resize', handleResize);
+
+        const timer = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+        }, 8000); // 8 seconds per slide for majestic pacing
+
+        return () => {
+            clearInterval(timer);
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [heroSlides.length, isMobile]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -37,8 +68,21 @@ export default function Home() {
             />
 
             <section className="hero-section">
-                <div className="hero-cinematic-bg">
-                    <img src={heroCinematic} alt="Botanical Diorama" />
+                <div className="hero-slideshow">
+                    {isMobile ? (
+                        <div className="hero-slide active">
+                            <img src={hero5} alt="JGM Industries Cinematic Mobile" />
+                        </div>
+                    ) : (
+                        heroSlides.map((slide, index) => (
+                            <div 
+                                key={index} 
+                                className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
+                            >
+                                <img src={slide} alt={`JGM Industries Cinematic ${index + 1}`} />
+                            </div>
+                        ))
+                    )}
                     <div className="hero-overlay"></div>
                 </div>
 
