@@ -27,7 +27,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.85); /* Slightly brighter for product clarity */
+    filter: brightness(0.85) blur(4px); /* Direct blur for production consistency */
+    transform: scale(1.05); /* Slight scale to hide blurred edges */
     animation: slowZoom 30s ease-in-out infinite alternate;
 }
 
@@ -39,14 +40,14 @@
 .hero-overlay {
     position: absolute;
     inset: 0;
-    /* Sophisticated multi-stage gradient with glassmorphic blur */
+    /* Sophisticated multi-stage gradient */
     background: linear-gradient(to right, 
         rgba(252, 251, 247, 0.98) 0%, 
-        rgba(252, 251, 247, 0.8) 25%, 
-        rgba(252, 251, 247, 0.2) 60%,
-        transparent 100%);
-    backdrop-filter: blur(8px); /* Premium editorial focus on text */
-    -webkit-backdrop-filter: blur(8px);
+        rgba(252, 251, 247, 0.85) 25%, 
+        rgba(252, 251, 247, 0.4) 60%,
+        rgba(252, 251, 247, 0.1) 100%);
+    backdrop-filter: blur(4px); /* Reduced backdrop-filter since image is already blurred */
+    -webkit-backdrop-filter: blur(4px);
     z-index: 1;
 }
 
@@ -290,7 +291,7 @@
     }
     
     .hero-cinematic-bg {
-        opacity: 0.3; /* Fade back on mobile to keep text readable */
+        opacity: 0.5; /* Increased opacity for better blur visibility on mobile */
     }
     
     .pillars-grid-v2 {
