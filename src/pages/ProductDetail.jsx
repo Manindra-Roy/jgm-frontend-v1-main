@@ -46,7 +46,11 @@ export default function ProductDetail() {
                     </div>
 
                     <div className="detail-info-column reveal delay-1">
-                        <span className="detail-brand-tag">Registry No. {product._id?.substring(0,8).toUpperCase()}</span>
+                        <span className="detail-brand-tag">
+                            {product.brand && <span className="brand-name">{product.brand.toUpperCase()}</span>}
+                            {product.brand && " | "}
+                            Registry No. {product._id?.substring(0,8).toUpperCase()}
+                        </span>
                         <h1 className="detail-title">{product.name}</h1>
                         <span className="detail-price">₹{product.price}</span>
                         
@@ -54,26 +58,20 @@ export default function ProductDetail() {
                             {product.description || "A masterfully crafted formulation utilizing pure botanical extracts to restore balance and promote organic wellness."}
                         </p>
 
-                        <div className="spec-list">
-                            <div className="spec-item">
-                                <span className="spec-label">Availability</span>
-                                <span className="spec-value">{product.countInStock > 0 ? 'Fresh Batch Available' : 'Waitlisted'}</span>
-                            </div>
-                            <div className="spec-item">
-                                <span className="spec-label">Category</span>
-                                <span className="spec-value">{product.category?.name || 'Organic Wellness'}</span>
-                            </div>
-                            <div className="spec-item">
-                                <span className="spec-label">Extraction</span>
-                                <span className="spec-value">Cold-Pressed Essence</span>
-                            </div>
-                        </div>
+                        {product.richDescription && (
+                            <div 
+                                className="detail-rich-description" 
+                                dangerouslySetInnerHTML={{ __html: product.richDescription }}
+                            />
+                        )}
+
+
 
                         <div className="detail-actions">
                             <PremiumButton variant="gold" onClick={() => navigate(`/checkout/${product.id || product._id}`)}>
                                 SECURE ACQUISITION
                             </PremiumButton>
-                            <PremiumButton variant="outline" onClick={() => navigate('/products')}>
+                            <PremiumButton variant="outline" onClick={() => navigate(-1)}>
                                 RETURN TO COLLECTION
                             </PremiumButton>
                         </div>

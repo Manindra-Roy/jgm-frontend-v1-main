@@ -12,6 +12,7 @@
     --text-main: #042B20;
     --text-muted: #7A7F7D;
     --border-light: #E5E1D1;
+    --accent-future: #00E5FF; /* Electric Cyan for Zio */
     
     /* Typography */
     --font-heading: 'Cormorant Garamond', serif;

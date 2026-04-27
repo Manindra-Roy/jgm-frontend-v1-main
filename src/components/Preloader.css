@@ -8,20 +8,52 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background: #021a13; /* Even deeper emerald */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
     overflow: hidden;
-    transition: transform 1.8s cubic-bezier(0.85, 0, 0.15, 1),
-                opacity 1.2s ease;
+}
+
+.preloader-panel-top,
+.preloader-panel-bottom {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    background: #021a13; /* Deepest emerald */
+    z-index: -1;
+    transition: transform 1.5s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.preloader-panel-top {
+    top: 0;
+    border-bottom: 1px solid rgba(184, 158, 95, 0.1);
+}
+
+.preloader-panel-bottom {
+    bottom: 0;
+}
+
+.preloader-wrapper.closing .preloader-panel-top {
+    transform: translateY(-100%);
+}
+
+.preloader-wrapper.closing .preloader-panel-bottom {
+    transform: translateY(100%);
+}
+
+.preloader-wrapper.closing .preloader-content,
+.preloader-wrapper.closing .mesh-gradient-bg,
+.preloader-wrapper.closing .botanical-field {
+    opacity: 0;
+    transition: opacity 0.8s ease;
 }
 
 .preloader-wrapper.closing {
-    transform: scale(1.1) translateY(-100%);
-    opacity: 0;
     pointer-events: none;
+    transition: visibility 1.5s;
+    visibility: hidden;
 }
 
 /* 1. ULTIMATE MESH DYNAMICS */

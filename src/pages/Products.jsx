@@ -15,6 +15,7 @@ export default function Products() {
     const [loading, setLoading] = useState(true);
     const [searchParams] = useSearchParams();
     const categoryId = searchParams.get('category');
+    const brand = searchParams.get('brand');
     const navigate = useNavigate();
 
     useReveal([products]);
@@ -23,7 +24,15 @@ export default function Products() {
         const fetchProducts = async () => {
             setLoading(true);
             try {
-                const endpoint = categoryId ? `/products?categories=${categoryId}` : '/products';
+                let endpoint = '/products';
+                const params = [];
+                if (categoryId) params.push(`categories=${categoryId}`);
+                if (brand) params.push(`brand=${brand}`);
+                
+                if (params.length > 0) {
+                    endpoint += `?${params.join('&')}`;
+                }
+
                 const { data } = await api.get(endpoint);
                 setProducts(data.products || data);
             } catch {

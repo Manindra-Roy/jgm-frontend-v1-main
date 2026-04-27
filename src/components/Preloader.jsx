@@ -51,6 +51,8 @@ export default function Preloader({ isAppLoading }) {
 
     return (
         <div className={`preloader-wrapper ${!isAppLoading ? 'closing' : ''}`}>
+            <div className="preloader-panel-top"></div>
+            <div className="preloader-panel-bottom"></div>
             <div className="mesh-gradient-bg"></div>
             
             {/* Custom SVG Botanical Particles */}

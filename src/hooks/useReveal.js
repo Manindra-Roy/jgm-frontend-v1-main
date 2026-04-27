@@ -20,12 +20,23 @@ export default function useReveal(dependencies = []) {
             });
         }, observerOptions);
 
-        // Find all revealable elements. We use a slight delay to ensure 
-        // that elements rendered via async data are present in the DOM.
-        const timer = setTimeout(() => {
+        // Find all revealable elements. We wait until the initial load is complete
+        // and no page transition is active to ensure the animations are visible.
+        const initObserver = () => {
+            const isTransitioning = document.querySelector('.page-transition-wrapper.wiping');
+            const isInitialLoading = !window.JGM_INITIAL_LOAD_COMPLETE;
+
+            if (isInitialLoading || isTransitioning) {
+                // Check again shortly
+                const retryTimer = setTimeout(initObserver, 100);
+                return retryTimer;
+            }
+
             const elements = document.querySelectorAll('.reveal');
             elements.forEach(el => observer.observe(el));
-        }, 100);
+        };
+
+        const timer = setTimeout(initObserver, 100);
 
         return () => {
             clearTimeout(timer);

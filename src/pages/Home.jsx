@@ -53,7 +53,7 @@ export default function Home() {
                             We blend ancient Vedic wisdom with modern precision to craft herbal solutions that define natural purity.
                         </p>
                         <div className="hero-actions">
-                            <PremiumButton variant="gold" onClick={() => navigate('/products')}>
+                            <PremiumButton variant="cinematic" onClick={() => navigate('/products')}>
                                 EXPLORE THE COLLECTION
                             </PremiumButton>
                         </div>
@@ -88,17 +88,33 @@ export default function Home() {
 
             <section className="brand-split-section container-editorial">
                 <div className="split-grid">
-                    <div className="brand-editorial-card reveal" onClick={() => navigate('/products?category=jgm')}>
+                    <div className="brand-editorial-card reveal" onClick={() => navigate('/products?brand=jgm')}>
                         <span className="editorial-eyebrow">Sacred Roots</span>
                         <h3>JAI GOU MATA</h3>
                         <p>Preserving the integrity of ancient formulations for holistic healing and restoration.</p>
-                        <PremiumButton variant="outline">DISCOVER THE SACRED</PremiumButton>
+                        <PremiumButton 
+                            variant="sacred" 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate('/products?brand=jgm');
+                            }}
+                        >
+                            DISCOVER THE SACRED
+                        </PremiumButton>
                     </div>
-                    <div className="brand-editorial-card reveal delay-1" onClick={() => navigate('/products?category=zio')}>
+                    <div className="brand-editorial-card reveal delay-1" onClick={() => navigate('/products?brand=zio')}>
                         <span className="editorial-eyebrow">Scientific Precision</span>
                         <h3>ZIO</h3>
                         <p>Next-generation botanical extraction engineered for absolute potency and performance.</p>
-                        <PremiumButton variant="outline">EXPLORE THE FUTURE</PremiumButton>
+                        <PremiumButton 
+                            variant="sacred" 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate('/products?brand=zio');
+                            }}
+                        >
+                            EXPLORE THE FUTURE
+                        </PremiumButton>
                     </div>
                 </div>
             </section>
@@ -125,7 +141,15 @@ export default function Home() {
                                 )}
                             </div>
                             <h4>{cat.name}</h4>
-                            <PremiumButton variant="outline">VIEW COLLECTION</PremiumButton>
+                            <PremiumButton 
+                                variant="outline"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/products?category=${cat.id || cat._id}`);
+                                }}
+                            >
+                                VIEW COLLECTION
+                            </PremiumButton>
                         </div>
                     ))}
                 </div>
