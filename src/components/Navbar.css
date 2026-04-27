@@ -32,6 +32,17 @@
     padding: 0 5%;
 }
 
+.nav-mobile-logo {
+    display: none;
+    height: 40px;
+}
+
+.nav-mobile-logo img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
 
 
 /* 2. NAVIGATION LINKS */
@@ -104,10 +115,10 @@
 }
 
 @media (max-width: 1024px) {
-    .navbar { height: 80px; }
     .nav-links-left, .nav-links-right { display: none; }
-    .nav-container { justify-content: flex-end; }
+    .nav-container { justify-content: space-between; }
     .mobile-toggle { display: block; }
+    .nav-mobile-logo { display: block; }
 }
 
 @media (max-width: 768px) {
@@ -212,7 +223,7 @@
 
 .mobile-nav-item {
     font-family: var(--font-heading);
-    font-size: clamp(2.8rem, 12vw, 5rem);
+    font-size: clamp(2rem, 10vw, 4.5rem);
     color: var(--primary-emerald);
     line-height: 1;
     transform: translateY(40px);

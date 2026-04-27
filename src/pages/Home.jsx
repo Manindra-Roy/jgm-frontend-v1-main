@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import heroCinematic from '../assets/hero-cinematic.png';
+import heroCinematic from '../assets/hero-cinematic-v2.png';
 import './Home.css';
 import SEO from '../components/SEO';
 import useReveal from '../hooks/useReveal';

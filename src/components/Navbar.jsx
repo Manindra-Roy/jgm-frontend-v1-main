@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import brandLogo from '../assets/brand-logo.png';
 import './Navbar.css';
 
 export default function Navbar() {
@@ -45,6 +46,7 @@ export default function Navbar() {
                     { name: 'HOME', path: '/' },
                     { name: 'ABOUT', path: '/about' },
                     { name: 'PRODUCTS', path: '/products' },
+                    { name: 'CERTIFICATION', path: '/certification' },
                     { name: 'CONTACT', path: '/contact' },
                     { name: isAuthenticated ? 'PROFILE' : 'LOGIN', path: isAuthenticated ? '/profile' : '/login' }
                 ].map((link, index) => (
@@ -77,11 +79,17 @@ export default function Navbar() {
         <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''} ${isMobileMenuOpen ? 'menu-open' : ''}`}>
             {!isMobileMenuOpen && (
                 <div className="nav-container">
+                    {/* 0. MOBILE LOGO (Visible only on mobile) */}
+                    <Link to="/" className="nav-mobile-logo">
+                        <img src={brandLogo} alt="JGM Industries" />
+                    </Link>
+
                     {/* 1. LINKS LEFT */}
                     <div className="nav-links-left">
                         <Link to="/" className="nav-item">HOME</Link>
                         <Link to="/about" className="nav-item">ABOUT</Link>
                         <Link to="/products" className="nav-item">PRODUCTS</Link>
+                        <Link to="/certification" className="nav-item">CERTIFICATION</Link>
                         <Link to="/contact" className="nav-item">CONTACT</Link>
                     </div>
 
