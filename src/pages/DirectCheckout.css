@@ -96,11 +96,31 @@
     background: var(--accent-gold);
 }
 
+@media (max-width: 1024px) {
+    .checkout-editorial-card { padding: 60px; }
+    .checkout-split { gap: 60px; }
+}
+
 @media (max-width: 768px) {
+    .checkout-wrapper { padding-top: 120px; }
     .checkout-editorial-card {
-        padding: 40px 20px;
+        padding: 40px 25px;
     }
     .checkout-split {
         grid-template-columns: 1fr;
+        gap: 40px;
     }
+    .checkout-header h2 { font-size: 2.5rem; }
+}
+
+@media (max-width: 480px) {
+    .checkout-wrapper { padding-top: 100px; }
+    .checkout-editorial-card { padding: 30px 20px; }
+    .checkout-header h2 { font-size: 2.2rem; }
+    .checkout-form .input-row { grid-template-columns: 1fr; gap: 0; }
+}
+
+@media (max-width: 360px) {
+    .checkout-header h2 { font-size: 2rem; }
+    .summary-item { flex-direction: column; text-align: center; }
 }

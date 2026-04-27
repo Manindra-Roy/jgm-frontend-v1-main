@@ -184,11 +184,50 @@
     color: var(--primary-emerald);
 }
 
-@media (max-width: 900px) {
-    .pillars-grid, .contact-grid, .cert-grid { grid-template-columns: 1fr; }
+@media (max-width: 1024px) {
+    .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    .cert-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .editorial-wrapper { padding: 120px 5% 60px; }
+    .pillars-grid, .cert-grid { grid-template-columns: 1fr; }
+    .pillar-card, .cert-card { padding: 40px 25px; }
+    .story-content h2 { font-size: 2.8rem; }
+    .contact-info-card, .contact-form-container { padding: 40px 25px; }
 }
 
 @media (max-width: 480px) {
-    .editorial-header h1 { font-size: 2.8rem; }
-    .story-content h2 { font-size: 2.5rem; }
+    .editorial-wrapper { padding: 100px 20px 60px; }
+    .editorial-header h1 { font-size: 2.5rem; }
+    .story-content h2 { font-size: 2.2rem; }
+    .story-content p { font-size: 1rem; }
+    .pillar-icon, .cert-icon { font-size: 2.5rem; }
+}
+
+@media (max-width: 360px) {
+    .editorial-wrapper { padding: 80px 15px 40px; }
+    .editorial-header { margin-bottom: 40px; }
+    .editorial-header h1 { font-size: 2rem; }
+    .section-description { font-size: 0.9rem; line-height: 1.5; }
+    
+    .pillar-card, .cert-card, .contact-info-card, .contact-form-container { 
+        padding: 30px 20px; 
+    }
+
+    .contact-info-item { gap: 15px; margin-bottom: 25px; }
+    .contact-info-icon { font-size: 1.2rem; }
+    .contact-info-text h3 { font-size: 0.65rem; letter-spacing: 2px; }
+    .contact-info-text p { font-size: 0.95rem; line-height: 1.4; }
+    
+    .contact-form input, .contact-form textarea { padding: 12px 0; font-size: 0.9rem; }
 }

@@ -18,17 +18,18 @@
     --font-heading: 'Cormorant Garamond', serif;
     --font-ui: 'Outfit', sans-serif;
 
-    /* Typographic Scale */
-    --fs-hero: clamp(3.5rem, 10vw, 7.5rem);
-    --fs-h1: clamp(2.5rem, 7vw, 4.5rem);
-    --fs-h2: clamp(2rem, 5vw, 3.2rem);
-    --fs-h3: clamp(1.2rem, 3vw, 1.8rem);
-    --fs-body: 1.1rem;
+    /* Typographic Scale - God Level Fluidity */
+    --fs-hero: clamp(3rem, 12vw, 8.5rem);
+    --fs-h1: clamp(2.2rem, 8vw, 4.8rem);
+    --fs-h2: clamp(1.8rem, 6vw, 3.5rem);
+    --fs-h3: clamp(1.1rem, 4vw, 2rem);
+    --fs-body: clamp(0.95rem, 1.5vw, 1.15rem);
 
-    /* Spacing */
+    /* Spacing & Layout */
     --ls-tight: -0.02em;
     --ls-wide: 0.15em;
-    --section-padding: 150px 5%;
+    --section-padding: clamp(80px, 12vw, 180px) 5%;
+    --container-max: 1600px;
 }
 
 /* =========================================================
@@ -77,7 +78,7 @@ a {
    3. SHARED LUXURY ELEMENTS
 ========================================================= */
 .container-editorial {
-    max-width: 1600px;
+    max-width: var(--container-max);
     margin: 0 auto;
     padding: 0 5%;
 }

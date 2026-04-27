@@ -141,7 +141,7 @@ export default function Profile() {
                                 </div>
                                 <input type="text" placeholder="PIN Code" value={addressForm.zip} onChange={e => setAddressForm({...addressForm, zip: e.target.value.replace(/\D/g, '')})} required />
                                 
-                                <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                                <div className="address-form-actions">
                                     <button type="button" className="cancel-btn" onClick={() => setIsEditingAddress(false)}>CANCEL</button>
                                     <button type="submit" className="save-btn" disabled={savingAddress}>
                                         {savingAddress ? 'SAVING...' : 'UPDATE REGISTRY'}
@@ -170,9 +170,9 @@ export default function Profile() {
                 </aside>
 
                 <main className="profile-main">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                        <FaBoxOpen size={24} color="var(--primary-green)" />
-                        <h2 className="section-title" style={{ margin: 0 }}>ORDER REPOSITORY</h2>
+                    <div className="profile-section-header">
+                        <FaBoxOpen className="section-header-icon" />
+                        <h2 className="section-title">ORDER REPOSITORY</h2>
                     </div>
 
                     {orders.length === 0 ? (
@@ -189,7 +189,7 @@ export default function Profile() {
                                     <div className="order-header">
                                         <div className="order-id-block">
                                             <span className="order-date">{new Date(order.dateOrdered).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                                            <span className="order-id">#ID-{ (order.id || order._id).slice(-8).toUpperCase() }</span>
+                                            <span className="order-id-label">ORDER ID: <span className="order-id-value">#{(order.id || order._id).slice(-8).toUpperCase()}</span></span>
                                         </div>
                                         <div className="status-group">
                                             <span className={`status-badge payment-${order.paymentStatus?.toLowerCase()}`}>
@@ -207,7 +207,7 @@ export default function Profile() {
                                                 <img src={item.product?.image} alt={item.product?.name} className="item-image" />
                                                 <div className="item-details">
                                                     <h4>{item.product?.name}</h4>
-                                                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Unit Quantity: {item.quantity}</p>
+                                                    <p className="item-meta">Unit Quantity: {item.quantity}</p>
                                                 </div>
                                                 <div className="item-price">
                                                     ₹{ (item.product?.price * item.quantity).toLocaleString() }
@@ -221,17 +221,18 @@ export default function Profile() {
                                     <div className="order-footer">
                                         <div className="logistics">
                                             {order.trackingNumber ? (
-                                                <p style={{ color: 'var(--primary-green)', fontWeight: '700' }}>
+                                                <p className="tracking-info">
                                                     Courier: {order.courierName || 'The Courier'} | Tracking: {order.trackingNumber}
                                                 </p>
                                             ) : (
-                                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                                                <p className="logistics-msg">
                                                     {getLogisticsMessage(order.status)}
                                                 </p>
                                             )}
                                         </div>
-                                        <div className="order-total" style={{ color: 'var(--text-muted)' }}>
-                                            Total Consideration: <span>₹{order.totalPrice?.toLocaleString()}</span>
+                                        <div className="order-total-summary">
+                                            <span className="total-label">Total Consideration</span>
+                                            <span className="total-value">₹{order.totalPrice?.toLocaleString()}</span>
                                         </div>
                                     </div>
                                 </div>

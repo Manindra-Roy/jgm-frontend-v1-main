@@ -167,8 +167,30 @@
     cursor: pointer;
 }
 
+@media (max-width: 1280px) {
+    .login-form-side { padding: 80px 8%; }
+    .visual-text h2 { font-size: 3.5rem; }
+}
+
 @media (max-width: 1024px) {
-    .login-portal { grid-template-columns: 1fr; }
+    .login-portal, .register-portal { grid-template-columns: 1fr; }
     .login-visual-side { display: none; }
-    .login-form-side { padding: 120px 5% 60px; min-height: 100vh; }
+    .login-form-side { padding: 120px 10% 60px; min-height: 100vh; }
+    .login-card h2 { font-size: 2.8rem; }
+}
+
+@media (max-width: 768px) {
+    .login-form-side { padding: 100px 5% 60px; }
+}
+
+@media (max-width: 480px) {
+    .login-form-side { padding: 80px 20px 40px; }
+    .login-card h2 { font-size: 2.2rem; }
+    .login-header-mini { margin-bottom: 40px; }
+    .login-submit-btn { padding: 18px; font-size: 1.1rem; }
+}
+
+@media (max-width: 360px) {
+    .login-card h2 { font-size: 2rem; }
+    .input-group input { font-size: 1rem; }
 }
