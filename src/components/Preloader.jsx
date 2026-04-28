@@ -10,6 +10,7 @@ const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 export default function Preloader({ isAppLoading }) {
     const [progress, setProgress] = useState(0);
+    const [shouldRender, setShouldRender] = useState(true);
     const [scrambledText, setScrambledText] = useState('JGM INDUSTRIES');
     const targetText = 'JGM INDUSTRIES';
 
@@ -48,6 +49,15 @@ export default function Preloader({ isAppLoading }) {
             clearInterval(scrambleTimer);
         };
     }, [isAppLoading]);
+
+    useEffect(() => {
+        if (!isAppLoading) {
+            const unmountTimer = setTimeout(() => setShouldRender(false), 2000);
+            return () => clearTimeout(unmountTimer);
+        }
+    }, [isAppLoading]);
+
+    if (!shouldRender) return null;
 
     return (
         <div className={`preloader-wrapper ${!isAppLoading ? 'closing' : ''}`}>

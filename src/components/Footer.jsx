@@ -24,27 +24,29 @@ function Footer() {
                     </div>
                 </div>
 
-                {/* 2. QUICK NAVIGATION */}
-                <div className="footer-column">
-                    <h4 className="column-title">NAVIGATION</h4>
-                    <ul className="footer-links">
-                        <li><Link to="/">HOME</Link></li>
-                        <li><Link to="/about">ABOUT</Link></li>
-                        <li><Link to="/products">PRODUCTS</Link></li>
-                        <li><Link to="/certification">CERTIFICATION</Link></li>
-                        <li><Link to="/contact">CONTACT</Link></li>
-                    </ul>
-                </div>
+                <div className="footer-links-container">
+                    {/* 2. QUICK NAVIGATION */}
+                    <div className="footer-column">
+                        <h4 className="column-title">NAVIGATION</h4>
+                        <ul className="footer-links">
+                            <li><Link to="/">HOME</Link></li>
+                            <li><Link to="/about">ABOUT</Link></li>
+                            <li><Link to="/products">PRODUCTS</Link></li>
+                            <li><Link to="/certification">CERTIFICATION</Link></li>
+                            <li><Link to="/contact">CONTACT</Link></li>
+                        </ul>
+                    </div>
 
-                {/* 3. SUPPORT & SERVICES */}
-                <div className="footer-column">
-                    <h4 className="column-title">SUPPORT</h4>
-                    <ul className="footer-links">
-                        <li><Link to="/shipping">SHIPPING POLICY</Link></li>
-                        <li><Link to="/returns">RETURNS & REFUNDS</Link></li>
-                        <li><Link to="/terms">TERMS OF SERVICE</Link></li>
-                        <li><Link to="/privacy">PRIVACY POLICY</Link></li>
-                    </ul>
+                    {/* 3. SUPPORT & SERVICES */}
+                    <div className="footer-column">
+                        <h4 className="column-title">SUPPORT</h4>
+                        <ul className="footer-links">
+                            <li><Link to="/shipping">SHIPPING POLICY</Link></li>
+                            <li><Link to="/returns">RETURNS & REFUNDS</Link></li>
+                            <li><Link to="/terms">TERMS OF SERVICE</Link></li>
+                            <li><Link to="/privacy">PRIVACY POLICY</Link></li>
+                        </ul>
+                    </div>
                 </div>
 
                 {/* 4. CONTACT DIRECTORY */}

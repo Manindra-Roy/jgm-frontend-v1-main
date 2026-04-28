@@ -17,6 +17,10 @@
     margin: 0 auto 120px;
 }
 
+.footer-links-container {
+    display: contents; /* Essential for Desktop Isolation */
+}
+
 /* 1. BRAND COLUMN */
 .footer-brand {
     font-family: var(--font-heading);
@@ -150,18 +154,78 @@
 @media (max-width: 1200px) {
     .footer-grid {
         grid-template-columns: 1fr 1fr;
-        gap: 60px;
+        gap: 60px 40px;
     }
     .footer-brand { font-size: 3rem; }
+    .footer-mission { max-width: 100%; }
+
+    /* For 2-column tablet layout, we need the container to NOT be contents */
+    .footer-links-container {
+        display: contents; 
+    }
 }
 
-@media (max-width: 768px) {
-    .site-footer { padding: 100px 5% 40px; }
+@media (max-width: 1024px) {
+    .site-footer { 
+        padding: 80px 5% 40px; 
+        text-align: center;
+    }
+
     .footer-grid {
         grid-template-columns: 1fr;
-        gap: 60px;
-        margin-bottom: 80px;
+        gap: 50px;
+        margin-bottom: 60px;
     }
+
+    .brand-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .footer-mission {
+        max-width: 500px;
+        margin: 0 auto 30px;
+    }
+
+    .footer-socials {
+        justify-content: center;
+    }
+
+    /* Group links in 2-column grid for tablets & mobile */
+    .footer-links-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        text-align: left;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 50px;
+    }
+
+    .contact-column {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-details {
+        align-items: center;
+        text-align: center;
+    }
+
+    .detail-item {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .detail-icon {
+        margin-top: 0;
+    }
+
     .footer-legal {
         flex-direction: column;
         gap: 20px;
@@ -170,7 +234,17 @@
 }
 
 @media (max-width: 480px) {
-    .site-footer { padding: 80px 20px 40px; }
+    .site-footer { padding: 60px 20px 40px; }
     .footer-brand { font-size: 2.5rem; }
-    .footer-mission { font-size: 1rem; }
+    
+    .footer-links-container {
+        grid-template-columns: 1fr; /* Stack links on very small screens */
+        text-align: center;
+        gap: 40px;
+    }
+
+    .footer-links a:hover {
+        padding-left: 0;
+        color: var(--accent-gold);
+    }
 }

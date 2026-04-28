@@ -83,6 +83,12 @@ a {
     padding: 0 5%;
 }
 
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .container-editorial {
+        padding: 0 10%;
+    }
+}
+
 .reveal {
     opacity: 0;
     transform: translateY(30px);

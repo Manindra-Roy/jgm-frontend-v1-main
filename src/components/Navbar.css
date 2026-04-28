@@ -114,6 +114,14 @@
     .nav-links-left, .nav-links-right { gap: 25px; }
 }
 
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .nav-auth-btn {
+        padding: 8px 22px;
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+    }
+}
+
 @media (max-width: 1024px) {
     .nav-links-left, .nav-links-right { display: none; }
     .nav-container { justify-content: space-between; }
