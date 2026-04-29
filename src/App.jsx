@@ -15,6 +15,7 @@ import Footer from "./components/Footer";
 import Preloader from "./components/Preloader";
 import CustomCursor from "./components/CustomCursor";
 import PageTransition from "./components/PageTransition";
+import ConsentManager from "./components/ConsentManager";
 import { SOCKET_URL } from "./services/api";
 
 // --- STATIC PAGES (Critical for FCP) ---
@@ -31,6 +32,12 @@ const Profile = lazy(() => import("./pages/Profile"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Certification = lazy(() => import("./pages/Certification"));
+
+// --- LEGAL PAGES ---
+const ShippingPolicy = lazy(() => import("./pages/legal/ShippingPolicy"));
+const ReturnsPolicy = lazy(() => import("./pages/legal/ReturnsPolicy"));
+const TermsOfService = lazy(() => import("./pages/legal/TermsOfService"));
+const SafetyCompliance = lazy(() => import("./pages/legal/SafetyCompliance"));
 
 /**
  * Higher-Order Component to protect private routes.
@@ -129,6 +136,12 @@ function AppLayout() {
                                     <Route path="/login" element={<Login />} />
                                     <Route path="/register" element={<Register />} />
                                     <Route path="/payment-success/:orderId" element={<PaymentSuccess />} />
+                                    
+                                    {/* Legal Routes */}
+                                    <Route path="/shipping" element={<ShippingPolicy />} />
+                                    <Route path="/returns" element={<ReturnsPolicy />} />
+                                    <Route path="/terms" element={<TermsOfService />} />
+                                    <Route path="/privacy" element={<SafetyCompliance />} />
 
                                     <Route path="/profile" element={
                                         <ProtectedRoute>
@@ -191,6 +204,7 @@ function App() {
             <CustomCursor />
             <Toaster position="top-center" />
             <Preloader isAppLoading={isAppLoading} />
+            <ConsentManager />
             <AppLayout />
         </Router>
     );

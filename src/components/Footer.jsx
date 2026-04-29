@@ -65,6 +65,14 @@ function Footer() {
                             <FaEnvelope className="detail-icon" />
                             <p>official@jgmindustries.in</p>
                         </div>
+                        <div className="statutory-details" style={{ marginTop: '15px', paddingTop: '15px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                            <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginBottom: '5px' }}>
+                                <strong>FSSAI Lic. No:</strong> 100210XXXXXX
+                            </p>
+                            <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
+                                <strong>GSTIN:</strong> 19ABCDE1234F1Z5
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

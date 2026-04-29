@@ -90,8 +90,8 @@ export default function Home() {
                     <div className="hero-text-content reveal">
                         <span className="editorial-eyebrow">Established Excellence</span>
                         <h1 className="hero-title">
-                            Awakening <br />
-                            <span className="italic">Pure Wellness</span>
+                            JGM <br />
+                            <span className="italic">INDUSTRIES</span>
                         </h1>
                         <p className="hero-description">
                             We blend ancient Vedic wisdom with modern precision to craft herbal solutions that define natural purity.
