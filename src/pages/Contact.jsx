@@ -37,8 +37,28 @@ export default function Contact() {
         <div className="editorial-wrapper">
             <SEO 
                 title="Connect With Us | JGM Industries" 
-                description="Get in touch with JGM Industries. We are here to answer your questions about natural wellness."
-                url="https://jgm-industries.com/contact"
+                description="Get in touch with JGM Industries for pure wellness inquiries. Reach our headquarters in Siliguri, Darjeeling."
+                url="https://www.jgmindustries.in/contact"
+                jsonLd={{
+                    "@context": "https://schema.org",
+                    "@type": "ContactPage",
+                    "name": "Contact JGM Industries",
+                    "description": "Contact details and inquiry form for JGM Industries.",
+                    "mainEntity": {
+                        "@type": "Organization",
+                        "name": "JGM Industries",
+                        "telephone": "+91-76796-00984",
+                        "email": "jgmindustriesofficial@gmail.com",
+                        "address": {
+                            "@type": "PostalAddress",
+                            "streetAddress": "Siliguri, Darjeeling",
+                            "addressLocality": "Siliguri",
+                            "addressRegion": "West Bengal",
+                            "postalCode": "734434",
+                            "addressCountry": "IN"
+                        }
+                    }
+                }}
             />
             <div className="editorial-container">
                 <div className="editorial-header reveal">

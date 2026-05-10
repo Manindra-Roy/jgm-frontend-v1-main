@@ -21,8 +21,18 @@ export default function About() {
         <div className="editorial-wrapper">
             <SEO 
                 title="Our Heritage | JGM Industries" 
-                description="Rooted in ancient wisdom, crafted for modern wellness. Discover the legacy of JGM Industries."
-                url="https://jgm-industries.com/about"
+                description="Rooted in ancient wisdom, crafted for modern wellness. Discover the legacy of JGM Industries and our dual flagship brands JAI GOU MATA and ZIO."
+                url="https://www.jgmindustries.in/about"
+                jsonLd={{
+                    "@context": "https://schema.org",
+                    "@type": "AboutPage",
+                    "name": "Our Heritage - JGM Industries",
+                    "description": "Information about the history and mission of JGM Industries.",
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "JGM Industries"
+                    }
+                }}
             />
             <div className="editorial-container">
                 <div className="editorial-header reveal">

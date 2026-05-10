@@ -82,9 +82,9 @@ export default function Login() {
     return (
         <div className="login-portal">
             <SEO 
-                title="Secure Login | JGM Industries" 
-                description="Securely access your JGM Industries portal for premium herbal solutions."
-                url="https://jgm-industries.com/login"
+                title="Login | Access Your Profile" 
+                description="Secure access to your JGM Industries customer profile."
+                url="https://www.jgmindustries.in/login"
             />
             
             <div className="login-visual-side">

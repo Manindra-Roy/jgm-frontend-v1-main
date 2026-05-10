@@ -73,12 +73,9 @@ export default function Register() {
     };
 
     return (
-        <div className="login-portal">
-            <SEO 
-                title="Create Account | JGM Industries" 
-                description="Join the JGM Industries community and start your journey with pure herbal care."
-                url="https://jgm-industries.com/register"
-            />
+        <div className="auth-container">
+            <SEO title="Create Account | Join JGM Industries" description="Join the JGM Industries family for premium herbal care." url="https://www.jgmindustries.in/register" />
+            <div className="auth-card-reveal">
             
             <div className="login-visual-side">
                 <div className="visual-overlay"></div>

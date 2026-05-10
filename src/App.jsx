@@ -121,7 +121,7 @@ function AppLayout() {
     return (
         <>
             <Navbar />
-            <div className="main-content">
+            <main className="main-content">
                 <PageTransition>
                     {(stableLocation) => (
                         <>
@@ -160,7 +160,7 @@ function AppLayout() {
                         </>
                     )}
                 </PageTransition>
-            </div>
+            </main>
         </>
     );
 }

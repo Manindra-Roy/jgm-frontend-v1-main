@@ -37,7 +37,30 @@ export default function ProductDetail() {
 
     return (
         <div className="product-detail-page">
-            <SEO title={`${product.name} | JGM Industries`} />
+            <SEO 
+                title={`${product.name} | JGM Industries`} 
+                description={product.description || `Buy ${product.name} from JGM Industries. Pure herbal wellness.`}
+                image={product.image}
+                url={`https://www.jgmindustries.in/product/${productId}`}
+                jsonLd={{
+                    "@context": "https://schema.org",
+                    "@type": "Product",
+                    "name": product.name,
+                    "image": product.image,
+                    "description": product.description,
+                    "brand": {
+                        "@type": "Brand",
+                        "name": product.brand || "JGM Industries"
+                    },
+                    "offers": {
+                        "@type": "Offer",
+                        "url": `https://www.jgmindustries.in/product/${productId}`,
+                        "priceCurrency": "INR",
+                        "price": product.price,
+                        "availability": "https://schema.org/InStock"
+                    }
+                }}
+            />
             
             <div className="container-editorial">
                 <div className="detail-editorial-grid">

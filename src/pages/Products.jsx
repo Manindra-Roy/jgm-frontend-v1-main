@@ -48,7 +48,11 @@ export default function Products() {
 
     return (
         <div className="products-page">
-            <SEO title="The Collection | JGM Industries" />
+            <SEO 
+                title="The Collection | Pure Herbal Formulations" 
+                description="Explore our registry of pure botanical formulations. From sacred heritage to scientific precision."
+                url="https://www.jgmindustries.in/products"
+            />
             
             <div className="container-editorial">
                 <header className="products-header reveal">

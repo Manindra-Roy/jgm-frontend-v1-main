@@ -7,12 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 // Cinematic Hero Assets
-import hero1 from '../assets/hero1.jpeg';
-import hero2 from '../assets/hero1mv.jpeg';
-// import hero3 from '../assets/hero-cinematic-v3.png';
-// import hero4 from '../assets/hero-cinematic-v4.png';
-// import hero5 from '../assets/hero-cinematic-v5.png';
-// import hero6 from '../assets/hero-cinematic-v6.png';
+import hero1 from '../assets/hero-cinematic-v1.jpeg';
+import hero2 from '../assets/hero-cinematic-v1-mobile.jpeg';
 
 const heroSlides = [hero1];
 
@@ -64,7 +60,25 @@ export default function Home() {
         <div className="home-container">
             <SEO 
                 title="JGM Industries | The Authority in Pure Wellness" 
-                description="Ancient wisdom meets modern precision. Experience herbal purity at its finest." 
+                description="Ancient wisdom meets modern precision. Experience herbal purity at its finest. JGM Industries - Crafted from pure, powerful herbs." 
+                jsonLd={{
+                    "@context": "https://schema.org",
+                    "@type": "Organization",
+                    "name": "JGM Industries",
+                    "url": "https://www.jgmindustries.in",
+                    "logo": "https://www.jgmindustries.in/brand-logo.png",
+                    "contactPoint": {
+                        "@type": "ContactPoint",
+                        "telephone": "+91-76796-00984",
+                        "contactType": "customer service",
+                        "areaServed": "IN",
+                        "availableLanguage": ["en", "hi"]
+                    },
+                    "sameAs": [
+                        "https://instagram.com/jgmindustries",
+                        "https://twitter.com/jgmindustries"
+                    ]
+                }}
             />
 
             <section className="hero-section">

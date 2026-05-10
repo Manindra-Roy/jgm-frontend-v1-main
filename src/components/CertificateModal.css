@@ -1,0 +1,155 @@
+.cert-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    animation: modalFadeIn 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.cert-modal-container {
+    width: 100%;
+    max-width: 1000px;
+    height: 90vh;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+}
+
+.cert-modal-header {
+    padding: 25px 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.protected-tag {
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--accent-gold);
+    opacity: 0.6;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.cert-modal-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: white;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.cert-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.cert-close-btn:hover {
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.cert-close-btn span {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+}
+
+.close-icon-line {
+    width: 30px;
+    height: 1px;
+    background: white;
+}
+
+.cert-viewer-content {
+    flex: 1;
+    position: relative;
+    background: #111;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Hide scrollbar for a cleaner look while keeping scroll functionality */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+.cert-viewer-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.viewer-wrapper {
+    width: 100%;
+    position: relative;
+    /* Height will be determined by the iframe's inline style */
+}
+
+.cert-iframe {
+    width: 100%;
+    border: none;
+    display: block;
+}
+
+/* This overlay captures right-clicks and covers the entire scrollable area */
+.viewer-protection-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Covers the full height of the viewer-wrapper */
+    background: transparent;
+    z-index: 10;
+}
+
+.cert-modal-footer {
+    padding: 20px 40px;
+    background: #0d0d0d;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+.cert-modal-footer p {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .cert-modal-overlay {
+        padding: 0;
+    }
+    .cert-modal-container {
+        height: 100vh;
+        border: none;
+    }
+    .cert-modal-header {
+        padding: 20px;
+    }
+}
