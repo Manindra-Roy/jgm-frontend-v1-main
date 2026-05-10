@@ -2,9 +2,9 @@
  * @fileoverview User Registration & Email Verification Component.
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import api from '../services/api';
 import namasteImg from '../assets/namaste.webp';
 import './Login.css';
@@ -25,6 +25,16 @@ export default function Register() {
     const [otp, setOtp] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // Effect to recover email if page is reloaded during Step 2
+    useEffect(() => {
+        if (step === 2 && !formData.email) {
+            const savedEmail = sessionStorage.getItem('jgm_pending_verification_email');
+            if (savedEmail) {
+                setFormData(prev => ({ ...prev, email: savedEmail }));
+            }
+        }
+    }, [step, formData.email]);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -35,8 +45,10 @@ export default function Register() {
         try {
             await api.post('/users/register', formData);
             toast.success(`Verification code sent to ${formData.email}`);
+            sessionStorage.setItem('jgm_pending_verification_email', formData.email);
             setStep(2);
         } catch (err) {
+            console.error("Registration Error:", err);
             toast.error(err.response?.data?.message || 'Registration failed.');
         } finally {
             setLoading(false);
@@ -100,7 +112,14 @@ export default function Register() {
                             </div>
                             <div className="input-group">
                                 <label>Phone Number</label>
-                                <input type="tel" name="phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '') })} minLength="10" maxLength="10" required placeholder="10-digit mobile number" />
+                                <input 
+                                    type="tel" 
+                                    name="phone" 
+                                    value={formData.phone} 
+                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })} 
+                                    required 
+                                    placeholder="10-digit mobile number" 
+                                />
                             </div>
                             <div className="input-group">
                                 <label>Secure Password</label>

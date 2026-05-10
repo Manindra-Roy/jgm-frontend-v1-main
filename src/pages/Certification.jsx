@@ -3,7 +3,7 @@
  */
 
 import { useEffect } from 'react';
-import { FaLeaf, FaAward, FaShieldAlt } from 'react-icons/fa';
+import { FaAward, FaIndustry, FaFileContract } from 'react-icons/fa';
 import './Editorial.css';
 import SEO from '../components/SEO';
 import useReveal from '../hooks/useReveal';
@@ -16,19 +16,22 @@ export default function Certification() {
 
     const certs = [
         { 
-            title: "FSSAI Registered", 
-            desc: "Compliant with the Food Safety and Standards Authority of India, ensuring absolute safety for consumption.", 
-            icon: <FaShieldAlt /> 
+            title: "ISO Certificate", 
+            desc: "Adhering to strict international quality management systems to ensure premium product standards.", 
+            icon: <FaAward />,
+            pdfUrl: "/certificates/Iso.pdf"
         },
         { 
-            title: "100% Organic", 
-            desc: "Sourced from certified organic farms without the use of synthetic pesticides or fertilizers.", 
-            icon: <FaLeaf /> 
+            title: "Udyam Registration", 
+            desc: "Officially registered under the Ministry of Micro, Small and Medium Enterprises, Government of India.", 
+            icon: <FaIndustry />,
+            pdfUrl: "/certificates/udyam.pdf"
         },
         { 
-            title: "ISO 9001:2015", 
-            desc: "Manufactured in a facility adhering to strict international quality management systems.", 
-            icon: <FaAward /> 
+            title: "Trade Licence", 
+            desc: "Authorized by local municipal authorities to conduct business operations legally and transparently.", 
+            icon: <FaFileContract />,
+            pdfUrl: "/certificates/trade-licence.pdf"
         }
     ];
 
@@ -49,11 +52,22 @@ export default function Certification() {
                 <div className="cert-grid">
                     {certs.map((cert, idx) => (
                         <Tilt key={idx} className="cert-card-tilt reveal" style={{ transitionDelay: `${idx * 0.1}s` }}>
-                            <div className="cert-card">
-                                <div className="cert-icon">{cert.icon}</div>
-                                <h3>{cert.title}</h3>
-                                <p>{cert.desc}</p>
-                            </div>
+                            <a 
+                                href={cert.pdfUrl} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
+                                <div 
+                                    className="cert-card" 
+                                    style={{ cursor: 'pointer' }}
+                                    title={`View ${cert.title} Certificate`}
+                                >
+                                    <div className="cert-icon">{cert.icon}</div>
+                                    <h3>{cert.title}</h3>
+                                    <p>{cert.desc}</p>
+                                </div>
+                            </a>
                         </Tilt>
                     ))}
                 </div>

@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: 60px;
+    padding: 120px 60px 60px; /* Top padding to clear navbar */
 }
 
 .visual-overlay {
@@ -31,6 +31,10 @@
     z-index: 2;
     text-align: center;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .brand-badge {
@@ -47,7 +51,7 @@
 
 .visual-namaste {
     width: 100%;
-    max-width: 400px;
+    max-width: 550px;
     opacity: 0.8;
     filter: sepia(0.3) brightness(1.2);
     margin-bottom: 40px;
@@ -170,6 +174,14 @@
 @media (max-width: 1280px) {
     .login-form-side { padding: 80px 8%; }
     .visual-text h2 { font-size: 3.5rem; }
+    .visual-namaste { max-width: 380px; } 
+    .login-visual-side { align-items: flex-start; padding-top: 120px; }
+}
+
+@media (min-width: 1600px) {
+    .visual-namaste { max-width: 650px; }
+    .login-visual-side { align-items: flex-start; padding-top: 12vh; }
+    .visual-text h2 { font-size: 4.5rem; }
 }
 
 @media (max-width: 1024px) {

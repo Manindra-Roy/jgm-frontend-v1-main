@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 // Cinematic Hero Assets
-import hero1 from '../assets/hero-cinematic-v1.png';
-import hero2 from '../assets/hero-cinematic-v2.png';
-import hero3 from '../assets/hero-cinematic-v3.png';
-import hero4 from '../assets/hero-cinematic-v4.png';
-import hero5 from '../assets/hero-cinematic-v5.png';
-import hero6 from '../assets/hero-cinematic-v6.png';
+import hero1 from '../assets/hero1.jpeg';
+import hero2 from '../assets/hero1mv.jpeg';
+// import hero3 from '../assets/hero-cinematic-v3.png';
+// import hero4 from '../assets/hero-cinematic-v4.png';
+// import hero5 from '../assets/hero-cinematic-v5.png';
+// import hero6 from '../assets/hero-cinematic-v6.png';
 
-const heroSlides = [hero1, hero2, hero3, hero4, hero5, hero6];
+const heroSlides = [hero1];
 
 import './Home.css';
 import SEO from '../components/SEO';
@@ -71,7 +71,7 @@ export default function Home() {
                 <div className="hero-slideshow">
                     {isMobile ? (
                         <div className="hero-slide active">
-                            <img src={hero5} alt="JGM Industries Cinematic Mobile" />
+                            <img src={hero2} alt="JGM Industries Cinematic Mobile" />
                         </div>
                     ) : (
                         heroSlides.map((slide, index) => (

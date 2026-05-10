@@ -63,14 +63,14 @@ function Footer() {
                         </div>
                         <div className="detail-item">
                             <FaEnvelope className="detail-icon" />
-                            <p>official@jgmindustries.in</p>
+                            <p>jgmindustriesofficial@gmail.com</p>
                         </div>
                         <div className="statutory-details" style={{ marginTop: '15px', paddingTop: '15px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                             <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginBottom: '5px' }}>
-                                <strong>FSSAI Lic. No:</strong> 100210XXXXXX
+                                <strong>ISO</strong> 9001:2015
                             </p>
                             <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
-                                <strong>GSTIN:</strong> 19ABCDE1234F1Z5
+                                <strong>GSTIN:</strong> 19AIHPG9705H1Z2
                             </p>
                         </div>
                     </div>

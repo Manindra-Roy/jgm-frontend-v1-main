@@ -2,23 +2,21 @@ import LegalPageLayout from '../../components/LegalPageLayout';
 
 export default function ReturnsPolicy() {
     return (
-        <LegalPageLayout title="Returns & Refunds" lastUpdated="April 2026">
-            <p>We take immense pride in the purity and efficacy of our botanical formulations. If you are not entirely satisfied with your purchase, we are here to help.</p>
-            
-            <h2>1. Returns</h2>
-            <p>You have 7 calendar days to return an item from the date you received it.</p>
-            <p>To be eligible for a return, your item must be unused, in the same condition that you received it, and in its original sealed packaging. Due to the consumable nature of our products, unsealed items cannot be returned for health and safety reasons.</p>
-            <p>Your item needs to have the receipt or proof of purchase.</p>
+        <LegalPageLayout title="Returns & Refunds" lastUpdated="May 2026">
+            <h2>Refund and Cancellation Policy</h2>
+            <p>This refund and cancellation policy outlines how you can cancel or seek a refund for a product / service that you have purchased through the Platform. Under this policy:</p>
+            <ol>
+                <li>Cancellations will only be considered if the request is made 4 days of placing the order. However, cancellation requests may not be entertained if the orders have been communicated to such sellers / merchant(s) listed on the Platform and they have initiated the process of shipping them, or the product is out for delivery. In such an event, you may choose to reject the product at the doorstep.</li>
+                <li>JGM INDUSTRIES does not accept cancellation requests for perishable items like flowers, eatables, etc. However, the refund / replacement can be made if the user establishes that the quality of the product delivered is not good.</li>
+                <li>In case of receipt of damaged or defective items, please report to our customer service team. The request would be entertained once the seller/ merchant listed on the Platform, has checked and determined the same at its own end. This should be reported within 4 days of receipt of products.</li>
+                <li>In case you feel that the product received is not as shown on the site or as per your expectations, you must bring it to the notice of our customer service within 4 days of receiving the product. The customer service team after looking into your complaint will take an appropriate decision.</li>
+                <li>In case of complaints regarding the products that come with a warranty from the manufacturers, please refer the issue to them.</li>
+                <li>In case of any refunds approved by JGM INDUSTRIES, it will take 4 days for the refund to be processed to you.</li>
+            </ol>
 
-            <h2>2. Refunds</h2>
-            <p>Once we receive your item, we will inspect it and notify you that we have received your returned item. We will immediately notify you on the status of your refund after inspecting the item.</p>
-            <p>If your return is approved, we will initiate a refund to your credit card (or original method of payment). You will receive the credit within a certain amount of days, depending on your card issuer's policies.</p>
-
-            <h2>3. Shipping</h2>
-            <p>You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are non-refundable. If you receive a refund, the cost of return shipping will be deducted from your refund.</p>
-
-            <h2>4. Contact Us</h2>
-            <p>If you have any questions on how to return your item to us, contact us at official@jgmindustries.in or call us at +91 76796 00984.</p>
+            <h2>Return Policy</h2>
+            <p>We offer refund / exchange within first 2 days from the date of your purchase. If 2 days have passed since your purchase, you will not be offered a return, exchange or refund of any kind. In order to become eligible for a return or an exchange, (i) the purchased item should be unused and in the same condition as you received it, (ii) the item must have original packaging, (iii) if the item that you purchased on a sale, then the item may not be eligible for a return / exchange. Further, only such items are replaced by us (based on an exchange request), if such items are found defective or damaged.</p>
+            <p>You agree that there may be a certain category of products / items that are exempted from returns or refunds. Such categories of the products would be identified to you at the item of purchase. For exchange / return accepted request(s) (as applicable), once your returned product / item is received and inspected by us, we will send you an email to notify you about receipt of the returned / exchanged product. Further. If the same has been approved after the quality check at our end, your request (i.e. return / exchange) will be processed in accordance with our policies.</p>
         </LegalPageLayout>
     );
 }
