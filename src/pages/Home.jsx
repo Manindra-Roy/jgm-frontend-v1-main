@@ -188,7 +188,7 @@ export default function Home() {
                         <div 
                             key={cat.id || cat._id}
                             className="category-card reveal" 
-                            style={{ transitionDelay: `${(index % 3) * 0.1}s` }} 
+                            style={{ transitionDelay: `${(index % 3) * 0.1}s` }}
                             onClick={() => navigate(`/products?category=${cat.id || cat._id}`)}
                         >
                             <div className="cat-img-wrapper">
