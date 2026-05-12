@@ -24,6 +24,12 @@ export default function CertificateModal({ isOpen, onClose, pdfUrl, title }) {
         e.preventDefault();
     };
 
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const absolutePdfUrl = `${window.location.origin}${pdfUrl}`;
+    const iframeSrc = isMobile && window.location.hostname !== 'localhost'
+        ? `https://docs.google.com/gview?url=${encodeURIComponent(absolutePdfUrl)}&embedded=true`
+        : `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`;
+
     return (
         <div className="cert-modal-overlay" onClick={onClose} onContextMenu={handleContextMenu}>
             <div className="cert-modal-container" onClick={(e) => e.stopPropagation()}>
@@ -41,11 +47,11 @@ export default function CertificateModal({ isOpen, onClose, pdfUrl, title }) {
                 <div className="cert-viewer-content">
                     <div className="viewer-wrapper">
                         <iframe 
-                            src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`} 
+                            src={iframeSrc} 
                             title={title}
                             className="cert-iframe"
                             frameBorder="0"
-                            style={{ height: '6000px' }} // Increased height for 5+ pages
+                            style={isMobile ? { height: '80vh', width: '100%' } : { height: '6000px', width: '100%' }}
                         ></iframe>
                         {/* Transparent overlay covers the entire scrollable area */}
                         <div 

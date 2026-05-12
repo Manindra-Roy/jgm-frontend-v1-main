@@ -41,7 +41,7 @@ export default function Products() {
 
             try {
                 let endpoint = '/products';
-                const params = [`page=${page}`, `limit=10`];
+                const params = [`page=${page}`, `limit=12`];
                 if (categoryId) params.push(`categories=${categoryId}`);
                 if (brand) params.push(`brand=${brand}`);
                 
@@ -58,7 +58,7 @@ export default function Products() {
                     return [...prev, ...uniqueNewProducts];
                 });
                 
-                if (newProducts.length < 10) {
+                if (newProducts.length < 12) {
                     setHasMore(false);
                 }
             } catch {
