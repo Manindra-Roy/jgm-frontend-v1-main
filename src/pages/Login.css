@@ -172,38 +172,38 @@
 }
 
 @media (max-width: 1440px) {
-    .login-form-side { padding: 60px 8%; }
-    .visual-text h2 { font-size: 3.2rem; }
-    .visual-namaste { max-width: 440px; }
+    .login-visual-side { padding: 80px 40px 40px; }
+    .brand-badge { margin-bottom: 25px; padding: 8px 20px; }
+    .visual-namaste { max-width: 350px; margin-bottom: 25px; }
+    .visual-text h2 { font-size: 3rem; }
+    .brand-cursive { font-size: 1.5rem; margin-bottom: 5px; }
+    .login-form-side { padding: 50px 8%; }
+    .login-header-mini { margin-bottom: 30px; }
+    .login-card h2 { font-size: 2.3rem; margin-bottom: 25px; }
+    .login-form { gap: 20px; }
+    .input-group { gap: 8px; }
+    .input-group input { padding: 12px 0; }
+    .login-submit-btn { padding: 16px; font-size: 1.1rem; margin-top: 10px; }
+    .toggle-text { margin-top: 25px; }
 }
 
 @media (max-width: 1280px) {
-    .login-form-side { padding: 80px 8%; }
-    .visual-text h2 { font-size: 3.5rem; }
-    .visual-namaste { max-width: 380px; } 
-    .login-visual-side { align-items: flex-start; padding-top: 120px; }
+    .login-visual-side { padding: 60px 30px 30px; }
+    .brand-badge { margin-bottom: 20px; padding: 6px 18px; }
+    .visual-namaste { max-width: 280px; margin-bottom: 20px; }
+    .visual-text h2 { font-size: 2.5rem; }
+    .brand-cursive { font-size: 1.3rem; }
+    .login-form-side { padding: 40px 6%; }
+    .login-card h2 { font-size: 2rem; margin-bottom: 20px; }
+    .login-header-mini { margin-bottom: 25px; }
+    .login-submit-btn { padding: 14px; font-size: 1rem; }
+    .toggle-text { margin-top: 20px; }
 }
 
 @media (min-width: 1600px) {
     .visual-namaste { max-width: 650px; }
     .login-visual-side { align-items: flex-start; padding-top: 12vh; }
     .visual-text h2 { font-size: 4.5rem; }
-}
-
-@media (max-height: 800px) and (min-width: 1025px) {
-    .login-visual-side { padding: 80px 40px 40px; }
-    .brand-badge { margin-bottom: 20px; padding: 8px 20px; }
-    .visual-namaste { max-width: 320px; margin-bottom: 20px; }
-    .visual-text h2 { font-size: 2.8rem; }
-    .brand-cursive { font-size: 1.4rem; margin-bottom: 5px; }
-    .login-form-side { padding: 40px 10%; }
-    .login-header-mini { margin-bottom: 30px; }
-    .login-card h2 { font-size: 2.2rem; margin-bottom: 25px; }
-    .login-form { gap: 20px; }
-    .input-group { gap: 8px; }
-    .input-group input { padding: 12px 0; }
-    .login-submit-btn { padding: 16px; font-size: 1.1rem; margin-top: 10px; }
-    .toggle-text { margin-top: 25px; }
 }
 
 @media (max-width: 1024px) {
