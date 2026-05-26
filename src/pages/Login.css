@@ -1,11 +1,13 @@
 /* =========================================================
-   SILENT AUTHORITY AUTHENTICATION 3.0
+   SILENT AUTHORITY AUTHENTICATION 4.0 - PREMIUM POLISH
+   Supports Fluid Scaling for FHD & HD Resolutions
 ========================================================= */
 
 .login-portal, .register-portal {
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     background: var(--bg-base);
 }
 
@@ -17,13 +19,14 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: 120px 60px 60px; /* Top padding to clear navbar */
+    padding: clamp(80px, 10vh, 120px) 6% 40px; /* Fluid padding to respect navbar and height */
+    height: 100%;
 }
 
 .visual-overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, rgba(184, 158, 95, 0.1), transparent 70%);
+    background: radial-gradient(circle at center, rgba(184, 158, 95, 0.12), transparent 70%);
 }
 
 .visual-content {
@@ -43,76 +46,98 @@
     font-weight: 700;
     letter-spacing: 4px;
     color: var(--accent-gold);
-    border: 1px solid rgba(184, 158, 95, 0.3);
+    border: 1px solid rgba(184, 158, 95, 0.35);
     padding: 10px 25px;
-    margin-bottom: 40px;
+    margin-bottom: clamp(20px, 4vh, 40px);
     display: inline-block;
+    background: rgba(4, 43, 32, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 .visual-namaste {
     width: 100%;
-    max-width: 550px;
-    opacity: 0.8;
-    filter: sepia(0.3) brightness(1.2);
-    margin-bottom: 40px;
+    max-width: min(500px, 40vh); /* Adjust dynamically to viewport height */
+    height: auto;
+    object-fit: contain;
+    opacity: 0.85;
+    filter: sepia(0.2) brightness(1.15) contrast(1.05);
+    margin-bottom: clamp(20px, 4vh, 40px);
+    transition: transform 0.8s ease;
+}
+
+.visual-namaste:hover {
+    transform: scale(1.02);
 }
 
 .visual-text h2 {
     font-family: var(--font-heading);
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 4.5vh, 4rem);
     letter-spacing: 5px;
+    font-weight: 400;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .brand-cursive {
     font-family: var(--font-heading);
     font-style: italic;
-    font-size: 1.8rem;
+    font-size: clamp(1.4rem, 2.4vh, 1.8rem);
     color: var(--accent-gold);
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: clamp(6px, 1.2vh, 12px);
 }
 
 /* 2. FORM SIDE */
 .login-form-side {
-    padding: 80px 12%;
+    padding: clamp(100px, 11vh, 120px) 12% clamp(45px, 6vh, 80px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     background: var(--bg-base);
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+.login-form-side::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari, Opera */
 }
 
 .login-header-mini {
-    margin-bottom: 60px;
+    margin-bottom: clamp(25px, 5vh, 50px);
 }
 
 .login-header-mini h1 {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     letter-spacing: 4px;
     color: var(--accent-gold);
     font-family: var(--font-ui);
     font-weight: 700;
+    text-transform: uppercase;
 }
 
 .login-card h2 {
-    font-size: 3rem;
+    font-size: clamp(2.2rem, 4.2vh, 2.8rem);
     color: var(--primary-emerald);
-    margin-bottom: 40px;
+    margin-bottom: clamp(20px, 4vh, 35px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: clamp(18px, 3vh, 28px);
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: clamp(6px, 1vh, 10px);
 }
 
 .input-group label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -120,35 +145,49 @@
 }
 
 .input-group input {
-    padding: 18px 0;
+    padding: clamp(10px, 1.6vh, 16px) 0;
     border: none;
     border-bottom: 1px solid var(--border-light);
     background: transparent;
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 1.8vh, 1.05rem);
     font-family: var(--font-ui);
-    transition: all 0.4s ease;
+    color: var(--text-main);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-group input::placeholder {
+    color: rgba(4, 43, 32, 0.35);
+    font-size: 0.9rem;
 }
 
 .input-group input:focus {
     outline: none;
     border-color: var(--accent-gold);
+    padding-left: 4px;
 }
 
 .login-submit-btn {
     background: var(--primary-emerald);
     color: white;
     border: none;
-    padding: 22px;
+    padding: clamp(14px, 2vh, 20px);
     font-family: var(--font-heading);
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 1.8vh, 1.15rem);
     letter-spacing: 2px;
     cursor: pointer;
-    transition: all 0.4s ease;
-    margin-top: 20px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-top: clamp(10px, 2vh, 18px);
 }
 
 .login-submit-btn:hover {
     background: var(--accent-gold);
+    letter-spacing: 3px;
+    box-shadow: 0 10px 25px rgba(184, 158, 95, 0.2);
+}
+
+.login-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .form-actions {
@@ -157,94 +196,108 @@
 }
 
 .forgot-pass {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--text-muted);
+    padding-bottom: 2px;
+    transition: all 0.3s ease;
+}
+
+.forgot-pass:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
 }
 
 .toggle-text {
     text-align: center;
-    margin-top: 40px;
-    font-size: 0.9rem;
+    margin-top: clamp(20px, 4vh, 35px);
+    font-size: 0.85rem;
     color: var(--text-muted);
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-@media (max-width: 1440px) {
-    .login-visual-side { padding: 80px 40px 40px; }
-    .brand-badge { margin-bottom: 25px; padding: 8px 20px; }
-    .visual-namaste { max-width: 350px; margin-bottom: 25px; }
-    .visual-text h2 { font-size: 3rem; }
-    .brand-cursive { font-size: 1.5rem; margin-bottom: 5px; }
-    .login-form-side { padding: 50px 8%; }
-    .login-header-mini { margin-bottom: 30px; }
-    .login-card h2 { font-size: 2.3rem; margin-bottom: 25px; }
-    .login-form { gap: 20px; }
-    .input-group { gap: 8px; }
-    .input-group input { padding: 12px 0; }
-    .login-submit-btn { padding: 16px; font-size: 1.1rem; margin-top: 10px; }
-    .toggle-text { margin-top: 25px; }
-
-    /* Compact register portal modifier */
-    .register-portal .login-form-side { padding: 40px 8% 30px; }
-    .register-portal .login-header-mini { margin-bottom: 20px; }
-    .register-portal .login-card h2 { font-size: 2rem; margin-bottom: 20px; }
-    .register-portal .login-form { gap: 16px; }
-    .register-portal .input-group { gap: 6px; }
-    .register-portal .input-group input { padding: 10px 0; font-size: 1rem; }
-    .register-portal .login-submit-btn { padding: 14px; font-size: 1.1rem; margin-top: 5px; }
-    .register-portal .toggle-text { margin-top: 15px; }
+.toggle-text:hover {
+    color: var(--primary-emerald);
+    text-decoration: underline;
 }
 
-@media (max-width: 1280px) {
-    .login-visual-side { padding: 60px 30px 30px; }
-    .brand-badge { margin-bottom: 20px; padding: 6px 18px; }
-    .visual-namaste { max-width: 280px; margin-bottom: 20px; }
-    .visual-text h2 { font-size: 2.5rem; }
-    .brand-cursive { font-size: 1.3rem; }
-    .login-form-side { padding: 40px 6%; }
-    .login-card h2 { font-size: 2rem; margin-bottom: 20px; }
-    .login-header-mini { margin-bottom: 25px; }
-    .login-submit-btn { padding: 14px; font-size: 1rem; }
-    .toggle-text { margin-top: 20px; }
-
-    /* Extra compact register portal modifier */
-    .register-portal .login-form-side { padding: 30px 6% 20px; }
-    .register-portal .login-header-mini { margin-bottom: 15px; }
-    .register-portal .login-card h2 { font-size: 1.8rem; margin-bottom: 15px; }
-    .register-portal .login-form { gap: 12px; }
-    .register-portal .input-group { gap: 4px; }
-    .register-portal .input-group input { padding: 8px 0; font-size: 0.95rem; }
-    .register-portal .login-submit-btn { padding: 12px; font-size: 1rem; margin-top: 5px; }
-    .register-portal .toggle-text { margin-top: 10px; }
-}
+/* =========================================================
+   3. RESPONSIVE MEDIA QUERIES (SILENT AUTHORITY FLUIDITY)
+========================================================= */
 
 @media (min-width: 1600px) {
-    .visual-namaste { max-width: 650px; }
-    .login-visual-side { align-items: flex-start; padding-top: 12vh; }
-    .visual-text h2 { font-size: 4.5rem; }
+    .visual-namaste {
+        max-width: min(600px, 45vh);
+    }
+    .login-visual-side {
+        padding-top: 10vh;
+    }
 }
 
 @media (max-width: 1024px) {
-    .login-portal, .register-portal { grid-template-columns: 1fr; }
-    .login-visual-side { display: none; }
-    .login-form-side { padding: 120px 10% 60px; min-height: 100vh; }
-    .login-card h2 { font-size: 2.8rem; }
+    .login-portal, .register-portal {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+    
+    .login-visual-side {
+        display: none;
+    }
+    
+    .login-form-side {
+        padding: 120px 10% 60px;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+        justify-content: flex-start;
+    }
+    
+    .login-card h2 {
+        font-size: 2.8rem;
+        margin-bottom: 30px;
+    }
+    
+    .login-form {
+        gap: 25px;
+    }
 }
 
 @media (max-width: 768px) {
-    .login-form-side { padding: 100px 5% 60px; }
+    .login-form-side {
+        padding: 100px 6% 60px;
+    }
 }
 
 @media (max-width: 480px) {
-    .login-form-side { padding: 80px 20px 40px; }
-    .login-card h2 { font-size: 2.2rem; }
-    .login-header-mini { margin-bottom: 40px; }
-    .login-submit-btn { padding: 18px; font-size: 1.1rem; }
+    .login-form-side {
+        padding: 85px 5% 40px;
+    }
+    
+    .login-card h2 {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+    }
+    
+    .login-header-mini {
+        margin-bottom: 35px;
+    }
+    
+    .login-submit-btn {
+        padding: 16px;
+        font-size: 1.1rem;
+    }
 }
 
 @media (max-width: 360px) {
-    .login-card h2 { font-size: 2rem; }
-    .input-group input { font-size: 1rem; }
+    .login-card h2 {
+        font-size: 1.9rem;
+    }
+    .input-group input {
+        font-size: 0.95rem;
+    }
 }
