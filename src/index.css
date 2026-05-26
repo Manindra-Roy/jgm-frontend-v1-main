@@ -138,3 +138,27 @@ html {
 .premium-card:hover {
     border-color: var(--accent-gold);
 }
+
+/* =========================================================
+   5. PREMIUM LOADING UTILITY
+========================================================= */
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh; /* Pushes footer out of screen while loading */
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    background-color: var(--bg-base);
+    animation: loading-pulse 2s infinite ease-in-out;
+}
+
+@keyframes loading-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
